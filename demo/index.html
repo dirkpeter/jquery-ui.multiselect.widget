@@ -7,12 +7,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!--<link rel="stylesheet" href="css/style.css">-->
+
+  <script src="js/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="js/vendor/jquery-ui/jquery-ui.min.js"></script>
+  <script src="../src/jquery-ui.multiselect.widget.js"></script>
 </head>
 <body>
 
-<p>Hello world!</p>
+<header>
+  <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget">jquery-ui.multiselect.widget</a>
+  <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget/archive/master.zip">Download (Master)</a>
+</header>
 
-<script src="js/vendor/jquery/dist/jquery.min.js"></script>
-<script src="js/vendor/jquery-ui/jquery-ui.min.js"></script>
+<main>
+  <nav>
+    <h2>Navigation</h2>
+
+    <ul>
+      <li><a href="#basic">Basic setup</a></li>
+    </ul>
+  </nav>
+
+  <section id="main">
+    <select class="multiselect" multiple="multiple">
+      <option value="1">lorem 1</option>
+      <option value="2">lorem 2</option>
+      <option value="3">lorem 3</option>
+      <option value="4">lorem 4</option>
+      <option value="5">lorem 5</option>
+      <option value="6">lorem 6</option>
+      <option value="7">lorem 7</option>
+      <option value="8">lorem 8</option>
+      <option value="9">lorem 9</option>
+      <option value="10">lorem 10</option>
+    </select>
+  </section>
+</main>
+
+<footer>
+  <nav>
+    <ul>
+      <li>
+        <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget">jquery-ui.multiselect.widget</a>
+      </li>
+      <li>
+        <a href="https://github.com/dirkpeter">dirkpeter</a>
+      </li>
+    </ul>
+  </nav>
+</footer>
+
+<script language="JavaScript">
+  $(function() {
+    $('.multiselect').multiselect({
+
+    });
+  });
+</script>
 </body>
 </html>
