@@ -1,0 +1,16 @@
+{
+  "name": "jquery-ui.multiselect.widget",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "~1.11.1",
+    "jquery-ui": "~1.11.2",
+    "google-code-prettify": "~1.0.3"
+  },
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "demo/vendor",
+    "test"
+  ]
+}
