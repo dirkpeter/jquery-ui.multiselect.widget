@@ -1,4 +1,4 @@
 node_modules
-demo/vendor
+demo/js/vendor
 .sass-cache
 .DS_Store
