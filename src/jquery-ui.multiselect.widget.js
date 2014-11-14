@@ -4,18 +4,31 @@ $(function () {
   $.widget('ui.multiselect', {
     // default options
     options: {
-      namespace: 'ui-multiselect',
-      button: {
-        $el: undefined,
+      // config
+      hideSelect:         true,
+      selectAll:          true,
+      minItemFilter:      5,
+      maxItems:           3,
+
+      // text
+      defaultButtonTitle: 'No value selected',
+      displayTextSG:      '1 of ## value selected',
+      displayTextPL:      '@@ of ## values selected',
+      trivialSeperator:   ', ',
+
+      // my precious... - don't touch that stuff
+      namespace:          'ui-multiselect',
+      button:             {
+        $el:    undefined,
         $title: undefined
       },
-      list: {
-        $wrap: undefined,
-        $el: undefined,
+      list:               {
+        $wrap:    undefined,
+        $el:      undefined,
         $options: undefined
       },
-      options: [],
-      selected: []
+      options:            [],
+      selected:           []
     },
 
 
@@ -23,7 +36,9 @@ $(function () {
       var self = this;
 
       // hide select
-      // $(self.element).hide();
+      if (self.options.hideSelect !== false) {
+        $(self.element).hide();
+      }
 
       // create markup
       self._createMarkup();
@@ -39,6 +54,7 @@ $(function () {
       var self = this;
 
       self._setListener();
+      self._getValues();
       self.setTitle();
     },
 
@@ -101,6 +117,26 @@ $(function () {
     },
 
 
+    _getValues: function () {
+      var self = this;
+      return self.options.selected = self.element.val();
+    },
+
+
+    getSelectedOptions: function () {
+      var opts = this.options,
+        selected = opts.selected;
+
+      if (selected) {
+        return opts.options.filter(function (obj) {
+          return ($.inArray(obj.value, selected) !== -1);
+        });
+      }
+
+      return null;
+    },
+
+
     _createlist: function () {
       var self = this,
         options = self.options,
@@ -123,21 +159,17 @@ $(function () {
       });
 
       // append the whole thing
-      $list.appendTo($body).hide();
-
-      console.log(this.options.options);
+      $wrap.insertAfter(self.element);//.hide();
     },
 
 
     _setListener: function () {
-      var self = this,
-        options = self.options;
+      var self = this;
 
       // just in case...
       self._unsetListener();
 
       $(self.element).on('change.ui-ms', function () {
-        console.log($(this).val());
         self._refresh();
       });
     },
@@ -147,11 +179,36 @@ $(function () {
       var self = this,
         options = self.options;
 
-      $(self.element).unset('change.ui-ms');
+      $(self.element).off('change.ui-ms');
     },
 
+
     setTitle: function () {
-      this.options.button.$title.text('imabutton');
+      var self = this,
+        opts = self.options,
+        trivials = self.getSelectedOptions(),
+        title = opts.defaultButtonTitle,
+        len;
+
+      if (trivials !== null) {
+        len = trivials.length;
+        if (len > opts.maxItems) {
+          // singular / plural
+          title = (len === 1)
+            ? opts.displayTextSG
+            : opts.displayTextPL.replace('@@', len);
+          // and total
+          title = title.replace('##', opts.options.length);
+        }
+        else {
+          // join all trivials
+          title = trivials.map(function (item) {
+            return item.title;
+          }).join(opts.trivialSeperator);
+        }
+      }
+
+      self.options.button.$title.text(title);
     }
   });
 });

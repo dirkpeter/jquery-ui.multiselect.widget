@@ -14,12 +14,15 @@
 </head>
 <body>
 
+<!--
 <header>
   <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget">jquery-ui.multiselect.widget</a>
   <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget/archive/master.zip">Download (Master)</a>
 </header>
+-->
 
 <main>
+  <!--
   <nav>
     <h2>Navigation</h2>
 
@@ -27,9 +30,10 @@
       <li><a href="#basic">Basic setup</a></li>
     </ul>
   </nav>
+  -->
 
   <section id="main">
-    <select class="multiselect" multiple="multiple">
+    <select class="multiselect" multiple="multiple" style="height:150px;">
       <option value="1">lorem 1</option>
       <option value="2">lorem 2</option>
       <option value="3">lorem 3</option>
@@ -44,6 +48,7 @@
   </section>
 </main>
 
+<!--
 <footer>
   <nav>
     <ul>
@@ -56,11 +61,13 @@
     </ul>
   </nav>
 </footer>
+-->
 
 <script language="JavaScript">
   $(function() {
     $('.multiselect').multiselect({
-
+      hideSelect: false,
+      maxItems: 3
     });
   });
 </script>
