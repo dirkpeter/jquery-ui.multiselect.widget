@@ -1,0 +1,25 @@
+.ui-multiselect--wrap {
+    display: inline-block;
+    border: 1px solid #ccc;
+}
+
+
+.ui-multiselect--list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.ui-multiselect--list li {
+    display: block;
+    padding: 3px 10px;
+    cursor: pointer;
+}
+
+.ui-multiselect--list li:hover {
+    background-color: #ddd;
+}
+
+.ui-multiselect--list .ui-multiselect--selected {
+    background-color: #cc6633;
+}
