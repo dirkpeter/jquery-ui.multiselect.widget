@@ -5,32 +5,35 @@ $(function () {
     // default options
     options: {
       // config
-      hideSelect:         true,
-      showCheckbox:       true,
-      selectAll:          true,
-      minItemFilter:      5,
-      maxItems:           3,
+      hideSelect:          true,
+      showCheckbox:        true,
+      selectAll:           true,
+      minItemFilter:       5,
+      maxItems:            3,
 
       // text
-      defaultButtonTitle: 'No value selected',
-      displayTextSG:      '1 of ## value selected',
-      displayTextPL:      '@@ of ## values selected',
-      trivialSeperator:   ', ',
+      defaultDisplayTitle: 'No value selected',
+      displayTextSG:       '1 of ## value selected',
+      displayTextPL:       '@@ of ## values selected',
+      trivialSeperator:    ', ',
 
       // my precious... - don't touch that stuff
-      namespace:          'ui-multiselect',
-      isMultiple:         undefined,
-      button:             {
+      namespace:           'ui-multiselect',
+      isMultiple:          undefined,
+      display:             {
         $el:    undefined,
         $title: undefined
       },
-      list:               {
+      wrap:                {
+        $el: undefined
+      },
+      list:                {
         $wrap:    undefined,
         $el:      undefined,
         $options: undefined
       },
-      options:            [],
-      selected:           []
+      options:             [],
+      selected:            []
     },
 
 
@@ -80,7 +83,7 @@ $(function () {
       self._unsetListener();
 
       // removing markup
-      options.button.$el.remove();
+      options.display.$el.remove();
       options.list.$wrap.remove();
 
       // and show the select again
@@ -92,22 +95,22 @@ $(function () {
       console.log('_createMarkup');
       var self = this;
 
-      self._createButton();
+      self._createDisplay();
       self._createList();
     },
 
 
-    _createButton: function () {
-      console.log('_createButton');
+    _createDisplay: function () {
+      console.log('_createDisplay');
       var self = this,
         options = self.options,
         namespace = options.namespace,
-        btn = options.button;
+        btn = options.display;
 
       // title
       btn.$title = $('<span class="' + namespace + '--title"></span>');
       // fake-dropdown
-      btn.$el = $('<button class="' + namespace + '--button"></button>')
+      btn.$el = $('<button class="' + namespace + '--display"></button>')
         // icon
         .html('<span class="' + namespace + '--icon"></span>')
         .prepend(btn.$title)
@@ -178,7 +181,7 @@ $(function () {
       options = opts.options = self._getOptions(); // this might become confusing...
 
       // creating the markup
-      $wrap = list.$wrap = $('<div class="' + namespace + '--wrap"></div>');
+      $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>');
       $list = list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
 
       // create the list
@@ -272,7 +275,7 @@ $(function () {
       var self = this,
         opts = self.options,
         trivials = self.getSelectedOptions(),
-        title = opts.defaultButtonTitle,
+        title = opts.defaultDisplayTitle,
         len;
 
       if (trivials !== null) {
@@ -294,7 +297,7 @@ $(function () {
         }
       }
 
-      self.options.button.$title.text(title);
+      self.options.display.$title.text(title);
     }
   });
 });

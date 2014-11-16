@@ -2,9 +2,15 @@
 
 @import 'config';
 
-.ui-multiselect--wrap {
+.ui-multiselect--display {
+
+}
+
+.ui-multiselect--list-wrap {
+  position: absolute;
   display: inline-block;
   border: 1px solid $color-border;
+  z-index: 100;
 }
 
 .ui-multiselect--list {
