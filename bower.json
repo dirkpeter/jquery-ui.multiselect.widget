@@ -1,0 +1,21 @@
+{
+  "name": "jquery-ui.multiselect.widget",
+  "version": "0.0.1",
+  "homepage": "https://github.com/dirkpeter/jquery-ui.multiselect.widget",
+  "authors": [
+    "Dirk Peter <dirk.peter@me.com>"
+  ],
+  "description": "yet another jquery multiselect widget",
+  "main": "src/jquery-ui.multiselect.widget.js",
+  "keywords": [
+    "jquery-ui-widget",
+    "selectbox",
+    "multiselect"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "test"
+  ]
+}
