@@ -5,3 +5,4 @@ demo/js/vendor
 .idea
 src/*.map
 sass-doc
+scss-lint-report.xml
