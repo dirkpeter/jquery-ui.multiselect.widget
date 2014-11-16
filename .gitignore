@@ -4,3 +4,4 @@ demo/js/vendor
 .DS_Store
 .idea
 src/*.map
+sass-doc
