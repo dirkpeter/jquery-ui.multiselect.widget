@@ -8,9 +8,10 @@
   "description": "yet another jquery multiselect widget",
   "main": "src/jquery-ui.multiselect.widget.js",
   "keywords": [
-    "jquery-ui-widget",
-    "selectbox",
-    "multiselect"
+    "jquery-ui",
+    "select",
+    "multiselect",
+    "widget"
   ],
   "license": "MIT",
   "ignore": [

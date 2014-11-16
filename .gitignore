@@ -3,3 +3,4 @@ demo/js/vendor
 .sass-cache
 .DS_Store
 .idea
+src/*.map

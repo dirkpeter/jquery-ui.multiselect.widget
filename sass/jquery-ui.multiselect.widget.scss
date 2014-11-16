@@ -1,6 +1,10 @@
+@import 'compass'; // <3
+
+@import 'config';
+
 .ui-multiselect--wrap {
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 1px solid $color-border;
 }
 
 .ui-multiselect--list {
@@ -21,11 +25,11 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #ddd;
+      background-color: $color-list-hover;
     }
   }
 
   .ui-multiselect--selected {
-    background-color: #efefef;
+    background-color: $color-list-selected;
   }
 }

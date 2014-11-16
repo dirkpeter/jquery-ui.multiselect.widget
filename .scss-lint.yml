@@ -1,0 +1,21 @@
+# default config https://github.com/causes/scss-lint/blob/master/config/default.yml
+
+linters:
+  BorderZero:
+    enabled: false
+
+  Indentation:
+    severity: warning
+    width: 2
+
+  Comment:
+    enabled: false
+
+  HexNotation:
+    enabled: false
+
+  SingleLinePerProperty:
+    allow_single_line_rule_sets: false
+
+  PropertySortOrder:
+    enabled: false
