@@ -33,6 +33,7 @@ $(function () {
 
 
     _create: function () {
+      console.log('_create');
       var self = this;
 
       // hide select
@@ -46,20 +47,25 @@ $(function () {
 
 
     _init: function () {
-      this._refresh();
+      console.log('_init');
+      var self = this;
+
+      self._setListener();
+      self._refresh();
     },
 
 
     _refresh: function () {
+      console.log('_refresh');
       var self = this;
 
-      self._setListener();
       self._getValues();
       self.setTitle();
     },
 
 
     _destroy: function () {
+      console.log('_destroy');
       var self = this,
         options = self.options;
 
@@ -76,6 +82,7 @@ $(function () {
 
 
     _createMarkup: function () {
+      console.log('_createMarkup');
       var self = this;
 
       self._createButton();
@@ -84,6 +91,7 @@ $(function () {
 
 
     _createButton: function () {
+      console.log('_createButton');
       var self = this,
         options = self.options,
         namespace = options.namespace,
@@ -102,6 +110,7 @@ $(function () {
 
 
     _getOptions: function () {
+      console.log('_getOptions');
       var data = [];
 
       // getting optionsdata from select
@@ -109,7 +118,8 @@ $(function () {
         var $option = $(option);
         data.push({
           title: $option.text(),
-          value: $option.val()
+          value: $option.val(),
+          class: $option.attr('class')
         });
       });
 
@@ -118,12 +128,14 @@ $(function () {
 
 
     _getValues: function () {
+      console.log('_getValues');
       var self = this;
       return self.options.selected = self.element.val();
     },
 
 
     getSelectedOptions: function () {
+      console.log('getSelectedOptions');
       var opts = this.options,
         selected = opts.selected;
 
@@ -138,52 +150,63 @@ $(function () {
 
 
     _createlist: function () {
+      console.log('_createlist');
       var self = this,
         options = self.options,
         opts = undefined,
         namespace = options.namespace,
         list = options.list,
         $wrap = list.$wrap,
-        $list = list.$el;
+        $list;
 
       // getting all the data
       opts = options.options = self._getOptions(); // this might become confusing...
 
       // creating the markup
       $wrap = $('<div class="' + namespace + '--wrap"></div>');
-      $list = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
+      $list = self.options.list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
 
       // create the list
       $.each(opts, function (index, option) {
-        opts[index].$el = $('<li data-value="' + option.value + '">' + option.title + '</li>').appendTo($list);
+        var oClass = option.class,
+          cl = (oClass) ? ' class="' + oClass + '"' : '';
+        opts[index].$el = $('<li data-value="' + option.value + '"' + cl + '>' + option.title + '</li>').appendTo($list);
       });
 
       // append the whole thing
-      $wrap.insertAfter(self.element);//.hide();
+      $wrap.insertAfter(self.element);
     },
 
 
     _setListener: function () {
+      console.log('_setListener');
       var self = this;
 
-      // just in case...
-      self._unsetListener();
 
       $(self.element).on('change.ui-ms', function () {
+        console.log('change.ui-ms');
         self._refresh();
+      });
+
+      self.options.list.$el.on('click.ui-ms', 'li', function () {
+        console.log('click.ui-ms', $(this).data('value'));
+        self._toggleValue( $(this).data('value') );
       });
     },
 
 
-    _unsetListener: function () {
+    _toggleValue: function (val) {
+      console.log('_toggleValue', val);
       var self = this,
-        options = self.options;
+        $el = self.element;
 
-      $(self.element).off('change.ui-ms');
+      $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), self.options.selected) === -1));
+      $el.trigger('change');
     },
 
 
     setTitle: function () {
+      console.log('setTitle');
       var self = this,
         opts = self.options,
         trivials = self.getSelectedOptions(),
