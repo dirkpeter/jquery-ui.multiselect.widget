@@ -21,6 +21,7 @@ $(function () {
       // my precious... - don't touch that stuff
       namespace:           'ui-multiselect',
       isMultiple:          undefined,
+      isOpen:              false,
       display:             {
         $el:    undefined,
         $title: undefined
@@ -227,6 +228,10 @@ $(function () {
       opts.list.$el.on('click.ui-ms', 'li', function () {
         console.log('click.ui-ms', $(this).data('value'));
         self._toggleValue($(this).data('value'));
+
+        if (opts.isMultiple === false) {
+          self.close();
+        }
       });
 
       // prevent checkbox-click
@@ -238,11 +243,8 @@ $(function () {
 
       // button click » toggle list
       opts.display.$el.on({
-        focus: function () {
-          self.open();
-        },
-        blur: function () {
-          self.close();
+        click: function () {
+          self.toggle();
         }
       });
     },
@@ -255,6 +257,18 @@ $(function () {
 
       $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), self.options.selected) === -1));
       $el.trigger('change');
+    },
+
+
+    toggle: function () {
+      console.log('open');
+      var self = this;
+
+      if (self.options.isOpen === false) {
+        self.open();
+      } else {
+        self.close();
+      }
     },
 
 
@@ -275,12 +289,16 @@ $(function () {
           minWidth: (width > opts.minWidth) ? width : opts.minWidth
         })
         .show();
+      opts.isOpen = true;
     },
 
 
     close: function () {
       console.log('close');
-      this.options.list.$wrap.hide();
+      var opts = this.options;
+
+      opts.list.$wrap.hide();
+      opts.isOpen = false;
     },
 
 
