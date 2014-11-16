@@ -35,6 +35,7 @@
 
   <section id="main">
     <div>
+      <label for="multi">Multi-Select</label>
       <select id="multi" class="multiselect" multiple style="height:150px;">
         <option value="1">lorem 1</option>
         <option value="2">lorem 2</option>
@@ -50,6 +51,7 @@
     </div>
 
     <div>
+      <label for="single">Single-Select</label>
       <select id="single" class="multiselect">
         <option value="de" class="lang-de">Germany</option>
         <option value="en" class="lang-en">England</option>
@@ -98,7 +100,16 @@
     $('.multiselect').multiselect({
       maxItems: 3,
       minWidth: 100
-    }).on('multiselectopen', function () { console.info('open'); });
+    }).on({
+      multiselectopen: function () { console.info('aaaaaand open!'); },
+      multiselectselect: function (e, d) {
+        console.info(
+            'ui select',
+            "'" + d + "'",
+            $(this).multiselect('getTrivialValue')
+        );
+      }
+    });
   });
 </script>
 </body>

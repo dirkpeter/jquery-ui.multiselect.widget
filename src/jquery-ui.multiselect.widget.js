@@ -212,17 +212,21 @@ $(function () {
         opts = self.options;
 
       // original select change
-      self.element.on('change.ui-ms', function () {
+      self.element.on('change.ui-ms', function (event) {
         self._refresh();
+        self._trigger('change', event, {})
       });
 
       // artificial list item click
-      opts.list.$el.on('click.ui-ms', 'li', function () {
-        self._toggleValue($(this).data('value'));
+      opts.list.$el.on('click.ui-ms', 'li', function (event) {
+        var value = $(this).data('value');
+        self._toggleValue(value);
 
         if (opts.isMultiple === false) {
           self.close();
         }
+
+        self._trigger('select', event, $(this).data('value'));
       });
 
       // prevent checkbox-click
@@ -322,7 +326,7 @@ $(function () {
     },
 
 
-    setTitle: function () {
+    getTrivialValue: function () {
       var self = this,
         opts = self.options,
         trivials = self.getSelectedOptions(),
@@ -348,7 +352,13 @@ $(function () {
         }
       }
 
-      self.options.display.$title.text(title);
+      return title;
+    },
+
+
+    setTitle: function () {
+      var self = this;
+      self.options.display.$title.text( self.getTrivialValue() );
     }
   });
 });
