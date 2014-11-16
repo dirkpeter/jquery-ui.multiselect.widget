@@ -24,13 +24,14 @@
 }
 
 .ui-multiselect--list .ui-multiselect--selected {
-    background-color: #cc6633;
+    background-color: #efefef;
 }
 
 .ui-multiselect--list input {
     position: relative;
     top: -2px;
     margin: 0 5px 0 0;
+    cursor: pointer;
 }
 
 section > div + div {

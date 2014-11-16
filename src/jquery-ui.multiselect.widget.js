@@ -6,6 +6,7 @@ $(function () {
     options: {
       // config
       hideSelect:         true,
+      showCheckbox:       true,
       selectAll:          true,
       minItemFilter:      5,
       maxItems:           3,
@@ -65,6 +66,7 @@ $(function () {
       var self = this;
 
       self._getValues();
+      self.showSelected();
       self.setTitle();
     },
 
@@ -165,22 +167,22 @@ $(function () {
     _createList: function () {
       console.log('_createlist');
       var self = this,
-        options = self.options,
-        opts = undefined,
-        namespace = options.namespace,
-        list = options.list,
+        opts = self.options, // widget options
+        options = undefined, // select options
+        namespace = opts.namespace,
+        list = opts.list,
         $wrap,
         $list;
 
       // getting all the data
-      opts = options.options = self._getOptions(); // this might become confusing...
+      options = opts.options = self._getOptions(); // this might become confusing...
 
       // creating the markup
-      $wrap = self.options.list.$wrap = $('<div class="' + namespace + '--wrap"></div>');
-      $list = self.options.list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
+      $wrap = list.$wrap = $('<div class="' + namespace + '--wrap"></div>');
+      $list = list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
 
       // create the list
-      $.each(opts, function (index, option) {
+      $.each(options, function (index, option) {
         var oClass = option.class,
           cl = (oClass) ? ' class="' + oClass + '"' : '',
           $li;
@@ -188,11 +190,11 @@ $(function () {
         $li = $('<li data-value="' + option.value + '"' + cl + '>' + option.title + '</li>').appendTo($list);
 
         // prepend checkboxes if multi-select
-        if (self.options.isMultiple) {
+        if (opts.isMultiple && opts.showCheckbox) {
           $('<input type="checkbox" value="" />').prependTo($li);
         }
 
-        opts[index].$el = $li;
+        options[index].$el = $li;
       });
 
       // append the whole thing
@@ -214,10 +216,11 @@ $(function () {
       // artificial list item click
       opts.list.$el.on('click.ui-ms', 'li', function () {
         console.log('click.ui-ms', $(this).data('value'));
-        self._toggleValue( $(this).data('value') );
+        self._toggleValue($(this).data('value'));
       });
 
-      if (opts.isMultiple) {
+      // prevent checkbox-click
+      if (opts.isMultiple && opts.showCheckbox) {
         opts.list.$el.on('click.ui-ms', 'input', function (e) {
           e.preventDefault();
         });
@@ -232,6 +235,35 @@ $(function () {
 
       $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), self.options.selected) === -1));
       $el.trigger('change');
+    },
+
+
+    showSelected: function () {
+      console.log('showSelected');
+      var self = this,
+        opts = self.options,
+        selected = self.getSelectedOptions(),
+        $sel = $(),
+        selectedClass = opts.namespace + '--selected',
+        $list = opts.list.$el.find('li');
+
+      // remove previous settings
+      $list.removeClass(selectedClass);
+      if (opts.isMultiple && opts.showCheckbox) {
+        $list.find(':checked').prop('checked', false);
+      }
+
+      // set selected class & checkbox prop
+      if (selected) {
+        // collect all elements
+        for (var i = 0, len = selected.length; i < len; i++) {
+          $sel = $sel.add(selected[i].$el);
+        }
+
+        // set selected
+        $sel.addClass(selectedClass)
+          .find('input').prop('checked', true);
+      }
     },
 
 
