@@ -4,33 +4,64 @@
 /** @group color */
 /** @group color */
 /** @group color */
-/* line 9, ../sass/jquery-ui.multiselect.widget.scss */
+/* line 5, ../sass/jquery-ui.multiselect.widget.scss */
+.ui-multiselect--display {
+  position: relative;
+  padding-right: 16px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  cursor: pointer;
+  background-color: #fff;
+  text-align: left; }
+  /* line 14, ../sass/jquery-ui.multiselect.widget.scss */
+  .ui-multiselect--display:after {
+    position: absolute;
+    display: block;
+    right: 4px;
+    top: 7px;
+    border: 3px solid transparent;
+    border-top-color: #000;
+    border-bottom-width: 0;
+    content: ''; }
+  /* line 25, ../sass/jquery-ui.multiselect.widget.scss */
+  .ui-multiselect--display:focus {
+    outline: none; }
+  /* line 29, ../sass/jquery-ui.multiselect.widget.scss */
+  .ui-multiselect--display:hover {
+    background-color: #ddd; }
+
+/* line 34, ../sass/jquery-ui.multiselect.widget.scss */
 .ui-multiselect--list-wrap {
   position: absolute;
-  display: inline-block;
+  z-index: 100;
+  display: none;
+  margin-top: -1px;
   border: 1px solid #ccc;
-  z-index: 100; }
+  background-color: #fff; }
 
-/* line 16, ../sass/jquery-ui.multiselect.widget.scss */
+/* line 43, ../sass/jquery-ui.multiselect.widget.scss */
 .ui-multiselect--list {
   margin: 0;
   padding: 0;
   list-style-type: none; }
-  /* line 21, ../sass/jquery-ui.multiselect.widget.scss */
+  /* line 48, ../sass/jquery-ui.multiselect.widget.scss */
   .ui-multiselect--list [type="checkbox"] {
     position: relative;
     top: -2px;
     margin: 0 5px 0 0;
     cursor: pointer; }
-  /* line 28, ../sass/jquery-ui.multiselect.widget.scss */
+  /* line 55, ../sass/jquery-ui.multiselect.widget.scss */
   .ui-multiselect--list li {
     display: block;
     padding: 3px 10px;
     cursor: pointer; }
-    /* line 33, ../sass/jquery-ui.multiselect.widget.scss */
+    /* line 60, ../sass/jquery-ui.multiselect.widget.scss */
+    .ui-multiselect--list li span {
+      white-space: nowrap; }
+    /* line 64, ../sass/jquery-ui.multiselect.widget.scss */
     .ui-multiselect--list li:hover {
       background-color: #ddd; }
-  /* line 38, ../sass/jquery-ui.multiselect.widget.scss */
+  /* line 69, ../sass/jquery-ui.multiselect.widget.scss */
   .ui-multiselect--list .ui-multiselect--selected {
     background-color: #efefef; }
 

@@ -10,6 +10,7 @@ $(function () {
       selectAll:           true,
       minItemFilter:       5,
       maxItems:            3,
+      minWidth:            0, // auto
 
       // text
       defaultDisplayTitle: 'No value selected',
@@ -103,14 +104,15 @@ $(function () {
     _createDisplay: function () {
       console.log('_createDisplay');
       var self = this,
-        options = self.options,
-        namespace = options.namespace,
-        btn = options.display;
+        opts = self.options,
+        namespace = opts.namespace,
+        btn = opts.display;
 
       // title
       btn.$title = $('<span class="' + namespace + '--title"></span>');
       // fake-dropdown
       btn.$el = $('<button class="' + namespace + '--display"></button>')
+        .css('min-width', opts.minWidth)
         // icon
         .html('<span class="' + namespace + '--icon"></span>')
         .prepend(btn.$title)
@@ -181,7 +183,7 @@ $(function () {
       options = opts.options = self._getOptions(); // this might become confusing...
 
       // creating the markup
-      $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>');
+      $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>')
       $list = list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
 
       // create the list
@@ -200,8 +202,13 @@ $(function () {
         options[index].$el = $li;
       });
 
+      // min-width for wrap
+      if (opts.minWidth !== 'auto') {
+        $wrap.css('min-width', opts.minWidth);
+      }
+
       // append the whole thing
-      $wrap.insertAfter(self.element);
+      $wrap.appendTo('body');
     },
 
 
@@ -211,7 +218,7 @@ $(function () {
         opts = self.options;
 
       // original select change
-      $(self.element).on('change.ui-ms', function () {
+      self.element.on('change.ui-ms', function () {
         console.log('change.ui-ms');
         self._refresh();
       });
@@ -228,6 +235,16 @@ $(function () {
           e.preventDefault();
         });
       }
+
+      // button click » toggle list
+      opts.display.$el.on({
+        focus: function () {
+          self.open();
+        },
+        blur: function () {
+          self.close();
+        }
+      });
     },
 
 
@@ -238,6 +255,32 @@ $(function () {
 
       $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), self.options.selected) === -1));
       $el.trigger('change');
+    },
+
+
+    open: function () {
+      console.log('open');
+      var self = this,
+        opts = self.options,
+        $display = opts.display.$el,
+        offset = $display.offset(),
+        height = $display.outerHeight(),
+        width = $display.outerWidth();
+
+      // set position & min-width
+      opts.list.$wrap
+        .css({
+          top: offset.top + height,
+          left: offset.left,
+          minWidth: (width > opts.minWidth) ? width : opts.minWidth
+        })
+        .show();
+    },
+
+
+    close: function () {
+      console.log('close');
+      this.options.list.$wrap.hide();
     },
 
 
