@@ -46,7 +46,7 @@ $(function () {
       // check for multi- or single-select
       self.options.isMultiple = ($el.attr('multiple') !== undefined);
 
-      // create markup - hey! ho! let's go!
+      // create markup ~ hey! ho! let's go! ~
       self._createMarkup();
     },
 
@@ -91,7 +91,7 @@ $(function () {
       var self = this;
 
       self._createButton();
-      self._createlist();
+      self._createList();
     },
 
 
@@ -162,28 +162,37 @@ $(function () {
     },
 
 
-    _createlist: function () {
+    _createList: function () {
       console.log('_createlist');
       var self = this,
         options = self.options,
         opts = undefined,
         namespace = options.namespace,
         list = options.list,
-        $wrap = list.$wrap,
+        $wrap,
         $list;
 
       // getting all the data
       opts = options.options = self._getOptions(); // this might become confusing...
 
       // creating the markup
-      $wrap = $('<div class="' + namespace + '--wrap"></div>');
+      $wrap = self.options.list.$wrap = $('<div class="' + namespace + '--wrap"></div>');
       $list = self.options.list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
 
       // create the list
       $.each(opts, function (index, option) {
         var oClass = option.class,
-          cl = (oClass) ? ' class="' + oClass + '"' : '';
-        opts[index].$el = $('<li data-value="' + option.value + '"' + cl + '>' + option.title + '</li>').appendTo($list);
+          cl = (oClass) ? ' class="' + oClass + '"' : '',
+          $li;
+
+        $li = $('<li data-value="' + option.value + '"' + cl + '>' + option.title + '</li>').appendTo($list);
+
+        // prepend checkboxes if multi-select
+        if (self.options.isMultiple) {
+          $('<input type="checkbox" value="" />').prependTo($li);
+        }
+
+        opts[index].$el = $li;
       });
 
       // append the whole thing
@@ -193,18 +202,26 @@ $(function () {
 
     _setListener: function () {
       console.log('_setListener');
-      var self = this;
+      var self = this,
+        opts = self.options;
 
-
+      // original select change
       $(self.element).on('change.ui-ms', function () {
         console.log('change.ui-ms');
         self._refresh();
       });
 
-      self.options.list.$el.on('click.ui-ms', 'li', function () {
+      // artificial list item click
+      opts.list.$el.on('click.ui-ms', 'li', function () {
         console.log('click.ui-ms', $(this).data('value'));
         self._toggleValue( $(this).data('value') );
       });
+
+      if (opts.isMultiple) {
+        opts.list.$el.on('click.ui-ms', 'input', function (e) {
+          e.preventDefault();
+        });
+      }
     },
 
 

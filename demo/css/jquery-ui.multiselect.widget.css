@@ -27,6 +27,12 @@
     background-color: #cc6633;
 }
 
+.ui-multiselect--list input {
+    position: relative;
+    top: -2px;
+    margin: 0 5px 0 0;
+}
+
 section > div + div {
     margin-top: 2em;
 }
