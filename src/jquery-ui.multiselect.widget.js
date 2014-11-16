@@ -18,6 +18,7 @@ $(function () {
 
       // my precious... - don't touch that stuff
       namespace:          'ui-multiselect',
+      isMultiple:         undefined,
       button:             {
         $el:    undefined,
         $title: undefined
@@ -34,14 +35,18 @@ $(function () {
 
     _create: function () {
       console.log('_create');
-      var self = this;
+      var self = this,
+        $el = self.element;
 
       // hide select
       if (self.options.hideSelect !== false) {
-        $(self.element).hide();
+        $el.hide();
       }
 
-      // create markup
+      // check for multi- or single-select
+      self.options.isMultiple = ($el.attr('multiple') !== undefined);
+
+      // create markup - hey! ho! let's go!
       self._createMarkup();
     },
 
@@ -140,9 +145,17 @@ $(function () {
         selected = opts.selected;
 
       if (selected) {
-        return opts.options.filter(function (obj) {
-          return ($.inArray(obj.value, selected) !== -1);
-        });
+        if (opts.isMultiple) {
+          // multi
+          return opts.options.filter(function (obj) {
+            return ($.inArray(obj.value, selected) !== -1);
+          });
+        } else {
+          // single
+          return opts.options.filter(function (obj) {
+            return (obj.value === String(selected));
+          });
+        }
       }
 
       return null;
@@ -215,6 +228,7 @@ $(function () {
 
       if (trivials !== null) {
         len = trivials.length;
+
         if (len > opts.maxItems) {
           // singular / plural
           title = (len === 1)

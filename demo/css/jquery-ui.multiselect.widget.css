@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .ui-multiselect--wrap {
     display: inline-block;
     border: 1px solid #ccc;
@@ -21,4 +25,43 @@
 
 .ui-multiselect--list .ui-multiselect--selected {
     background-color: #cc6633;
+}
+
+section > div + div {
+    margin-top: 2em;
+}
+
+[class^="lang-"]:before {
+    display: block;
+    float: left;
+    margin-top: 2px;
+    margin-right: 5px;
+    padding-top: 1px;
+    width: 16px;
+    height: 12px;
+    font-size: 9px;
+    content: attr(data-value);
+    text-align: center;
+    background-color: #ccc;
+    color: #fff;
+}
+
+[class="lang-de"]:before {
+    background-color: red;
+}
+
+[class="lang-fr"]:before {
+    background-color: blue;
+}
+
+[class="lang-es"]:before {
+    background-color: yellow;
+}
+
+[class="lang-it"]:before {
+    background-color: green;
+}
+
+[class="lang-nl"]:before {
+    background-color: orange;
 }

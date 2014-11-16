@@ -12,8 +12,10 @@ further details, plans, descriptions yadda yadda will be added later.
 - set trigger and ("keyboard"-) listener
 - write demos
 - write propper description
+- handle disabled options
 - (de-) select-all option
 - filter functionality
+- max-selectable option
 - optgroup support
 - clean-up and optimizing
 - minifiying
