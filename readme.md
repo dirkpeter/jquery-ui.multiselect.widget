@@ -1,6 +1,8 @@
-Work in Progress
-================
+jQuery UI Multiselect Widget
+============================
 
+THIS IS WORK IN PROGRESS
+------------------------
 aka there is a whole lot todo to get a first working version ready.
 further details, plans, descriptions yadda yadda will be added later.
 
