@@ -10,6 +10,7 @@ further details, plans, descriptions yadda yadda will be added later.
 ### TODOs
 - write basic functionality
 - set trigger and ("keyboard"-) listener
+- add class of selected value to display (button) + option
 - write demos
 - write propper description
 - handle disabled options
@@ -19,4 +20,5 @@ further details, plans, descriptions yadda yadda will be added later.
 - optgroup support
 - clean-up and optimizing
 - minifiying
+- touch-support?
 - drink a beer
