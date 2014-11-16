@@ -98,7 +98,7 @@
     $('.multiselect').multiselect({
       maxItems: 3,
       minWidth: 100
-    });
+    }).on('multiselectopen', function () { console.info('open'); });
   });
 </script>
 </body>

@@ -40,7 +40,6 @@ $(function () {
 
 
     _create: function () {
-      console.log('_create');
       var self = this,
         $el = self.element;
 
@@ -58,26 +57,27 @@ $(function () {
 
 
     _init: function () {
-      console.log('_init');
       var self = this;
 
       self._setListener();
       self._refresh();
+
+      self._trigger('complete', null, {});
     },
 
 
     _refresh: function () {
-      console.log('_refresh');
       var self = this;
 
       self._getValues();
       self.showSelected();
       self.setTitle();
+
+      self._trigger('update');
     },
 
 
     _destroy: function () {
-      console.log('_destroy');
       var self = this,
         options = self.options;
 
@@ -89,12 +89,11 @@ $(function () {
       options.list.$wrap.remove();
 
       // and show the select again
-      $(self.element).show();
+      self.element.show();
     },
 
 
     _createMarkup: function () {
-      console.log('_createMarkup');
       var self = this;
 
       self._createDisplay();
@@ -103,7 +102,6 @@ $(function () {
 
 
     _createDisplay: function () {
-      console.log('_createDisplay');
       var self = this,
         opts = self.options,
         namespace = opts.namespace,
@@ -123,7 +121,6 @@ $(function () {
 
 
     _getOptions: function () {
-      console.log('_getOptions');
       var data = [];
 
       // getting optionsdata from select
@@ -141,14 +138,12 @@ $(function () {
 
 
     _getValues: function () {
-      console.log('_getValues');
       var self = this;
       return self.options.selected = self.element.val();
     },
 
 
     getSelectedOptions: function () {
-      console.log('getSelectedOptions');
       var opts = this.options,
         selected = opts.selected;
 
@@ -171,7 +166,6 @@ $(function () {
 
 
     _createList: function () {
-      console.log('_createlist');
       var self = this,
         opts = self.options, // widget options
         options = undefined, // select options
@@ -214,19 +208,16 @@ $(function () {
 
 
     _setListener: function () {
-      console.log('_setListener');
       var self = this,
         opts = self.options;
 
       // original select change
       self.element.on('change.ui-ms', function () {
-        console.log('change.ui-ms');
         self._refresh();
       });
 
       // artificial list item click
       opts.list.$el.on('click.ui-ms', 'li', function () {
-        console.log('click.ui-ms', $(this).data('value'));
         self._toggleValue($(this).data('value'));
 
         if (opts.isMultiple === false) {
@@ -251,7 +242,6 @@ $(function () {
 
 
     _toggleValue: function (val) {
-      console.log('_toggleValue', val);
       var self = this,
         $el = self.element;
 
@@ -261,7 +251,6 @@ $(function () {
 
 
     toggle: function () {
-      console.log('open');
       var self = this;
 
       if (self.options.isOpen === false) {
@@ -273,7 +262,6 @@ $(function () {
 
 
     open: function () {
-      console.log('open');
       var self = this,
         opts = self.options,
         $display = opts.display.$el,
@@ -290,20 +278,23 @@ $(function () {
         })
         .show();
       opts.isOpen = true;
+
+      self._trigger('open', null, {});
     },
 
 
     close: function () {
-      console.log('close');
-      var opts = this.options;
+      var self = this,
+        opts = self.options;
 
       opts.list.$wrap.hide();
       opts.isOpen = false;
+
+      self._trigger('close', null, {});
     },
 
 
     showSelected: function () {
-      console.log('showSelected');
       var self = this,
         opts = self.options,
         selected = self.getSelectedOptions(),
@@ -332,7 +323,6 @@ $(function () {
 
 
     setTitle: function () {
-      console.log('setTitle');
       var self = this,
         opts = self.options,
         trivials = self.getSelectedOptions(),
