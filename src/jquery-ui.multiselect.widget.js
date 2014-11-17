@@ -15,7 +15,7 @@ $(function () {
       // text
       defaultDisplayTitle: 'No value selected',
       displayTextSG:       '1 of ## value selected',
-      displayTextPL:       '@@ ,of ## values selected',
+      displayTextPL:       '@@ of ## values selected',
       trivialSeperator:    ', ',
 
       // my precious... - don't touch that stuff
@@ -260,6 +260,7 @@ $(function () {
         });
       }
     },
+
 
     _setDisplayListener: function () {
       var self = this,
