@@ -35,6 +35,9 @@
 
   <section id="main">
     <div>
+      <input type="text" value="i'm a focus-tab helper" />
+    </div>
+    <div>
       <label for="multi">Multi-Select</label>
       <select id="multi" class="multiselect" multiple style="height:150px;">
         <option value="1">lorem 1</option>
@@ -107,7 +110,6 @@
       maxItems: 3,
       minWidth: 100
     }).on({
-      multiselectopen: function () { console.info('aaaaaand open!'); },
       multiselectselect: function (e, d) {
         console.info(
             'ui select',

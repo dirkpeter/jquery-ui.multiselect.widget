@@ -15,13 +15,17 @@ $(function () {
       // text
       defaultDisplayTitle: 'No value selected',
       displayTextSG:       '1 of ## value selected',
-      displayTextPL:       '@@ of ## values selected',
+      displayTextPL:       '@@ ,of ## values selected',
       trivialSeperator:    ', ',
 
       // my precious... - don't touch that stuff
       namespace:           'ui-multiselect',
       isMultiple:          undefined,
       isOpen:              false,
+      event:               {
+        last:        undefined,
+        blurTimeout: undefined
+      },
       display:             {
         $el:    undefined,
         $title: undefined
@@ -208,27 +212,45 @@ $(function () {
 
 
     _setListener: function () {
-      var self = this,
-        opts = self.options;
+      var self = this;
+
+      self._setSelectListener();
+      self._setDisplayListener();
+      self._setListListener();
+    },
+
+
+    _setSelectListener: function () {
+      var self = this;
 
       // original select change
-      self.element.on('change.ui-ms', function (event) {
+      self.element.on('change.ui-ms', function (e) {
         self._refresh();
-        self._trigger('change', event, {})
+        self._trigger('change', e, {});
       });
+    },
+
+
+    _setListListener: function () {
+      var self = this,
+        opts = self.options,
+        ev = opts.event;
 
       // artificial list item click
-      opts.list.$el.on('click.ui-ms', 'li', function (event) {
+      opts.list.$el.on('click.ui-ms', 'li', function (e) {
         var value = $(this).data('value');
+
         self._toggleValue(value);
 
         if (opts.isMultiple === false) {
           self.close();
         } else {
-          opts.display.$el.focus();
+          ev.last = 'multiselect';
+          clearTimeout(ev.blurTimeout); // prevent blur
+          opts.display.$el.focus(); // rest focus
         }
 
-        self._trigger('select', event, $(this).data('value'));
+        self._trigger('select', e, value);
       });
 
       // prevent checkbox-click
@@ -237,16 +259,32 @@ $(function () {
           e.preventDefault();
         });
       }
+    },
+
+    _setDisplayListener: function () {
+      var self = this,
+        ev = self.options.event;
 
       // button click » toggle list
-      opts.display.$el.on({
+      self.options.display.$el.on({
         click: function () {
-          self.toggle();
+          if (ev.last !== 'focus') {
+            self.toggle();
+          }
+          ev.last = 'click';
         },
         focus: function () {
           self.open();
+          ev.last = 'focus';
         },
-        blur: function () {
+        blur:  function () {
+          // timeout to be able to handle click-events
+          ev.blurTimeout = setTimeout(
+            function () {
+              self.close();
+            }, 100
+          );
+          ev.last = 'blur';
         }
       });
     },
@@ -254,17 +292,24 @@ $(function () {
 
     _toggleValue: function (val) {
       var self = this,
+        opts = self.options,
         $el = self.element;
 
-      $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), self.options.selected) === -1));
+      if (opts.isMultiple) {
+        $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), opts.selected) === -1));
+      } else {
+        $el.find('[value="' + val + '"]').prop('selected', true);
+      }
+
       $el.trigger('change');
     },
 
 
     toggle: function () {
-      var self = this;
+      var self = this,
+        opts = self.options;
 
-      if (self.options.isOpen === false) {
+      if (opts.isOpen === false) {
         self.open();
       } else {
         self.close();
@@ -284,10 +329,11 @@ $(function () {
       opts.list.$wrap
         .css({
           top: offset.top + height,
-          left: offset.left,
+          left:     offset.left,
           minWidth: (width > opts.minWidth) ? width : opts.minWidth
         })
-        .show();
+        .show()
+        .addClass(opts.namespace + '--open');
       opts.isOpen = true;
 
       self._trigger('open', null, {});
@@ -298,7 +344,8 @@ $(function () {
       var self = this,
         opts = self.options;
 
-      opts.list.$wrap.hide();
+      opts.list.$wrap.hide()
+        .removeClass(opts.namespace + '--open');
       opts.isOpen = false;
 
       self._trigger('close', null, {});
@@ -365,7 +412,7 @@ $(function () {
 
     setTitle: function () {
       var self = this;
-      self.options.display.$title.text( self.getTrivialValue() );
+      self.options.display.$title.text(self.getTrivialValue());
     }
   });
 });
