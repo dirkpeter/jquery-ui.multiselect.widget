@@ -6,6 +6,17 @@ section > div + div {
     margin-top: 2em;
 }
 
+[type="text"] {
+    display: block;
+    margin-top: .5em;
+    width: 300px;
+}
+
+[type="text"][disabled] {
+    background-color: #ddd;
+    border: 1px solid #aaa;
+}
+
 [class^="lang-"]:before {
     display: block;
     float: left;

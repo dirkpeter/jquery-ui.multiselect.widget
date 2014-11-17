@@ -224,6 +224,8 @@ $(function () {
 
         if (opts.isMultiple === false) {
           self.close();
+        } else {
+          opts.display.$el.focus();
         }
 
         self._trigger('select', event, $(this).data('value'));
@@ -240,6 +242,11 @@ $(function () {
       opts.display.$el.on({
         click: function () {
           self.toggle();
+        },
+        focus: function () {
+          self.open();
+        },
+        blur: function () {
         }
       });
     },

@@ -138,7 +138,7 @@ module.exports = function (grunt) {
     },
 
     jshint: {
-      all: ['js/*.js', 'js/app/**/*.js']
+      all: ['<%= conf.scss %>/*.js']
     },
 
     // casper: {},

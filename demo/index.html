@@ -48,6 +48,8 @@
         <option value="9|,;">lorem 9</option>
         <option value="10">lorem 10</option>
       </select>
+
+      <input type="text" disabled id="multi_debug" />
     </div>
 
     <div>
@@ -61,6 +63,10 @@
         <option value="nl" class="lang-nl">Netherlands</option>
       </select>
     </div>
+
+    <button id="setval">Set Value to fr</button>
+
+    <input type="text" disabled id="single_debug" />
 
     <!--
     <div>
@@ -109,6 +115,18 @@
             $(this).multiselect('getTrivialValue')
         );
       }
+    });
+
+    $('#multi').on('multiselectchange', function () {
+      $('#multi_debug').val( $(this).val() );
+    });
+
+    $('#single').on('multiselectchange', function () {
+      $('#single_debug').val( $(this).val() );
+    });
+
+    $('#setval').on('click', function () {
+      $('#single').val('fr').trigger('change');
     });
   });
 </script>
