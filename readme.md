@@ -11,6 +11,7 @@ further details, plans, descriptions yadda yadda will be added later.
 
 ### TODOs
 - write basic functionality
+- fix grunt lint-tasks
 - set trigger and ("keyboard"-) listener
 - add class of selected value to display (button) + option
 - write demos
