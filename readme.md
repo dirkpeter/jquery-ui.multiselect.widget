@@ -47,19 +47,11 @@ selected items
 
 
 
-## TODOs
+## First release TODOs
 - write basic functionality
 - fix grunt lint-tasks
-- set trigger and ("keyboard"-) listener
-- add class of selected value to display (button) + option
+- add tests
 - write demos
-- write propper description
-- handle disabled options
-- (de-) select-all option
-- filter functionality
-- max-selectable option
-- optgroup support
-- clean-up and optimizing
+- write proper description
 - minifiying
-- touch-support?
 - drink a beer
