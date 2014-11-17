@@ -391,7 +391,7 @@ $(function () {
       if (trivials !== null) {
         len = trivials.length;
 
-        if (len > opts.maxItems) {
+        if (opts.maxItems !== -1 && len > opts.maxItems) {
           // singular / plural
           title = (len === 1)
             ? opts.displayTextSG

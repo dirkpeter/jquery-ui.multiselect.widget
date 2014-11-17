@@ -21,7 +21,7 @@ $('#mySelectField').multiselect();
 ### setup
 ```javascript
 $('#mySelectField').multiselect({
-  maxItems: 1,
+  maxItems: -1,
   min-width: 200
 });
 ```
@@ -31,7 +31,8 @@ $('#mySelectField').multiselect({
 - showCheckbox (true) » show/hide checkboxes in the list (multiselect only)
 - selectAll (true) » not yet implemented
 - minItemFilter (5) » not yet implemented
-- maxItems (3) » max the number of selected items that will be displayed by option-title
+- maxItems (3) » max the number of selected items that will be displayed by option-title; -1 will display all 
+selected items
 - minWidth (0) » minimal width of ui-element (trigger and list); 0 = auto
 
 
@@ -48,7 +49,6 @@ $('#mySelectField').multiselect({
 
 ## TODOs
 - write basic functionality
-- possibility to display infinite number of selected items
 - fix grunt lint-tasks
 - set trigger and ("keyboard"-) listener
 - add class of selected value to display (button) + option
