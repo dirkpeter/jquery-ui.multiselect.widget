@@ -18,7 +18,8 @@ further details, plans, descriptions yadda yadda will be added later.
 $('#mySelectField').multiselect();
 ```
 
-### setup
+### setup example
+min-width of 200px and an infinite number of selected items displayed
 ```javascript
 $('#mySelectField').multiselect({
   maxItems: -1,
@@ -38,6 +39,8 @@ selected items
 
 
 ## Events
+![wireframe](/demo/img/events.png)
+
 - complete » widget initiation is finished
 - update » ui has been updated to fit latest changes 
 - change » select-value has been changed
@@ -48,10 +51,10 @@ selected items
 
 
 ## First release TODOs
-- write basic functionality
+- write basic functionality ~ bug fixing
 - fix grunt lint-tasks
+- minifiying
 - add tests
 - write demos
 - write proper description
-- minifiying
-- drink a beer
+- drink a beer when it's done
