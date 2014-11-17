@@ -1,8 +1,6 @@
-jQuery UI Multiselect Widget
-============================
+# jQuery UI Multiselect Widget #
 
-THIS IS WORK IN PROGRESS
-------------------------
+## THIS IS WORK IN PROGRESS
 aka there is a whole lot todo to get a first working version ready.
 further details, plans, descriptions yadda yadda will be added later.
 
@@ -11,14 +9,15 @@ further details, plans, descriptions yadda yadda will be added later.
 ![wireframe](/demo/img/wireframe.png)
 
 
+## Setup
+-----
 ### init / minimal setup
 ```javascript
 $('#mySelectField').multiselect();
 ```
 
 
-Events & options
-----------------
+## Events & options
 
 ### Events
 - complete » widget initiation is finished
@@ -27,7 +26,6 @@ Events & options
 - select » value has been selected
 - open » list is displayed
 - close » list is closed
-
 
 ### Options
 - hideSelect (true) » show/hide original select-field
@@ -38,7 +36,7 @@ Events & options
 - minWidth (0) » minimal width of ui-element (trigger and list); 0 = auto
 
 
-### TODOs
+## TODOs
 - write basic functionality
 - fix grunt lint-tasks
 - set trigger and ("keyboard"-) listener
