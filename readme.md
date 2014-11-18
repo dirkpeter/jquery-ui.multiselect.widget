@@ -13,6 +13,11 @@ further details, plans, descriptions yadda yadda will be added later.
 
 ## Setup
 
+#### Bower
+```
+$ bower install https://github.com/dirkpeter/jquery-ui.multiselect.widget.git
+```
+
 ### init / minimal setup
 ```javascript
 $('#mySelectField').multiselect();
