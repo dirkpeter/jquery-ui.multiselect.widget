@@ -30,7 +30,7 @@ module.exports = function (grunt) {
     conf: config,
 
     watch: {
-      compass: {
+      compass:    {
         files: ['<%= conf.scss %>/**/*.scss'],
         tasks: ['compass:dev']
       },
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
         options: {
           livereload: config.livereload
         },
-        files: [
+        files:   [
           '<%= conf.css %>/{,*/}*.css',
           '<%= conf.js %>/{,*/}*.js'
         ]
@@ -46,8 +46,8 @@ module.exports = function (grunt) {
     },
 
     connect: {
-      options: {
-        port: 9000,
+      options:    {
+        port:     9000,
         // change this to '0.0.0.0' to access the server from outside
         hostname: 'localhost'
       },
@@ -61,7 +61,7 @@ module.exports = function (grunt) {
           }
         }
       },
-      dist: {
+      dist:       {
         options: {
           middleware: function (connect) {
             return [
@@ -77,13 +77,13 @@ module.exports = function (grunt) {
         config:     'config.rb',
         bundleExec: true
       },
-      dev: {
+      dev:     {
         options: {
-          debugInfo: true,
+          debugInfo:   true,
           environment: 'development'
         }
       },
-      dist: {
+      dist:    {
         options: {
           environment: 'production'
         }
@@ -91,15 +91,15 @@ module.exports = function (grunt) {
     },
 
     concurrent: {
-      dev: [
+      dev:     [
         'devtools',
         'watch'
       ],
-      dist: [
+      dist:    [
         'compass:dist'
       ],
       options: {
-        limit: 5,
+        limit:               5,
         logConcurrentOutput: true
       }
     },
@@ -116,8 +116,10 @@ module.exports = function (grunt) {
             watermark: true
           },
           groups:   {
-            'undefined': 'General'
+            'undefined': 'General',
+            'color':     'Colors'
           },
+          force:    true,
           package:  pkg,
           theme:    'default',
           basePath: '../<%= conf.scss %>'
