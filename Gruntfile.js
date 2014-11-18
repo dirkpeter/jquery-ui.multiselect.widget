@@ -140,7 +140,10 @@ module.exports = function (grunt) {
     },
 
     jshint: {
-      all: ['<%= conf.scss %>/*.js']
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      all: ['<%= conf.js %>/{,**/}*.js', '!<%= conf.js %>/{,**/}*.min.js']
     },
 
     // casper: {},
