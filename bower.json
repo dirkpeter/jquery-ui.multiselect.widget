@@ -4,6 +4,12 @@
   "main": "src/jquery-ui.multiselect.widget.js",
   "ignore": [
     "**/.*",
+    "config.rb",
+    "Gemfile",
+    "Gemfile.lock",
+    "Gruntfile.js",
+    "Guardfile",
+    "package.json",
     "bower_components",
     "test",
     "demo",
