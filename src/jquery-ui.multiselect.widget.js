@@ -139,8 +139,12 @@
 
 
     _getValues: function () {
-      var self = this;
-      return self.options.selected = self.element.val();
+      var self = this,
+        val = self.element.val();
+
+      self.options.selected = val;
+
+      return val;
     },
 
 
@@ -169,9 +173,9 @@
     _createList: function () {
       var self = this,
         opts = self.options, // widget options
-        options = undefined, // select options
         namespace = opts.namespace,
         list = opts.list,
+        options, // select options
         $wrap,
         $list;
 
@@ -179,7 +183,7 @@
       options = opts.options = self._getOptions(); // this might become confusing...
 
       // creating the markup
-      $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>')
+      $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>');
       $list = list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
 
       // create the list
@@ -388,9 +392,7 @@
 
         if (opts.maxItems !== -1 && len > opts.maxItems) {
           // singular / plural
-          title = (len === 1)
-            ? opts.displayTextSG
-            : opts.displayTextPL.replace('@@', len);
+          title = (len === 1) ? opts.displayTextSG : opts.displayTextPL.replace('@@', len);
           // and total
           title = title.replace('##', opts.options.length);
         }
