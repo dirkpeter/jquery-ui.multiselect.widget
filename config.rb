@@ -2,19 +2,20 @@
 saved = environment
 if (environment.nil?)
   environment = :development
+  css_dir = "src"
 else
   environment = saved
+  css_dir = "dst"
 end
 
 # folders and stuff
-css_dir = "src"
 sass_dir = "sass"
 
 # compass plugins
 require 'sass-globbing'
 
 # config
-output_style = (environment == :production) ? :expanded : :nested
+output_style = (environment == :production) ? :compressed : :nested
 relative_assets = true
 
 # Conditionally enable line comments when in development mode.

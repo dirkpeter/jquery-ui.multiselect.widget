@@ -146,6 +146,14 @@ module.exports = function (grunt) {
       all: ['<%= conf.js %>/{,**/}*.js', '!<%= conf.js %>/{,**/}*.min.js']
     },
 
+    uglify: {
+      dist: {
+        files: {
+          'dst/jquery-ui.multiselect.widget.min.js': ['<%= conf.js %>/jquery-ui.multiselect.widget.js']
+        }
+      }
+    },
+
     // casper: {},
 
     bower: {
@@ -170,7 +178,8 @@ module.exports = function (grunt) {
 
   // build distribution
   grunt.registerTask('build', [
-    'compass:dist'
+    'compass:dist',
+    'uglify:dist'
   ]);
 
   grunt.registerTask('dev', [
