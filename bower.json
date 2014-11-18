@@ -1,18 +1,6 @@
 {
   "name": "jquery-ui.multiselect.widget",
   "version": "0.0.1",
-  "homepage": "https://github.com/dirkpeter/jquery-ui.multiselect.widget",
-  "authors": [
-    "Dirk Peter <dirk.peter@me.com>"
-  ],
-  "description": "yet another jquery multiselect widget",
-  "keywords": [
-    "jquery-ui",
-    "select",
-    "multiselect",
-    "widget"
-  ],
-  "license": "MIT",
   "main": "src/jquery-ui.multiselect.widget.js",
   "ignore": [
     "**/.*",
@@ -24,5 +12,17 @@
   "dependencies": {
     "jquery": "~1.11.1",
     "jquery-ui": "~1.11.2"
-  }
+  },
+  "homepage": "https://github.com/dirkpeter/jquery-ui.multiselect.widget",
+  "authors": [
+    "Dirk Peter <dirk.peter@me.com>"
+  ],
+  "description": "yet another jquery multiselect widget",
+  "keywords": [
+    "jquery-ui",
+    "select",
+    "multiselect",
+    "widget"
+  ],
+  "license": "MIT"
 }
