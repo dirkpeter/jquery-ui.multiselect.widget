@@ -1,6 +1,4 @@
-$(function () {
-  var $body = $('body');
-
+(function ($) {
   $.widget('ui.multiselect', {
     // default options
     options: {
@@ -23,8 +21,7 @@ $(function () {
       isMultiple:          undefined,
       isOpen:              false,
       event:               {
-        last:        undefined,
-        blurTimeout: undefined
+        last:        undefined
       },
       display:             {
         $el:    undefined,
@@ -237,7 +234,7 @@ $(function () {
         ev = opts.event;
 
       // artificial list item click
-      opts.list.$el.on('click.ui-ms', 'li', function (e) {
+      opts.list.$el.on('mousedown.ui-ms', 'li', function (e) {
         var value = $(this).data('value');
 
         self._toggleValue(value);
@@ -246,8 +243,6 @@ $(function () {
           self.close();
         } else {
           ev.last = 'multiselect';
-          clearTimeout(ev.blurTimeout); // prevent blur
-          opts.display.$el.focus(); // rest focus
         }
 
         self._trigger('select', e, value);
@@ -264,10 +259,11 @@ $(function () {
 
     _setDisplayListener: function () {
       var self = this,
-        ev = self.options.event;
+        opts = self.options,
+        ev = opts.event;
 
       // button click » toggle list
-      self.options.display.$el.on({
+      opts.display.$el.on({
         click: function () {
           if (ev.last !== 'focus') {
             self.toggle();
@@ -279,13 +275,12 @@ $(function () {
           ev.last = 'focus';
         },
         blur:  function () {
-          // timeout to be able to handle click-events
-          ev.blurTimeout = setTimeout(
-            function () {
-              self.close();
-            }, 100
-          );
-          ev.last = 'blur';
+          if (ev.last === 'multiselect') {
+            opts.display.$el.focus(); // reset focus
+          } else {
+            self.close();
+            ev.last = 'blur';
+          }
         }
       });
     },
@@ -416,4 +411,4 @@ $(function () {
       self.options.display.$title.text(self.getTrivialValue());
     }
   });
-});
+})(jQuery);
