@@ -10,6 +10,7 @@
     "Gruntfile.js",
     "Guardfile",
     "package.json",
+    "readme.md",
     "bower_components",
     "test",
     "demo",
