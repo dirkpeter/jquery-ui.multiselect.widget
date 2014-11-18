@@ -6,7 +6,6 @@
     "Dirk Peter <dirk.peter@me.com>"
   ],
   "description": "yet another jquery multiselect widget",
-  "main": "src/jquery-ui.multiselect.widget.js",
   "keywords": [
     "jquery-ui",
     "select",
@@ -14,10 +13,13 @@
     "widget"
   ],
   "license": "MIT",
+  "main": "src/jquery-ui.multiselect.widget.js",
   "ignore": [
     "**/.*",
     "bower_components",
-    "test"
+    "test",
+    "demo",
+    "sass"
   ],
   "dependencies": {
     "jquery": "~1.11.1",
