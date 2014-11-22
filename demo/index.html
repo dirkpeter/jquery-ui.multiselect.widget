@@ -53,6 +53,8 @@
         <option value="10">lorem 10</option>
       </select>
 
+      <button id="disable">disable lorem 3</button>
+
       <input type="text" disabled id="multi_debug" />
     </div>
 
@@ -118,10 +120,14 @@
             "'" + d + "'",
             $(this).multiselect('getTrivialValue')
         );
+      },
+      change: function (e) {
+        console.info('changed');
       }
     });
 
-    $('#multi').on('multiselectchange', function () {
+    var $multi = $('#multi');
+    $multi.on('multiselectchange', function () {
       $('#multi_debug').val( $(this).val() );
     });
 
@@ -131,6 +137,10 @@
 
     $('#setval').on('click', function () {
       $('#single').val('fr').trigger('change');
+    });
+
+    $('#disable').on('click', function () {
+      $multi.find('[value="3"]').prop('disabled', true);
     });
   });
 </script>

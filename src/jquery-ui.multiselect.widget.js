@@ -74,6 +74,17 @@
       self.showSelected();
       self.setTitle();
 
+      self._trigger('refresh');
+    },
+
+
+    update: function () {
+      var self = this;
+
+      self.options.options = self._getOptions();
+      self._createListContent();
+      self._refresh();
+
       self._trigger('update');
     },
 
@@ -176,16 +187,35 @@
         opts = self.options, // widget options
         namespace = opts.namespace,
         list = opts.list,
-        options, // select options
-        $wrap,
-        $list;
+        $wrap;
 
       // getting all the data
-      options = opts.options = self._getOptions(); // this might become confusing...
+      opts.options = self._getOptions(); // this might become confusing...
 
       // creating the markup
       $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>');
-      $list = list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
+      list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
+
+      // create the list
+      self._createListContent();
+
+      // min-width for wrap
+      if (opts.minWidth !== 'auto') {
+        $wrap.css('min-width', opts.minWidth);
+      }
+
+      // append the whole thing
+      $wrap.appendTo('body');
+    },
+
+
+    _createListContent: function () {
+      var self = this,
+        opts = self.options, // widget options
+        options = opts.options,
+        $list = opts.list.$el;
+
+      $list.empty();
 
       // create the list
       $.each(options, function (index, option) {
@@ -214,18 +244,9 @@
 
         options[index].$el = $li;
       });
-
-      // min-width for wrap
-      if (opts.minWidth !== 'auto') {
-        $wrap.css('min-width', opts.minWidth);
-      }
-
-      // append the whole thing
-      $wrap.appendTo('body');
     },
 
 
-    // enabled / disable item
     toggleItem: function ($item, disabled) {
       var self = this,
         disClass = self.options.namespace + '--disabled';
@@ -254,9 +275,14 @@
       var self = this;
 
       // original select change
-      self.element.on('change.ui-ms', function (e) {
-        self._refresh();
-        self._trigger('change', e, {});
+      self.element.on({
+        change: function (e) {
+          self._refresh();
+          self._trigger('change', e, {});
+        },
+        DOMSubtreeModified: function(e) {
+          self.update();
+        }
       });
     },
 
@@ -290,7 +316,7 @@
 
       // prevent checkbox-click
       if (opts.isMultiple && opts.showCheckbox) {
-        opts.list.$el.on('click.ui-ms', 'input', function (e) {
+        opts.list.$el.one('click.ui-ms', 'input', function (e) {
           e.preventDefault();
         });
       }
