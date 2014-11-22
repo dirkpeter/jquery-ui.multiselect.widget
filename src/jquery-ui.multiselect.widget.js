@@ -81,7 +81,7 @@
     update: function () {
       var self = this;
 
-      self.options.options = self._getOptions();
+      self._getOptions();
       self._createListContent();
       self._refresh();
 
@@ -133,10 +133,11 @@
 
 
     _getOptions: function () {
-      var data = [];
+      var self = this,
+        data = [];
 
       // getting optionsdata from select
-      $.each(this.element.find('option'), function (index, option) {
+      $.each(self.element.find('option'), function (index, option) {
         var $option = $(option);
         data.push({
           disabled: $option.is(':disabled'),
@@ -146,7 +147,7 @@
         });
       });
 
-      return data;
+      self.options.options = data;
     },
 
 
@@ -190,7 +191,7 @@
         $wrap;
 
       // getting all the data
-      opts.options = self._getOptions(); // this might become confusing...
+      self._getOptions(); // this might become confusing...
 
       // creating the markup
       $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>');
@@ -239,7 +240,7 @@
         }
 
         if (option.disabled) {
-          self.setItemDiabledProp($li, true);
+          self.setItemDisabledProp($li, true);
         }
 
         options[index].$el = $li;
@@ -247,7 +248,7 @@
     },
 
 
-    setItemDiabledProp: function ($item, disabled) {
+    setItemDisabledProp: function ($item, disabled) {
       var self = this,
         disClass = self.options.namespace + '--disabled';
       
@@ -463,7 +464,7 @@
           // and total
           title = title.replace('##', opts.options.length);
         }
-        else {
+        else if (len !== 0) {
           // join all trivials
           title = trivials.map(function (item) {
             return item.title;

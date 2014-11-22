@@ -53,7 +53,8 @@
         <option value="10">lorem 10</option>
       </select>
 
-      <button id="disable">disable lorem 3</button>
+      <button id="disable">disable option "lorem 3"</button>
+      <button id="enable">enable option "lorem 3"</button>
 
       <input type="text" disabled id="multi_debug" />
     </div>
@@ -141,6 +142,10 @@
 
     $('#disable').on('click', function () {
       $multi.find('[value="3"]').prop('disabled', true);
+    });
+
+    $('#enable').on('click', function () {
+      $multi.find('[value="3"]').prop('disabled', false);
     });
   });
 </script>
