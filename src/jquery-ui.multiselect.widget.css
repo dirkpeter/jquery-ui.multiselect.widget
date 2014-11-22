@@ -67,5 +67,15 @@
   /* line 73, ../sass/jquery-ui.multiselect.widget.scss */
   .ui-multiselect--list .ui-multiselect--selected {
     background-color: #efefef; }
+  /* line 77, ../sass/jquery-ui.multiselect.widget.scss */
+  .ui-multiselect--list .ui-multiselect--disabled {
+    opacity: .5;
+    cursor: not-allowed; }
+    /* line 81, ../sass/jquery-ui.multiselect.widget.scss */
+    .ui-multiselect--list .ui-multiselect--disabled [type="checkbox"] {
+      cursor: inherit; }
+    /* line 85, ../sass/jquery-ui.multiselect.widget.scss */
+    .ui-multiselect--list .ui-multiselect--disabled:hover {
+      background-color: transparent; }
 
 /*# sourceMappingURL=jquery-ui.multiselect.widget.css.map */

@@ -73,4 +73,17 @@
   .ui-multiselect--selected {
     background-color: $color-list-selected;
   }
+
+  .ui-multiselect--disabled {
+    opacity: .5;
+    cursor: not-allowed;
+
+    [type="checkbox"] {
+      cursor: inherit;
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
 }

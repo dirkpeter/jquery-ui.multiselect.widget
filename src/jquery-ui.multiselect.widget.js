@@ -21,7 +21,7 @@
       isMultiple:          undefined,
       isOpen:              false,
       event:               {
-        last:        undefined
+        last: undefined
       },
       display:             {
         $el:    undefined,
@@ -128,9 +128,10 @@
       $.each(this.element.find('option'), function (index, option) {
         var $option = $(option);
         data.push({
-          title: $option.text(),
-          value: $option.val(),
-          class: $option.attr('class')
+          disabled: $option.is(':disabled'),
+          title:    $option.text(),
+          value:    $option.val(),
+          class:    $option.attr('class')
         });
       });
 
@@ -189,14 +190,26 @@
       // create the list
       $.each(options, function (index, option) {
         var oClass = option.class,
-          cl = (oClass) ? ' class="' + oClass + '"' : '',
           $li;
 
-        $li = $('<li data-value="' + option.value + '"' + cl + '>' + option.title + '</li>').appendTo($list);
+        $li = $('<li>' + option.title + '</li>')
+          .data({
+            value: option.value,
+            disabled: option.disabled
+          })
+          .appendTo($list);
+
+        if (oClass) {
+          $li.addClass(oClass);
+        }
 
         // prepend checkboxes if multi-select
         if (opts.isMultiple && opts.showCheckbox) {
           $('<input type="checkbox" value="" />').prependTo($li);
+        }
+
+        if (option.disabled) {
+          self.toggleItem($li, true);
         }
 
         options[index].$el = $li;
@@ -209,6 +222,22 @@
 
       // append the whole thing
       $wrap.appendTo('body');
+    },
+
+
+    // enabled / disable item
+    toggleItem: function ($item, disabled) {
+      var self = this,
+        disClass = self.options.namespace + '--disabled';
+
+      if (disabled) {
+        $item.addClass(disClass);
+      } else {
+        $item.removeClass(disClass);
+      }
+
+      $item.data('disabled', disabled)
+        .find('[type="checkbox"]').prop('disabled', disabled);
     },
 
 
@@ -239,7 +268,14 @@
 
       // artificial list item click
       opts.list.$el.on('mousedown.ui-ms', 'li', function (e) {
-        var value = $(this).data('value');
+        var $el = $(this),
+          value = $el.data('value'),
+          disabled = $el.data('disabled');
+
+        if (disabled) {
+          opts.display.$el.focus(); // reset focus
+          return false;
+        }
 
         self._toggleValue(value);
 
