@@ -239,7 +239,7 @@
         }
 
         if (option.disabled) {
-          self.toggleItem($li, true);
+          self.setItemDiabledProp($li, true);
         }
 
         options[index].$el = $li;
@@ -247,9 +247,13 @@
     },
 
 
-    toggleItem: function ($item, disabled) {
+    setItemDiabledProp: function ($item, disabled) {
       var self = this,
         disClass = self.options.namespace + '--disabled';
+      
+      if (disabled === undefined) {
+        disabled = !$item.data('disabled');
+      }
 
       if (disabled) {
         $item.addClass(disClass);
@@ -280,7 +284,8 @@
           self._refresh();
           self._trigger('change', e, {});
         },
-        DOMSubtreeModified: function(e) {
+        // dom manipulation
+        DOMSubtreeModified: function() {
           self.update();
         }
       });
