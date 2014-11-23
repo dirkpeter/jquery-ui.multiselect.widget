@@ -12,7 +12,7 @@
     "package.json",
     "readme.md",
     "bower_components",
-    "test",
+    "tests",
     "demo",
     "sass"
   ],

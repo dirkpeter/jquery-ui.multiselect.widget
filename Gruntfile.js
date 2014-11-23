@@ -13,7 +13,8 @@ module.exports = function (grunt) {
     js:         'src',
     scss:       'sass',
     css:        'src',
-    sassdoc:    'sass-doc'
+    sassdoc:    'sass-doc',
+    tests:      'tests'
   };
 
   var lrSnippet = require('connect-livereload')({port: config.livereload});
@@ -154,7 +155,15 @@ module.exports = function (grunt) {
       }
     },
 
-    // casper: {},
+    casper: {
+      options: {
+        test: true,
+        engine : 'slimerjs'
+      },
+      basic: {
+        src: ['<%= conf.tests %>/casperjs/basic_*.js']
+      }
+    },
 
     bower: {
       target: {
@@ -174,6 +183,11 @@ module.exports = function (grunt) {
   grunt.registerTask('lint', [
     'scsslint',
     'jshint'
+  ]);
+
+  // testing
+  grunt.registerTask('test', [
+    'casper:basic'
   ]);
 
   // build distribution
