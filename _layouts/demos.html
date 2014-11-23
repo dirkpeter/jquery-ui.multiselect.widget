@@ -1,15 +1,183 @@
 ---
 layout: default
 ---
-<div class="demo">
+{% include scripts.html %}
 
-  <header class="demo-header">
-    <h1 class="demo-title">{{ page.title }}</h1>
-    <p class="demo-meta">{{ page.date | date: "%b %-d, %Y" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
-  </header>
+<header class="demo-header">
+  <h1 class="demo-title">{{ page.title }}</h1>
+  <p class="demo-meta">Last update: {{ page.date | date: "%b %-d, %Y" }}</p>
+</header>
 
-  <article class="demo-content">
-    {{ content }}
-  </article>
 
-</div>
+<section class="nav">
+  <h2>Overview</h2>
+  <ul>
+    <li><a href="#simple-setup">Simple setup</a></li>
+    <li><a href="#hide-checkboxes">Hide checkbox</a></li>
+  </ul>
+</section>
+
+
+<section>
+  <h2 id="simple-setup"><a rel="internal" href="#simple-setup">Simple setup</a></h2>
+
+  <h3>Demo</h3>
+  <div class="demo">
+    <select id="ex_1" multiple>
+      <option value="1">Lorem (1)</option>
+      <option value="2">Ipsum (2)</option>
+      <option value="3">Dolor (3)</option>
+      <option value="4">Sit (4)</option>
+      <option value="5">Amet (5)</option>
+    </select>
+  </div>
+
+  <h3>Markup</h3>
+{% highlight html %}
+<select class="multiselect" multiple>
+  <option value="1">Lorem (1)</option>
+  <option value="2">Ipsum (2)</option>
+  <option value="3">Dolor (3)</option>
+  <option value="4">Sit (4)</option>
+  <option value="5">Amet (5)</option>
+</select>
+{% endhighlight %}
+
+  <h3>JS</h3>
+{% highlight javascript %}
+(function ($) {
+  $(function () {
+    $('.multiselect').multiselect();
+  });
+})(jQuery);
+{% endhighlight %}
+</section>
+
+
+<section>
+  <h2 id="hide-checkboxes"><a rel="internal" href="#hide-checkboxes">Hide checkbox</a></h2>
+
+  <h3>Demo</h3>
+  <div class="demo">
+    <select class="multiselect" id="ex_2" multiple>
+      <option value="1">Lorem (1)</option>
+      <option value="2">Ipsum (2)</option>
+      <option value="3">Dolor (3)</option>
+      <option value="4">Sit (4)</option>
+      <option value="5">Amet (5)</option>
+    </select>
+  </div>
+
+  <h3>Markup</h3>
+{% highlight html %}
+<select class="multiselect" multiple>
+  <option value="1">Lorem (1)</option>
+  <option value="2">Ipsum (2)</option>
+  <option value="3">Dolor (3)</option>
+  <option value="4">Sit (4)</option>
+  <option value="5">Amet (5)</option>
+</select>
+{% endhighlight %}
+
+  <h3>JS</h3>
+{% highlight javascript %}
+$('.multiselect').multiselect({
+  showCheckbox: false
+});
+{% endhighlight %}
+</section>
+
+
+<section>
+  <h2 id="max-items"><a rel="internal" href="#max-items">Max Items</a></h2>
+
+  <h3>Demo</h3>
+  <div class="demo">
+    <label>Show only one trivial</label>
+    <select class="multiselect" id="ex_3_1" multiple>
+      <option value="1">Lorem (1)</option>
+      <option value="2">Ipsum (2)</option>
+      <option value="3">Dolor (3)</option>
+      <option value="4">Sit (4)</option>
+      <option value="5">Amet (5)</option>
+    </select>
+  </div>
+
+  <h3>JS</h3>
+{% highlight javascript %}
+$('.multiselect').multiselect({
+  maxItems: 1
+});
+{% endhighlight %}
+
+  <h3>Demo</h3>
+  <div class="demo">
+    <label>Show all trivials</label>
+    <select class="multiselect" id="ex_3_2" multiple>
+      <option value="1">Lorem (1)</option>
+      <option value="2">Ipsum (2)</option>
+      <option value="3">Dolor (3)</option>
+      <option value="4">Sit (4)</option>
+      <option value="5">Amet (5)</option>
+    </select>
+  </div>
+
+  <h3>JS</h3>
+{% highlight javascript %}
+$('.multiselect').multiselect({
+  maxItems: -1
+});
+{% endhighlight %}
+</section>
+
+
+<section>
+  <h2 id="custom-title"><a rel="internal" href="#custom-title">Custom title</a></h2>
+
+  <h3>Demo</h3>
+  <div class="demo">
+    <label>In german</label>
+    <select class="multiselect" id="ex_4" multiple>
+      <option value="1">Lorem (1)</option>
+      <option value="2">Ipsum (2)</option>
+      <option value="3">Dolor (3)</option>
+      <option value="4">Sit (4)</option>
+      <option value="5">Amet (5)</option>
+    </select>
+  </div>
+
+  <h3>JS</h3>
+{% highlight javascript %}
+$('.multiselect').multiselect({
+  defaultDisplayTitle: 'Bitte wählen',           // 'No value selected'
+  displayTextSG:       'Ein Element ausgewählt', // '1 of ## value selected'
+  displayTextPL:       '@@ Elemente ausgewählt', // '@@ of ## values selected'
+  maxItems:            0                         // optional, for demo
+});
+{% endhighlight %}
+
+  <h3>Info</h3>
+  <p><code>##</code> will be replaced by the total number of items for displayTextSG and displayTextPL.<br>
+  <code>@@</code> will be replaced by the currently selected number of items for displayTextPL.</p>
+</section>
+
+
+
+<script>
+  (function ($) {
+    // simple
+    $('#ex_1').multiselect();
+    // hide checkbox
+    $('#ex_2').multiselect({showCheckbox: false});
+    // max items
+    $('#ex_3_1').multiselect({maxItems: 1});
+    $('#ex_3_2').multiselect({maxItems: -1});
+    // custom title
+    $('#ex_4').multiselect({
+        defaultDisplayTitle: 'Bitte wählen',
+        displayTextSG:       'Ein Element ausgewählt',
+        displayTextPL:       '@@ Elemente ausgewählt',
+        maxItems:            0
+    });
+  })(jQuery);
+</script>

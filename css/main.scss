@@ -50,3 +50,32 @@ $on-laptop:        800px;
         "layout",
         "syntax-highlighting"
 ;
+
+
+
+h2 {
+  margin-top: 3em;
+  border-bottom: 1px solid #eee;
+
+  > [rel="internal"] {
+    color: #000;
+
+    &:hover {
+      text-decoration: none;
+
+      &:after {
+        margin-left: 5px;
+        content: '\00B6';
+        opacity: .5;
+      }
+    }
+  }
+}
+
+h3 {
+  margin-top: 1em;
+}
+
+.demo {
+  margin-bottom: 15px;
+}
