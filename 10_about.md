@@ -17,6 +17,11 @@ Let's start width something to see - my (early) widget conception
 ![wireframe](../img/wireframe.png)
 
 
+## Event-handling
+
+![wireframe](../img/events.png)
+
+
 ## Final words
 
 One thing left to mention: this page is created with [Jekyll](https://github.com/jekyll/jekyll).

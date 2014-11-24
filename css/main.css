@@ -801,10 +801,8 @@ h3 {
   border-bottom-width: 0;
   padding: 3em 0;
   text-align: center;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
 }
-/* line 59, ../_sass/main.scss */
+/* line 57, ../_sass/main.scss */
 .intro-demo + .highlight > pre {
   border-top-left-radius: 0;
   border-top-right-radius: 0;

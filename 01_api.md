@@ -69,7 +69,6 @@ If you're more interested in the why than the how, check the [about page](../abo
 
 
 ## Events ##
-![wireframe](../img/events.png)
 
 - <code>complete</code> » widget initiation is finished
 - <code>update</code> » ui has been updated to fit latest changes
