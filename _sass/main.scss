@@ -7,11 +7,12 @@
 
 h2 {
   position: relative;
-  margin-top: 3em;
+  margin-top: 2em;
+  padding-top: 1em;
   border-bottom: 1px solid #eee;
 
   > [rel="internal"] {
-    color: #000;
+    color: $text-color;
 
     &:after {
       @include single-transition(opacity, .3s);
@@ -28,8 +29,35 @@ h2 {
       }
     }
   }
+
+  &:target > [rel="internal"] {
+    color: $brand-color;
+    @include single-text-shadow(0, 0, 5px, 0, rgba($brand-color, .5));
+  }
 }
 
 h3 {
   margin-top: 1em;
+}
+
+
+// need to port this to the widget
+.ui-multiselect--display {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+.intro-demo {
+  margin-top: -1em;
+  border: 1px solid $grey-color-light;
+  border-bottom-width: 0;
+  padding: 3em 0;
+  text-align: center;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+
+  + .highlight > pre {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }

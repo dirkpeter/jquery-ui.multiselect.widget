@@ -4,8 +4,19 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Besides wanting to create my own little git project, i wanted to create an easily customizable multi-select-widget, 
+which has the original select as the base for all actions. that means all actions through the ui result in direct 
+changes to the select, thus keeping it always up-to-date and all changes to the select (or its options) result in 
+direct adjustment of the ui. e.g. disabling an option through dom-change will disable the ui-option.
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
 
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+## The concept
+
+Let's start width something to see - my (early) widget conception
+
+![wireframe](../img/wireframe.png)
+
+
+## Final words
+
+One thing left to mention: this page is created with [Jekyll](https://github.com/jekyll/jekyll).

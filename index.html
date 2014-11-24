@@ -11,20 +11,48 @@ layout: default
     <li>Current Milestone: <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget/milestones/1.0%20first%20stable%20release">1.0 stable release</a></li>
   </ul>
 
-  <h3>Dependencies</h3>
+  <h2>Demo</h2>
+  <div class="intro-demo">
+    <input type="text" id="result" value="" disabled style="margin-bottom:1em" /><br />
+    <select class="multiselect" multiple>
+      <option value="1">Hello</option>
+      <option value="2">this is dog!</option>
+      <option value="3">much wow</option>
+      <option value="4">so amazing</option>
+      <option value="5">such options</option>
+    </select><br />
+    <button id="enable" style="margin-top:1em">Enable multiselect</button>
+  </div>
+
+{% highlight javascript %}
+$('#mySelectField').multiselect({
+  minWidth: 200
+});
+{% endhighlight %}
+
+  <p>Make sure to check out <a href="/demos">the demos</a> and <a href="/api">API</a>.</p>
+
+  <h2>Dependencies</h2>
   <p>jQuery 1.11.1 &amp; jQuery UI (widget factory) 1.11.1 - these might be downgraded, didn't check yet.</p>
 
-  <h3>Bower</h3>
+  <h2>Bower</h2>
   <p>Package will <i>probably</i> be coming with v 1.0.</p>
 {% highlight bash %}
   $ bower install https://github.com/dirkpeter/jquery-ui.multiselect.widget.git
 {% endhighlight %}
 
-  <h3>Minimal setup</h3>
-  <p>Make sure to check out <a href="/demos">the demos</a> and <a href="/api">API</a>.</p>
-{% highlight javascript %}
-  $('#mySelectField').multiselect();
-{% endhighlight %}
-
   <!--<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>-->
 </div>
+
+{% include scripts.html %}
+<script>
+(function ($) {
+  $('#enable').on('click', function () {
+    $('.multiselect').multiselect({minWidth: 200});
+    $(this).prop('disabled', true);
+  });
+  $('select').on('change', function () {
+    $('#result').val( $(this).val() );
+  });
+})(jQuery);
+</script>
