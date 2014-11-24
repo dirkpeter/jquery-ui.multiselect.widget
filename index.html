@@ -3,17 +3,28 @@ layout: default
 ---
 
 <div class="home">
-  <h1 class="page-heading">Demos</h1>
+  <h1>jquery-ui.multiselect.widget</h1>
 
-  <ul class="demo-list">
-    {% for demo in site.demos %}
-      <li>
-        <h2>
-          <a class="post-link" href="{{ demo.url | prepend: site.baseurl }}">{{ demo.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
+  <ul>
+    <li>git: <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget">dirkpeter/jquery-ui.multiselect.widget</a></li>
+    <li>Current version: 0.0.1</li>
+    <li>Current Milestone: <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget/milestones/1.0%20first%20stable%20release">1.0 stable release</a></li>
   </ul>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  <h3>Dependencies</h3>
+  <p>jQuery 1.11.1 &amp; jQuery UI (widget factory) 1.11.1 - these might be downgraded, didn't check yet.</p>
+
+  <h3>Bower</h3>
+  <p>Package will <i>probably</i> be coming with v 1.0.</p>
+{% highlight bash %}
+  $ bower install https://github.com/dirkpeter/jquery-ui.multiselect.widget.git
+{% endhighlight %}
+
+  <h3>Minimal setup</h3>
+  <p>Make sure to check out <a href="/demos">the demos</a> and <a href="/api">API</a>.</p>
+{% highlight javascript %}
+  $('#mySelectField').multiselect();
+{% endhighlight %}
+
+  <!--<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>-->
 </div>
