@@ -54,6 +54,7 @@ $on-laptop:        800px;
 
 
 h2 {
+  position: relative;
   margin-top: 3em;
   border-bottom: 1px solid #eee;
 
@@ -78,4 +79,32 @@ h3 {
 
 .demo {
   margin-bottom: 15px;
+}
+
+ul.demos {
+  margin-left: 0;
+  list-style-type: none;
+  counter-reset: demos;
+
+  > li {
+    counter-increment: demos;
+    counter-reset: subDemos;
+  }
+
+  h3:before,
+  h2:before {
+    margin-right: 10px;
+    opacity: .25;
+  }
+
+  h2:before {
+    position: absolute;
+    right: 100%;
+    content: counter(demos);
+  }
+
+  h3:before {
+    counter-increment: subDemos;
+    content: counter(demos) '.' counter(subDemos);
+  }
 }

@@ -8,18 +8,29 @@ layout: default
   <p class="demo-meta">Last update: {{ page.date | date: "%b %-d, %Y" }}</p>
 </header>
 
+<p>Currently this document is a bit chaotic and unstructured, but i'm working on it. For now i'll just keep on
+   piling up all kinds of demos of features/configs that might come in handy.</p>
+<p>In case you'll be stumbling upon some bugs and if you think i might be missing out on something important,
+   make sure to hit the
+  <a href="https://github.com/dirkpeter/jquery-ui.multiselect.widget/issues">projects issues page</a>.</p>
 
 <section class="nav">
   <h2>Overview</h2>
-  <ul>
+  <ol>
     <li><a href="#simple-setup">Simple setup</a></li>
     <li><a href="#hide-checkboxes">Hide checkbox</a></li>
-  </ul>
+    <li><a href="#max-items">Max Items</a></li>
+    <li><a href="#custom-title">Custom title</a></li>
+    <li><a href="#disabling-options">Disabling Options</a></li>
+  </ol>
 </section>
 
 
-<section>
+<ul class="demos">
+<li>
   <h2 id="simple-setup"><a rel="internal" href="#simple-setup">Simple setup</a></h2>
+
+  <p>Simplest setup. Make sure jQuery and jQuery UI are loaded before initialising the multiselect widget.</p>
 
   <h3>Demo</h3>
   <div class="demo">
@@ -51,11 +62,15 @@ layout: default
   });
 })(jQuery);
 {% endhighlight %}
-</section>
+</li>
 
 
-<section>
+<li>
   <h2 id="hide-checkboxes"><a rel="internal" href="#hide-checkboxes">Hide checkbox</a></h2>
+
+  <p>This option is only recommended if you are planning of an other way to show that your multi-select is not just
+     a regular dropdown-form, eg by using the given css-selectors.</p>
+  <p>FYI: Selected ui-options will be given the call <code>ui-multiselect--selected</code>.</p>
 
   <h3>Demo</h3>
   <div class="demo">
@@ -85,13 +100,18 @@ $('.multiselect').multiselect({
   showCheckbox: false
 });
 {% endhighlight %}
-</section>
+</li>
 
 
-<section>
+<li>
   <h2 id="max-items"><a rel="internal" href="#max-items">Max Items</a></h2>
 
-  <h3>Demo</h3>
+  <p>The <code>maxItems</code> option let you decide how many selected items should be shown in the ui-title,
+     before they are replaced by a general title. Set it to <code>-1</code> and no trivial-value will be shown (see
+     demo 2).</p>
+  <p>For customizing the titles see <a rel="internal" href="#custom-title">Custom title</a>.</p>
+
+  <h3>Demo 1</h3>
   <div class="demo">
     <label>Show only one trivial</label>
     <select class="multiselect" id="ex_3_1" multiple>
@@ -110,7 +130,7 @@ $('.multiselect').multiselect({
 });
 {% endhighlight %}
 
-  <h3>Demo</h3>
+  <h3>Demo 2</h3>
   <div class="demo">
     <label>Show all trivials</label>
     <select class="multiselect" id="ex_3_2" multiple>
@@ -128,11 +148,14 @@ $('.multiselect').multiselect({
   maxItems: -1
 });
 {% endhighlight %}
-</section>
+</li>
 
 
-<section>
+<li>
   <h2 id="custom-title"><a rel="internal" href="#custom-title">Custom title</a></h2>
+
+  <p><code>##</code> will be replaced by the total number of items for <code>displayTextSG</code> and <code>displayTextPL</code>.<br>
+    <code>@@</code> will be replaced by the currently selected number of items for <code>displayTextPL</code>.</p>
 
   <h3>Demo</h3>
   <div class="demo">
@@ -155,12 +178,42 @@ $('.multiselect').multiselect({
   maxItems:            0                         // optional, for demo
 });
 {% endhighlight %}
+</li>
 
-  <h3>Info</h3>
-  <p><code>##</code> will be replaced by the total number of items for displayTextSG and displayTextPL.<br>
-  <code>@@</code> will be replaced by the currently selected number of items for displayTextPL.</p>
-</section>
 
+<li>
+  <h2 id="disabling-options"><a rel="internal" href="#disabling-options">Disabling Options</a></h2>
+
+  <p>Simply en/disable an option in the ui by en/disabling its origin (select &gt; option). the ui will listen
+     to changes in the dom and update itself.</p>
+
+  <h3>Demo</h3>
+  <div class="demo">
+    <label>Disbaled options</label>
+    <select class="multiselect" id="ex_5_1" multiple>
+      <option value="1">Lorem (1)</option>
+      <option disabled value="2">Ipsum (2)</option>
+      <option value="3">Dolor (3)</option>
+      <option value="4">Sit (4)</option>
+      <option value="5">Amet (5)</option>
+    </select>
+    <br>
+    <button id="ex_5_3">Enable Option 2</button>
+    <button id="ex_5_2">Disable Option 2</button>
+  </div>
+
+<h3>JS</h3>
+{% highlight javascript %}
+// ui init
+$('.multiselect').multiselect();
+
+// disable option on click
+$('button.disable').on('click', function () {
+  $('.multiselect [value="2"]').prop('disabled', true);
+});
+{% endhighlight %}
+</li>
+</ul>
 
 
 <script>
@@ -178,6 +231,15 @@ $('.multiselect').multiselect({
         displayTextSG:       'Ein Element ausgewählt',
         displayTextPL:       '@@ Elemente ausgewählt',
         maxItems:            0
+    });
+    // en/disable
+    $('#ex_5_1').multiselect();
+    $opt_2 = $('#ex_5_1 [value="2"]');
+    $('#ex_5_3').on('click', function () {
+      $opt_2.prop('disabled', false);
+    });
+    $('#ex_5_2').on('click', function () {
+      $opt_2.prop('disabled', true);
     });
   })(jQuery);
 </script>
