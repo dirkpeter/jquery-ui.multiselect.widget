@@ -1,0 +1,104 @@
+<h1>Basic</h1>
+
+<section>
+  <input type="text" value="i'm a focus-tab helper" />
+</section>
+
+<section>
+  <label for="multi">Multi-Select</label>
+  <select id="multi" class="multiselect" multiple style="height:150px;">
+    <option value="1">lorem 1</option>
+    <option value="2" disabled>lorem 2</option>
+    <option value="3">lorem 3</option>
+    <option value="4-foo">lorem 4</option>
+    <option value="5-bar">lorem 5</option>
+    <option value="6 foobar">lorem 6</option>
+    <option value="7 äöü" disabled>lorem 7</option>
+    <option value="8-_.">lorem 8</option>
+    <option value="9|,;">lorem 9</option>
+    <option value="10">lorem 10</option>
+  </select><br>
+
+  <button id="disable">disable option "lorem 3"</button>
+  <button id="enable">enable option "lorem 3"</button><br>
+
+  <input type="text" disabled id="multi_debug" />
+</section>
+
+<section>
+  <label for="single">Single-Select</label>
+  <select id="single" class="multiselect">
+    <option value="de" class="lang-de">Germany</option>
+    <option value="en" disabled class="lang-en">England</option>
+    <option value="fr" class="lang-fr">France</option>
+    <option value="es" class="lang-es">Spain</option>
+    <option value="it" class="lang-it">Italy</option>
+    <option value="nl" class="lang-nl">Netherlands</option>
+  </select><br>
+
+  <button id="setval">Set Value to fr</button><br>
+
+  <input type="text" disabled id="single_debug" />
+</section>
+
+<section>
+  <label for="noval">No value attr</label>
+  <select id="noval" class="multiselect">
+    <option>Audi</option>
+    <option>BMW</option>
+    <option>Porche</option>
+    <option>Mercedes</option>
+    <option>VW</option>
+    <option>Maybach</option>
+  </select><br>
+
+  <input type="text" disabled id="noval_debug" />
+</section>
+
+
+<script language="JavaScript">
+  $(function () {
+    // init multiselect
+    $('.multiselect').multiselect({
+      // hideSelect: false,
+      maxItems: 3,
+      minWidth: 100
+    }).on({
+      multiselectselect: function (e, d) {
+        console.info(
+            'ui select',
+            "'" + d + "'",
+            $(this).multiselect('getTrivialValue')
+        );
+      },
+      change: function (e) {
+        console.info('changed');
+      }
+    });
+
+    var $multi = $('#multi');
+    $multi.on('multiselectchange', function () {
+      $('#multi_debug').val( $(this).val() );
+    });
+
+    $('#single').on('multiselectchange', function () {
+      $('#single_debug').val( $(this).val() );
+    });
+
+    $('#noval').on('multiselectchange', function () {
+      $('#noval_debug').val( $(this).val() );
+    });
+
+    $('#setval').on('click', function () {
+      $('#single').val('fr').trigger('change');
+    });
+
+    $('#disable').on('click', function () {
+      $multi.find('[value="3"]').prop('disabled', true);
+    });
+
+    $('#enable').on('click', function () {
+      $multi.find('[value="3"]').prop('disabled', false);
+    });
+  });
+</script>

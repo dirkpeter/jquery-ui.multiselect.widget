@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-section > div + div {
+section + section {
     margin-top: 2em;
 }
 
