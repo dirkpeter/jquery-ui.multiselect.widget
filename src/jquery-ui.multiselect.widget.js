@@ -92,9 +92,6 @@
       var self = this,
         options = self.options;
 
-      // removing listener
-      self._unsetListener();
-
       // removing markup
       options.display.$el.remove();
       options.list.$wrap.remove();
