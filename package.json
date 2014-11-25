@@ -37,7 +37,8 @@
     "jshint-stylish":        "~0.1.5",
     "connect-livereload":    "~0.1.4",
     "load-grunt-tasks":      "^0.6.0",
-    "time-grunt":            "~0.2.0"
+    "time-grunt":            "~0.2.0",
+    "grunt-git":             "^0.3.2"
   },
   "engines":         {
     "node": ">=0.10.0"

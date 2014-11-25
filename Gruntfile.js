@@ -165,6 +165,22 @@ module.exports = function (grunt) {
       }
     },
 
+    gitclean: {
+      dist: {
+        files: {
+          src: ['tests']
+        }
+      }
+    },
+
+    gitmerge: {
+     dist: {
+       options: {
+         branch: 'dev'
+       }
+     }
+    },
+
     bower: {
       target: {
         options: {
@@ -192,6 +208,8 @@ module.exports = function (grunt) {
 
   // build distribution
   grunt.registerTask('build', [
+    'lint',
+    'test',
     'compass:dist',
     'uglify:dist'
   ]);
