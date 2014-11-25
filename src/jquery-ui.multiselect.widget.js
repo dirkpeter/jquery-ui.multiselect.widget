@@ -42,15 +42,19 @@
 
     _create: function () {
       var self = this,
-        $el = self.element;
+        $el = self.element,
+        opts = self.options;
 
       // hide select
-      if (self.options.hideSelect !== false) {
+      if (opts.hideSelect !== false) {
         $el.hide();
       }
 
       // check for multi- or single-select
       self.options.isMultiple = ($el.attr('multiple') !== undefined);
+
+      // add id-class
+      $el.addClass(opts.namespace);
 
       // create markup ~ hey! ho! let's go! ~
       self._createMarkup();
@@ -90,11 +94,12 @@
 
     _destroy: function () {
       var self = this,
-        options = self.options;
+        opts = self.options;
 
       // removing markup
-      options.display.$el.remove();
-      options.list.$wrap.remove();
+      opts.display.$el.remove();
+      opts.list.$wrap.remove();
+      self.element.removeClass(opts.namespace);
 
       // and show the select again
       self.element.show();
