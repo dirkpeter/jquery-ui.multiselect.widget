@@ -38,6 +38,7 @@
     <div>
       <input type="text" value="i'm a focus-tab helper" />
     </div>
+
     <div>
       <label for="multi">Multi-Select</label>
       <select id="multi" class="multiselect" multiple style="height:150px;">
@@ -51,10 +52,10 @@
         <option value="8-_.">lorem 8</option>
         <option value="9|,;">lorem 9</option>
         <option value="10">lorem 10</option>
-      </select>
+      </select><br>
 
       <button id="disable">disable option "lorem 3"</button>
-      <button id="enable">enable option "lorem 3"</button>
+      <button id="enable">enable option "lorem 3"</button><br>
 
       <input type="text" disabled id="multi_debug" />
     </div>
@@ -68,12 +69,26 @@
         <option value="es" class="lang-es">Spain</option>
         <option value="it" class="lang-it">Italy</option>
         <option value="nl" class="lang-nl">Netherlands</option>
-      </select>
+      </select><br>
+
+      <button id="setval">Set Value to fr</button><br>
+
+      <input type="text" disabled id="single_debug" />
     </div>
 
-    <button id="setval">Set Value to fr</button>
+    <div>
+      <label for="noval">No value attr</label>
+      <select id="noval" class="multiselect">
+        <option>Audi</option>
+        <option>BMW</option>
+        <option>Porche</option>
+        <option>Mercedes</option>
+        <option>VW</option>
+        <option>Maybach</option>
+      </select><br>
 
-    <input type="text" disabled id="single_debug" />
+      <input type="text" disabled id="noval_debug" />
+    </div>
 
     <!--
     <div>
@@ -111,7 +126,7 @@
 
     // init multiselect
     $('.multiselect').multiselect({
-      hideSelect: false,
+      // hideSelect: false,
       maxItems: 3,
       minWidth: 100
     }).on({
@@ -134,6 +149,10 @@
 
     $('#single').on('multiselectchange', function () {
       $('#single_debug').val( $(this).val() );
+    });
+
+    $('#noval').on('multiselectchange', function () {
+      $('#noval_debug').val( $(this).val() );
     });
 
     $('#setval').on('click', function () {

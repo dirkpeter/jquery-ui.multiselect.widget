@@ -81,7 +81,6 @@
     update: function () {
       var self = this;
 
-      self._getOptions();
       self._createListContent();
       self._refresh();
 
@@ -139,12 +138,18 @@
       // getting optionsdata from select
       $.each(self.element.find('option'), function (index, option) {
         var $option = $(option);
+
         data.push({
           disabled: $option.is(':disabled'),
           title:    $option.text(),
           value:    $option.val(),
           class:    $option.attr('class')
         });
+
+        // if no attr val is set, it will be added, makes it all a whole lot easier
+        if ($option.attr('value') === undefined) {
+          $option.attr('value', $option.val());
+        }
       });
 
       self.options.options = data;
@@ -190,9 +195,6 @@
         list = opts.list,
         $wrap;
 
-      // getting all the data
-      self._getOptions(); // this might become confusing...
-
       // creating the markup
       $wrap = list.$wrap = $('<div class="' + namespace + '--list-wrap"></div>');
       list.$el = $('<ul class="' + namespace + '--list"></ul>').appendTo($wrap);
@@ -213,10 +215,12 @@
     _createListContent: function () {
       var self = this,
         opts = self.options, // widget options
-        options = opts.options,
-        $list = opts.list.$el;
+        $list = opts.list.$el,
+        options;
 
       $list.empty();
+      self._getOptions();
+      options = opts.options;
 
       // create the list
       $.each(options, function (index, option) {
