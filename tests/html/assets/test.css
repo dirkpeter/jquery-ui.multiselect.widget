@@ -1,7 +1,60 @@
+/* basics */
 * {
     box-sizing: border-box;
 }
 
+
+/* site layout */
+body {
+    display: flex;
+    margin: 0;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+header,
+footer,
+.wrap {
+    padding: .5em 1em;
+}
+
+.wrap {
+    display: flex;
+    flex: 1;
+}
+
+nav {
+    flex: 0 0 12em;
+    padding-right: 1em;
+    order: -1;
+}
+
+nav > ol {
+    padding-left: 20px;
+}
+
+nav > ol ol {
+    padding-top: .5em;
+    padding-bottom: .5em;
+    padding-left: 15px;
+    font-size: .8em;
+}
+
+main {
+    flex: 1;
+}
+
+footer ul {
+    margin: 0;
+    padding-left: 0;
+}
+
+footer li {
+    display: inline-block;
+}
+
+
+/* demo stuff */
 section + section {
     margin-top: 2em;
 }

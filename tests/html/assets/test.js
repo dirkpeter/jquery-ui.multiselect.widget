@@ -16,6 +16,7 @@
 
     $(window)
       .on('hashchange', function () {
+        $('.multiselect').multiselect('destroy');
         loadTest(location.hash.substr(1));
       })
       .trigger('hashchange');
