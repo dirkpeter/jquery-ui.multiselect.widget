@@ -165,20 +165,22 @@ module.exports = function (grunt) {
       }
     },
 
-    gitclean: {
+    clean: {
       dist: {
-        files: {
-          src: ['tests']
-        }
+        src: ['tests']
       }
     },
 
     gitmerge: {
-     dist: {
-       options: {
-         branch: 'dev'
-       }
-     }
+      dist: {
+        options: {
+          branch: 'dev'
+        }
+      }
+    },
+
+    gitpush: {
+      dist: {}
     },
 
     bower: {
@@ -212,6 +214,12 @@ module.exports = function (grunt) {
     'test',
     'compass:dist',
     'uglify:dist'
+  ]);
+
+  grunt.registerTask('dist', [
+    'gitmerge:dist',
+    'clean:dist',
+    'gitpush:dist'
   ]);
 
   grunt.registerTask('dev', [
