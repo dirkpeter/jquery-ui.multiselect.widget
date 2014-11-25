@@ -4,7 +4,7 @@
   var loadTest = function (testname) {
     $.get(testname + '.html')
       .done(function (test) {
-        $main.html(test);
+        $main.hide().html(test).show('slow');
       })
       .fail(function () {
         $main.html('<p>there is no such test</p>');
@@ -16,7 +16,12 @@
 
     $(window)
       .on('hashchange', function () {
-        $('.multiselect').multiselect('destroy');
+        var $ui = $('.ui-multiselect');
+
+        if ($ui.length) {
+          $ui.multiselect('destroy');
+        }
+
         loadTest(location.hash.substr(1));
       })
       .trigger('hashchange');

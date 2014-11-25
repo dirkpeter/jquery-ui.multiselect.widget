@@ -1,0 +1,36 @@
+<h1>Basic: select update</h1>
+
+<section>
+  <select class="multiselect" multiple>
+    <option value="1">val-1</option>
+    <option value="2">val-2</option>
+    <option value="3" selected>val-3</option>
+    <option value="4">val-4</option>
+    <option value="5">val-5</option>
+  </select><br>
+
+  <button id="disable">disable</button>
+  <button id="enable">enable</button>
+  <button id="setval">setval</button>
+</section>
+
+<script language="JavaScript">
+  $(function () {
+    var $ms = $('.multiselect'),
+        $v3 = $ms.find('[value="3"]');
+
+    $ms.multiselect();
+
+    $('#disable').on('click', function () {
+      $v3.prop('disabled', true);
+    });
+
+    $('#enable').on('click', function () {
+      $v3.prop('disabled', false);
+    });
+
+    $('#setval').on('click', function () {
+      $ms.val('1').trigger('change');
+    });
+  });
+</script>
