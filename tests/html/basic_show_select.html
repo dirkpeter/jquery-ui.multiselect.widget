@@ -1,4 +1,4 @@
-<h1>Basic: init multi-select</h1>
+<h1>Basic: show original select</h1>
 
 <section>
   <select class="multiselect" multiple>
@@ -7,16 +7,13 @@
     <option value="3">lorem 3</option>
     <option value="4">lorem 4</option>
     <option value="5">lorem 5</option>
-    <option value="6">lorem 6</option>
-    <option value="7">lorem 7</option>
-    <option value="8">lorem 8</option>
-    <option value="9">lorem 9</option>
-    <option value="10">lorem 10</option>
   </select>
 </section>
 
 <script language="JavaScript">
   $(function () {
-    $('.multiselect').multiselect();
+    $('.multiselect').multiselect({
+      hideSelect: false
+    });
   });
 </script>
