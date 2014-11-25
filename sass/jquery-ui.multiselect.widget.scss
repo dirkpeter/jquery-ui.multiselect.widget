@@ -4,27 +4,13 @@
 
 .ui-multiselect--display {
   position: relative;
-  padding-right: 16px;
+  padding-right: 1.3em;
   border: 1px solid $color-border;
   border-radius: 0;
+  font-size: 1em;
   cursor: pointer;
   background-color: #fff;
   text-align: left;
-
-  .ui-multiselect--icon {
-    display: block;
-    position: absolute;
-    right: 4px;
-    top: 7px;
-
-    &:after {
-      display: block;
-      border: 3px solid transparent;
-      border-top-color: #000;
-      border-bottom-width: 0;
-      content: '';
-    }
-  }
 
   &:focus {
     outline: none;
@@ -32,6 +18,21 @@
 
   &:hover {
     background-color: $color-list-hover;
+  }
+}
+
+.ui-multiselect--icon {
+  display: block;
+  position: absolute;
+  right: .25em;
+  top: .625em;
+
+  &:after {
+    display: block;
+    border: .375em solid transparent;
+    border-top-color: #000;
+    border-bottom-width: 0;
+    content: '';
   }
 }
 
@@ -69,21 +70,21 @@
       background-color: $color-list-hover;
     }
   }
+}
 
-  .ui-multiselect--selected {
-    background-color: $color-list-selected;
+.ui-multiselect--selected {
+  background-color: $color-list-selected;
+}
+
+.ui-multiselect--disabled {
+  opacity: .5;
+  cursor: not-allowed;
+
+  [type="checkbox"] {
+    cursor: inherit;
   }
 
-  .ui-multiselect--disabled {
-    opacity: .5;
-    cursor: not-allowed;
-
-    [type="checkbox"] {
-      cursor: inherit;
-    }
-
-    &:hover {
-      background-color: transparent;
-    }
+  &:hover {
+    background-color: transparent;
   }
 }
