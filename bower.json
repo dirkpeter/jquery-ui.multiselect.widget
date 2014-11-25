@@ -1,6 +1,6 @@
 {
   "name": "jquery-ui.multiselect.widget",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "src/jquery-ui.multiselect.widget.js",
   "ignore": [
     "**/.*",

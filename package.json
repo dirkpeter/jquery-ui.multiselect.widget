@@ -2,7 +2,7 @@
   "name":            "multiselect-widget",
   "title":           "jquery-ui.multiselect.widget",
   "description":     "yet another jquery multiselect widget",
-  "version":         "0.0.1",
+  "version":         "1.0.0",
   "main":            "Gruntfile.js",
   "author":          "Dirk Peter <dirk.peter@me.com>",
   "homepage":        "https://github.com/dirkpeter/jquery-ui.multiselect.widget",
