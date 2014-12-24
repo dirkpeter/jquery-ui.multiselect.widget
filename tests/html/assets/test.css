@@ -53,6 +53,19 @@ footer li {
     display: inline-block;
 }
 
+small {
+    display: block;
+    padding: 10px 0;
+    color: #666;
+}
+
+em {
+    display: inline-block;
+    margin: 0 5px;
+    font-style: normal;
+    color: green;
+}
+
 
 /* demo stuff */
 section + section {

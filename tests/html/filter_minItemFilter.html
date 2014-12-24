@@ -6,28 +6,28 @@
     <option value="1">foo 1</option>
     <option value="2">bar 2</option>
     <option value="3">foo 3</option>
-  </select><br>
-  <small>min 5 items to show filter</small><br>
+  </select>
+  <small>min 5 items to show filter</small>
   <button id="addOpt-1">Add Option</button>
 </section>
 
 <section>
-  <label for="multi-2">No Filter</label>
+  <label for="multi-2">Hide Filter</label>
   <select id="multi-2" class="multiselect" multiple style="height:150px;">
     <option value="1">foo 1</option>
     <option value="2">bar 2</option>
     <option value="3">foo 3</option>
-  </select><br>
+  </select>
   <small>minItemFilter: -1</small>
 </section>
 
 <section>
-  <label for="multi-3">Always Filter</label>
+  <label for="multi-3">Always show Filter</label>
   <select id="multi-3" class="multiselect" multiple style="height:150px;">
     <option value="1">foo 1</option>
     <option value="2">bar 2</option>
     <option value="3">foo 3</option>
-  </select><br>
+  </select>
   <small>minItemFilter: 1</small>
 </section>
 
@@ -55,9 +55,16 @@
     // add options
     $('#addOpt-1').on('click', function () {
       var $multi = $('#multi-1'),
-          val = $multi.find('option').length + 1;
+          val = $multi.find('option').length + 1,
+          $info = $('<em>new option added</em>');
 
       $('<option value="' + val + '">new-val ' + val + '</option>').appendTo($multi);
+      $info.insertAfter($multi);
+      setTimeout(function () {
+        $info.fadeTo(500, 0, function () {
+          $info.remove();
+        });
+      }, 2000)
     });
   });
 </script>
