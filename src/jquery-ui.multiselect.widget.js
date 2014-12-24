@@ -15,6 +15,8 @@
       displayTextSG:       '1 of ## value selected',
       displayTextPL:       '@@ of ## values selected',
       trivialSeperator:    ', ',
+      resetButtonText:     'Filter reset',
+      filterLabelText:     'Filter',
 
       // my precious... - don't touch that stuff
       namespace:           'ui-multiselect',
@@ -35,7 +37,15 @@
         $el:      undefined,
         $options: undefined
       },
-      options:             [],
+      filter:              {
+        $el:    undefined,
+        $input: undefined,
+        $reset: undefined
+      },
+      options:             {
+        data:   [],
+        length: 0
+      },
       selected:            []
     },
 
@@ -111,6 +121,24 @@
 
       self._createDisplay();
       self._createList();
+      self._createFilterMarkup();
+    },
+
+
+    _createFilterMarkup: function () {
+      var self = this,
+        opts = self.options,
+        filter = opts.filter,
+        $el;
+
+      $el = filter.$el = $('<div class="' + opts.namespace + '--filter"><label>' + opts.filterLabelText + '</label></div>');
+      filter.$input = $('<input type="text" value="" />').appendTo($el);
+      filter.$reset = $('<button type="button" title="' + opts.resetButtonText + '">' + opts.resetButtonText + '</button>').appendTo($el);
+      $el.prependTo(opts.list.$wrap);
+
+      if (opts.options.length < opts.minItemFilter) {
+        $el.hide();
+      }
     },
 
 
@@ -154,7 +182,8 @@
         }
       });
 
-      self.options.options = data;
+      self.options.options.data = data;
+      self.options.options.length = data.length;
     },
 
 
@@ -175,12 +204,12 @@
       if (selected) {
         if (opts.isMultiple) {
           // multi
-          return opts.options.filter(function (obj) {
+          return opts.options.data.filter(function (obj) {
             return ($.inArray(obj.value, selected) !== -1);
           });
         } else {
           // single
-          return opts.options.filter(function (obj) {
+          return opts.options.data.filter(function (obj) {
             return (obj.value === String(selected));
           });
         }
@@ -218,38 +247,45 @@
       var self = this,
         opts = self.options, // widget options
         $list = opts.list.$el,
+        filterVal = false,
         options;
 
       $list.empty();
       self._getOptions();
-      options = opts.options;
+      options = opts.options.data;
+
+      if (opts.filter.$input && opts.options.length >= opts.minItemFilter) {
+        filterVal = opts.filter.$input.val();
+      }
 
       // create the list
       $.each(options, function (index, option) {
         var oClass = option.class,
           $li;
 
-        $li = $('<li>' + option.title + '</li>')
-          .data({
-            value: option.value,
-            disabled: option.disabled
-          })
-          .appendTo($list);
+        if (!filterVal || option.title.indexOf(filterVal) !== -1) {
+          $li = $('<li>' + option.title + '</li>')
+            .data({
+              value:    option.value,
+              disabled: option.disabled
+            })
+            .appendTo($list);
 
-        if (oClass) {
-          $li.addClass(oClass);
+          if (oClass) {
+            $li.addClass(oClass);
+          }
+
+          // prepend checkboxes if multi-select
+          if (opts.isMultiple && opts.showCheckbox) {
+            $('<input type="checkbox" value="" />').prependTo($li);
+          }
+
+          if (option.disabled) {
+            self.setItemDisabledProp($li, true);
+          }
+
+          options[index].$el = $li;
         }
-
-        // prepend checkboxes if multi-select
-        if (opts.isMultiple && opts.showCheckbox) {
-          $('<input type="checkbox" value="" />').prependTo($li);
-        }
-
-        if (option.disabled) {
-          self.setItemDisabledProp($li, true);
-        }
-
-        options[index].$el = $li;
       });
     },
 
@@ -257,7 +293,7 @@
     setItemDisabledProp: function ($item, disabled) {
       var self = this,
         disClass = self.options.namespace + '--disabled';
-      
+
       if (disabled === undefined) {
         disabled = !$item.data('disabled');
       }
@@ -279,6 +315,7 @@
       self._setSelectListener();
       self._setDisplayListener();
       self._setListListener();
+      self._setFilterListener();
     },
 
 
@@ -287,12 +324,12 @@
 
       // original select change
       self.element.on({
-        change: function (e) {
+        change:             function (e) {
           self._refresh();
           self._trigger('change', e, {});
         },
         // dom manipulation
-        DOMSubtreeModified: function() {
+        DOMSubtreeModified: function () {
           self.update();
         }
       });
@@ -320,7 +357,7 @@
         if (opts.isMultiple === false) {
           self.close();
         } else {
-          ev.last = 'multiselect';
+          ev.last = 'refocus';
         }
 
         self._trigger('select', e, value);
@@ -352,13 +389,47 @@
           self.open();
           ev.last = 'focus';
         },
-        blur:  function () {
-          if (ev.last === 'multiselect') {
+        blur:  function (e) {
+          console.log('display blur', ev.last);
+          if (ev.last === 'refocus') {
             opts.display.$el.focus(); // reset focus
+          } else if (ev.last === 'noblur') {
+            e.preventDefault();
           } else {
             self.close();
             ev.last = 'blur';
           }
+        }
+      });
+    },
+
+
+    _setFilterListener: function () {
+      var self = this,
+        opts = self.options,
+        filter = opts.filter,
+        ev = opts.event;
+
+      filter.$reset.on('mousedown', function () {
+        ev.last = 'refocus';
+        filter.$input.val('');
+        self._createListContent();
+      });
+
+      filter.$input.on({
+        mousedown: function () {
+          ev.last = 'noblur';
+        },
+        focus:     function () {
+          ev.last = 'noblur';
+        },
+        blur:      function () {
+          // this might get interesting....
+          ev.last = 'refocus';
+          opts.display.$el.trigger('blur');
+        },
+        keyup:     function () {
+          self._createListContent();
         }
       });
     },
@@ -402,7 +473,7 @@
       // set position & min-width
       opts.list.$wrap
         .css({
-          top: offset.top + height,
+          top:      offset.top + height,
           left:     offset.left,
           minWidth: (width > opts.minWidth) ? width : opts.minWidth
         })
