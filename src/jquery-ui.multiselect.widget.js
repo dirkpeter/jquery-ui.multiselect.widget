@@ -180,8 +180,8 @@
         $el;
 
       $el = bulk.$el = $('<div class="' + opts.namespace + '--bulk"></div>');
-      bulk.$all = $('<button title="' + opts.bulkAllText + '" class="' + opts.namespace + '--bulk-all">' + opts.bulkAllText + '</button>').appendTo($el);
-      bulk.$none = $('<button title="' + opts.bulkNoneText + '" class="' + opts.namespace + '--bulk-none">' + opts.bulkNoneText + '</button>').appendTo($el);
+      bulk.$all = $('<button title="' + opts.bulkAllText + '" class="' + opts.namespace + '--bulk-all" tab-index="-1">' + opts.bulkAllText + '</button>').appendTo($el);
+      bulk.$none = $('<button title="' + opts.bulkNoneText + '" class="' + opts.namespace + '--bulk-none" tab-index="-1">' + opts.bulkNoneText + '</button>').appendTo($el);
       $el.insertBefore(opts.list.$el);
     },
 
@@ -423,7 +423,7 @@
         },
         blur:  function (e) {
           if (ev.last === 'refocus') {
-            self._setDisplayFocus();
+            self._reFocus();
           } else if (ev.last === 'noblur') {
             e.preventDefault();
           } else {
