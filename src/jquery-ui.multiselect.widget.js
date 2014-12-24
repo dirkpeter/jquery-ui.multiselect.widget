@@ -133,8 +133,8 @@
         $el;
 
       $el = filter.$el = $('<div class="' + opts.namespace + '--filter"><label>' + opts.filterLabelText + '</label></div>');
-      filter.$input = $('<input type="text" value="" />').appendTo($el);
-      filter.$reset = $('<button type="button" title="' + opts.resetButtonText + '">' + opts.resetButtonText + '</button>').appendTo($el);
+      filter.$input = $('<input type="text" value="" tabindex="-1" />').appendTo($el);
+      filter.$reset = $('<button type="button" title="' + opts.resetButtonText + '" tabindex="-1">' + opts.resetButtonText + '</button>').appendTo($el);
       $el.prependTo(opts.list.$wrap);
 
       if (opts.options.length < opts.minItemFilter) {
