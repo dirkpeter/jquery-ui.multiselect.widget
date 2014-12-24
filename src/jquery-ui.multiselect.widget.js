@@ -22,6 +22,7 @@
 
       // my precious... - don't touch that stuff
       namespace:           'ui-multiselect',
+      tabIndex:            ' tabindex="-1"',
       isMultiple:          undefined,
       isOpen:              false,
       event:               {
@@ -144,8 +145,8 @@
         $el;
 
       $el = filter.$el = $('<div class="' + opts.namespace + '--filter"><label>' + opts.filterLabelText + '</label></div>');
-      filter.$input = $('<input type="text" value="" tabindex="-1" />').appendTo($el);
-      filter.$reset = $('<button type="button" title="' + opts.resetButtonText + '" tabindex="-1">' + opts.resetButtonText + '</button>').appendTo($el);
+      filter.$input = $('<input type="text" value=""' + opts.tabIndex + ' />').appendTo($el);
+      filter.$reset = $('<button type="button" title="' + opts.resetButtonText + '"' + opts.tabIndex + '>' + opts.resetButtonText + '</button>').appendTo($el);
       $el.prependTo(opts.list.$wrap);
 
       if (opts.options.length < opts.minItemFilter) {
@@ -180,8 +181,8 @@
         $el;
 
       $el = bulk.$el = $('<div class="' + opts.namespace + '--bulk"></div>');
-      bulk.$all = $('<button title="' + opts.bulkAllText + '" class="' + opts.namespace + '--bulk-all" tab-index="-1">' + opts.bulkAllText + '</button>').appendTo($el);
-      bulk.$none = $('<button title="' + opts.bulkNoneText + '" class="' + opts.namespace + '--bulk-none" tab-index="-1">' + opts.bulkNoneText + '</button>').appendTo($el);
+      bulk.$all = $('<button title="' + opts.bulkAllText + '" class="' + opts.namespace + '--bulk-all"' + opts.tabIndex + '>' + opts.bulkAllText + '</button>').appendTo($el);
+      bulk.$none = $('<button title="' + opts.bulkNoneText + '" class="' + opts.namespace + '--bulk-none"' + opts.tabIndex + '>' + opts.bulkNoneText + '</button>').appendTo($el);
       $el.insertBefore(opts.list.$el);
     },
 
