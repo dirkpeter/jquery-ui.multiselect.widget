@@ -221,10 +221,4 @@ module.exports = function (grunt) {
     'clean:dist',
     'gitpush:dist'
   ]);
-
-  grunt.registerTask('dev', [
-    'connect:livereload',
-    'open:dev',
-    'watch'
-  ]);
 };
