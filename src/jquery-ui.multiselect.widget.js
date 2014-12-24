@@ -5,7 +5,7 @@
       // config
       hideSelect:          true,
       showCheckbox:        true,
-      selectAll:           true,
+      bulkActions:         true,
       minItemFilter:       5,
       maxItems:            3,
       minWidth:            0, // auto
@@ -17,6 +17,8 @@
       trivialSeperator:    ', ',
       resetButtonText:     'Filter reset',
       filterLabelText:     'Filter',
+      bulkAllText:         'Select all',
+      bulkNoneText:        'De-Select all',
 
       // my precious... - don't touch that stuff
       namespace:           'ui-multiselect',
@@ -41,6 +43,12 @@
         $el:    undefined,
         $input: undefined,
         $reset: undefined
+      },
+      bulk:                {
+        $el:     undefined,
+        $all:    undefined,
+        $none:   undefined,
+        enabled: false
       },
       options:             {
         data:   [],
@@ -123,6 +131,9 @@
       self._createDisplay();
       self._createList();
       self._createFilterMarkup();
+      if (self.options.bulkActions === true) {
+        self._createBulkMarkup();
+      }
     },
 
 
@@ -159,6 +170,19 @@
         .prepend(btn.$title)
         // append
         .insertAfter(this.element);
+    },
+
+
+    _createBulkMarkup: function () {
+      var self = this,
+        opts = self.options,
+        bulk = opts.bulk,
+        $el;
+
+      $el = bulk.$el = $('<div class="' + opts.namespace + '--bulk"></div>');
+      bulk.$all = $('<button title="' + opts.bulkAllText + '" class="' + opts.namespace + '--bulk-all">' + opts.bulkAllText + '</button>').appendTo($el);
+      bulk.$none = $('<button title="' + opts.bulkNoneText + '" class="' + opts.namespace + '--bulk-none">' + opts.bulkNoneText + '</button>').appendTo($el);
+      $el.insertBefore(opts.list.$el);
     },
 
 
