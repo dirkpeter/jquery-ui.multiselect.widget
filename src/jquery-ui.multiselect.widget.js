@@ -435,8 +435,11 @@
     },
 
 
-    _setDisplayFocus: function () {
-      this.options.display.$el.focus(); // reset focus
+    _reFocus: function () {
+      var opts = this.options;
+
+      opts.event.last = 'refocus';
+      opts.display.$el.focus(); // reset focus
     },
 
 
@@ -460,9 +463,7 @@
           ev.last = 'noblur';
         },
         blur:      function () {
-          // this might get interesting....
-          ev.last = 'refocus';
-          self._setDisplayFocus();
+          self._reFocus();
         },
         keyup:     function () {
           self._createListContent();
@@ -478,12 +479,16 @@
         opts = self.options,
         bulk = opts.bulk;
 
-      bulk.$all.on('mousedown.ui-ms', function () {
+      bulk.$all.on('mousedown.ui-ms', function (e) {
+        e.preventDefault();
+        self._reFocus();
         $options.prop('selected', true);
         $el.trigger('change');
       });
 
-      bulk.$none.on('mousedown.ui-ms', function () {
+      bulk.$none.on('mousedown.ui-ms', function (e) {
+        e.preventDefault();
+        self._reFocus();
         $options.prop('selected', false);
         $el.trigger('change');
       })
