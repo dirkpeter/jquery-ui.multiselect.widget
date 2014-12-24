@@ -87,6 +87,7 @@
       self._getValues();
       self.showSelected();
       self.setTitle();
+      self._updateFilterDisplay();
 
       self._trigger('refresh');
     },
@@ -529,6 +530,19 @@
         // set selected
         $sel.addClass(selectedClass)
           .find('input').prop('checked', true);
+      }
+    },
+
+
+    _updateFilterDisplay: function () {
+      var self = this,
+        opts = self.options,
+        $el = opts.filter.$el;
+
+      if (opts.minItemFilter !== -1 && opts.minItemFilter <= opts.options.length) {
+        $el.show();
+      } else {
+        $el.hide();
       }
     },
 
