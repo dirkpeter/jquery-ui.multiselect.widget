@@ -88,3 +88,58 @@
     background-color: transparent;
   }
 }
+
+.ui-multiselect--filter {
+  $side: 10px;
+  $top: 5px;
+
+  position: relative;
+  padding: $top $side;
+  border-bottom: 1px solid $color-border;
+
+  label {
+    // display: inline-block;
+    display: none;
+
+    &:after {
+      content: ':';
+    }
+  }
+
+  input {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    $size: 17px;
+
+    display: block;
+    position: absolute;
+    top: $top;
+    right: $side;
+    width: $size; // temp
+    height: $size; // temp
+    border-width: 0;
+    text-indent: -9999em;
+    white-space: nowrap;
+    border-radius: 0;
+    cursor: pointer;
+
+    &:before {
+      float: left;
+      text-indent: 0;
+      content: 'X';
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
