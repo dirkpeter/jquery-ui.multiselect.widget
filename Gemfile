@@ -5,10 +5,7 @@ group :development do
   # Sass, Compass and extensions.
   gem 'sass', '~>3.4.5'                 # Sass.
   gem 'sass-globbing'                   # Import Sass files based on globbing pattern.
-  gem 'scss-lint'                       # linting your Sass files.
   gem 'compass'                         # Framework built on Sass.
-  gem 'compass-validator'               # So you can `compass validate`.
-  gem 'css_parser'                      # Helps `compass stats` output statistics.
 
   # Guard
   gem 'guard'                           # Guard event handler.

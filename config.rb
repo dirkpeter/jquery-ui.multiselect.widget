@@ -1,11 +1,11 @@
 # default to development if environment is not set.
 saved = environment
 if (environment.nil?)
+  environment = :production
+  css_dir = "dst"
+else
   environment = :development
   css_dir = "src"
-else
-  environment = saved
-  css_dir = "dst"
 end
 
 # folders and stuff
