@@ -84,30 +84,32 @@
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\0000392}}
 .ui-multiselect--filter {
-  position: relative;
   padding: 5px 10px;
   border-bottom: 1px solid #ccc; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003100}}
-  .ui-multiselect--filter label {
-    display: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003104}}
-    .ui-multiselect--filter label:after {
-      content: ':'; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\0000399}}
+  .ui-multiselect--filter .ui-multiselect--filter-wrap {
+    display: table-row;
+    position: relative;
+    white-space: nowrap; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003105}}
+  .ui-multiselect--filter label,
+  .ui-multiselect--filter input,
+  .ui-multiselect--filter button {
+    display: table-cell; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003112}}
+  .ui-multiselect--filter label:after {
+    content: ':'; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003117}}
   .ui-multiselect--filter input {
-    display: block;
-    margin: 0;
+    margin: 0 5px;
     padding: 0;
-    width: 100%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003115}}
+    width: auto;
+    max-width: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003123}}
     .ui-multiselect--filter input:focus {
       outline: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003120}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003128}}
   .ui-multiselect--filter button {
-    display: block;
-    position: absolute;
-    top: 5px;
-    right: 10px;
     width: 17px;
     height: 17px;
     border-width: 0;
@@ -115,12 +117,12 @@
     white-space: nowrap;
     border-radius: 0;
     cursor: pointer; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003135}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003139}}
     .ui-multiselect--filter button:before {
       float: left;
       text-indent: 0;
       content: 'X'; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003141}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/dpe\/Webseiten\/multiselect\/widget\/sass\/jquery-ui\.multiselect\.widget\.scss}line{font-family:\00003145}}
     .ui-multiselect--filter button:focus {
       outline: none; }
 
