@@ -90,22 +90,16 @@
 }
 
 .ui-multiselect--filter {
-  $side: 10px;
-  $top: 5px;
+  $button-size: 17px;
 
-  padding: $top $side;
+  padding: 5px 10px;
   border-bottom: 1px solid $color-border;
-
-  .ui-multiselect--filter-wrap {
-    display: table-row;
-    position: relative;
-    white-space: nowrap;
-  }
+  white-space: nowrap;
 
   label,
   input,
   button {
-    display: table-cell;
+    display: inline-block;
   }
 
   label {
@@ -117,8 +111,7 @@
   input {
     margin: 0 5px;
     padding: 0;
-    width: auto;
-    max-width: 100%;
+    width: 80px;
 
     &:focus {
       outline: none;
@@ -126,10 +119,8 @@
   }
 
   button {
-    $size: 17px;
-
-    width: $size; // temp
-    height: $size; // temp
+    width: $button-size; // temp
+    height: $button-size; // temp
     border-width: 0;
     text-indent: -9999em;
     white-space: nowrap;

@@ -134,7 +134,6 @@
       $el = filter.$el = $('<div class="' + opts.namespace + '--filter"><label>' + opts.filterLabelText + '</label></div>');
       filter.$input = $('<input type="text" value="" />').appendTo($el);
       filter.$reset = $('<button type="button" title="' + opts.resetButtonText + '">' + opts.resetButtonText + '</button>').appendTo($el);
-      $el.wrapInner('<div class="' + opts.namespace + '--filter-wrap" />');
       $el.prependTo(opts.list.$wrap);
 
       if (opts.options.length < opts.minItemFilter) {
