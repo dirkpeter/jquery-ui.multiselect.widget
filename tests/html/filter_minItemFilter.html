@@ -1,0 +1,63 @@
+<h1>Fiter: Min. Items</h1>
+
+<section>
+  <label for="multi-1">Default</label>
+  <select id="multi-1" class="multiselect" multiple style="height:150px;">
+    <option value="1">foo 1</option>
+    <option value="2">bar 2</option>
+    <option value="3">foo 3</option>
+  </select><br>
+  <small>min 5 items to show filter</small><br>
+  <button id="addOpt-1">Add Option</button>
+</section>
+
+<section>
+  <label for="multi-2">No Filter</label>
+  <select id="multi-2" class="multiselect" multiple style="height:150px;">
+    <option value="1">foo 1</option>
+    <option value="2">bar 2</option>
+    <option value="3">foo 3</option>
+  </select><br>
+  <small>minItemFilter: -1</small>
+</section>
+
+<section>
+  <label for="multi-3">Always Filter</label>
+  <select id="multi-3" class="multiselect" multiple style="height:150px;">
+    <option value="1">foo 1</option>
+    <option value="2">bar 2</option>
+    <option value="3">foo 3</option>
+  </select><br>
+  <small>minItemFilter: 1</small>
+</section>
+
+
+<script language="JavaScript">
+  $(function () {
+    // init multiselect
+    $('#multi-1').multiselect({
+      maxItems: 3,
+      minWidth: 100
+    });
+
+    $('#multi-2').multiselect({
+      maxItems: 3,
+      minWidth: 100,
+      minItemFilter: -1
+    });
+
+    $('#multi-3').multiselect({
+      maxItems: 3,
+      minWidth: 100,
+      minItemFilter: 1
+    });
+
+    // add options
+    $('#addOpt-1').on('click', function () {
+      var $multi = $('#multi-1'),
+          val = $multi.find('option').length + 1;
+
+      $('<option value="' + val + '">new-val ' + val + '</option>').appendTo($multi);
+    });
+  });
+</script>
