@@ -345,6 +345,9 @@
       self._setDisplayListener();
       self._setListListener();
       self._setFilterListener();
+      if (self.options.bulkActions === true) {
+        self._setBulkListener();
+      }
     },
 
 
@@ -465,6 +468,25 @@
           self._createListContent();
         }
       });
+    },
+
+
+    _setBulkListener: function () {
+      var self = this,
+        $el = self.element,
+        $options = $el.find('option'),
+        opts = self.options,
+        bulk = opts.bulk;
+
+      bulk.$all.on('mousedown.ui-ms', function () {
+        $options.prop('selected', true);
+        $el.trigger('change');
+      });
+
+      bulk.$none.on('mousedown.ui-ms', function () {
+        $options.prop('selected', false);
+        $el.trigger('change');
+      })
     },
 
 

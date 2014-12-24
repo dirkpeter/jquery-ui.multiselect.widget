@@ -1,6 +1,11 @@
-@import 'compass'; // <3
-
+@import 'compass';
+// <3
 @import 'config';
+
+%list-section {
+  padding: 5px 10px;
+  border-bottom: 1px solid $color-border;
+}
 
 .ui-multiselect--display {
   position: relative;
@@ -92,8 +97,7 @@
 .ui-multiselect--filter {
   $button-size: 17px;
 
-  padding: 5px 10px;
-  border-bottom: 1px solid $color-border;
+  @extend %list-section;
   white-space: nowrap;
 
   label,
@@ -102,10 +106,8 @@
     display: inline-block;
   }
 
-  label {
-    &:after {
-      content: ':';
-    }
+  label:after {
+    content: ':';
   }
 
   input {
@@ -135,6 +137,16 @@
 
     &:focus {
       outline: none;
+    }
+  }
+}
+
+.ui-multiselect--bulk {
+  @extend %list-section;
+
+  button {
+    + button {
+      margin-left: 5px;
     }
   }
 }
