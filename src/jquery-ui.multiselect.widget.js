@@ -254,12 +254,14 @@
       self._getOptions();
       options = opts.options.data;
 
+      // check if there is a need to filter the options
       if (opts.filter.$input && opts.options.length >= opts.minItemFilter) {
         filterVal = opts.filter.$input.val();
       }
 
       // create the list
       $.each(options, function (index, option) {
+        // TOFIX: move out of anonymus function
         var oClass = option.class,
           $li;
 
@@ -287,6 +289,8 @@
           options[index].$el = $li;
         }
       });
+
+      self.showSelected();
     },
 
 
@@ -390,9 +394,8 @@
           ev.last = 'focus';
         },
         blur:  function (e) {
-          console.log('display blur', ev.last);
           if (ev.last === 'refocus') {
-            opts.display.$el.focus(); // reset focus
+            self._setDisplayFocus();
           } else if (ev.last === 'noblur') {
             e.preventDefault();
           } else {
@@ -404,13 +407,18 @@
     },
 
 
+    _setDisplayFocus: function () {
+      this.options.display.$el.focus(); // reset focus
+    },
+
+
     _setFilterListener: function () {
       var self = this,
         opts = self.options,
         filter = opts.filter,
         ev = opts.event;
 
-      filter.$reset.on('mousedown', function () {
+      filter.$reset.on('mousedown.ui-ms', function () {
         ev.last = 'refocus';
         filter.$input.val('');
         self._createListContent();
@@ -426,7 +434,7 @@
         blur:      function () {
           // this might get interesting....
           ev.last = 'refocus';
-          opts.display.$el.trigger('blur');
+          self._setDisplayFocus();
         },
         keyup:     function () {
           self._createListContent();
