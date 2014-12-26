@@ -6,6 +6,7 @@
       hideSelect:          true,
       showCheckbox:        true,
       bulkActions:         true,
+      bulkToggle:          true,
       minItemFilter:       5,
       maxItems:            3,
       minWidth:            0, // auto
@@ -196,6 +197,7 @@
         var $option = $(option);
 
         data.push({
+          source:   $(this),
           disabled: $option.is(':disabled'),
           title:    $option.text(),
           value:    $option.val(),
@@ -259,11 +261,6 @@
       // create the list
       self._createListContent();
 
-      // min-width for wrap
-      if (opts.minWidth !== 'auto') {
-        $wrap.css('min-width', opts.minWidth);
-      }
-
       // append the whole thing
       $wrap.appendTo('body');
     },
@@ -272,51 +269,89 @@
     _createListContent: function () {
       var self = this,
         opts = self.options, // widget options
-        $list = opts.list.$el,
-        filterVal = false,
+        list = opts.list,
+        $list = list.$el,
         options;
 
       $list.empty();
       self._getOptions();
-      options = opts.options.data;
-
-      // check if there is a need to filter the options
-      if (opts.filter.$input && opts.options.length >= opts.minItemFilter) {
-        filterVal = opts.filter.$input.val();
-      }
+      options = self._filterOptions(opts.options.data); // prefilter options
 
       // create the list
       $.each(options, function (index, option) {
-        // TOFIX: move out of anonymus function
         var oClass = option.class,
           $li;
 
-        if (!filterVal || option.title.indexOf(filterVal) !== -1) {
-          $li = $('<li>' + option.title + '</li>')
-            .data({
-              value:    option.value,
-              disabled: option.disabled
-            })
-            .appendTo($list);
+        $li = $('<li>' + option.title + '</li>')
+          .data({
+            value:    option.value,
+            disabled: option.disabled
+          })
+          .appendTo($list);
 
-          if (oClass) {
-            $li.addClass(oClass);
-          }
-
-          // prepend checkboxes if multi-select
-          if (opts.isMultiple && opts.showCheckbox) {
-            $('<input type="checkbox" value="" />').prependTo($li);
-          }
-
-          if (option.disabled) {
-            self.setItemDisabledProp($li, true);
-          }
-
-          options[index].$el = $li;
+        if (oClass) {
+          $li.addClass(oClass);
         }
+
+        // prepend checkboxes if multi-select
+        if (opts.isMultiple && opts.showCheckbox) {
+          $('<input type="checkbox" value="" />').prependTo($li);
+        }
+
+        if (option.disabled) {
+          self.setItemDisabledProp($li, true);
+        }
+
+        options[index].$el = $li;
       });
 
+      // min-width for wrap
+      if (opts.minWidth !== 'auto') {
+        opts.list.$wrap.css('min-width', opts.minWidth);
+      }
+
       self.showSelected();
+    },
+
+
+    _filterOptions: function (options) {
+      var self = this,
+        opts = self.options, // widget options
+        list = opts.list,
+        $wrap = list.$wrap,
+        filterCLass = opts.namespace + '--has-filter',
+        filterVal = '',
+        filtered = [],
+        filter;
+
+      // check if there is a need to filter the options
+      if (opts.filter.$input && opts.options.length >= opts.minItemFilter) {
+        filterVal = self.getFilterValue();
+      }
+      filter = (filterVal !== '');
+
+      if (filter) {
+        // filter options
+        // TODO better filtering... regex?!
+        $.each(options, function (index, option) {
+          if (!filterVal || option.title.indexOf(filterVal) !== -1) {
+            filtered.push(option);
+          }
+        });
+      }
+      else {
+        filtered = options; // no filter, all options
+      }
+
+      // add filter class
+      $wrap.toggleClass(filterCLass, filter);
+
+      return filtered;
+    },
+
+
+    getFilterValue: function () {
+      return this.options.filter.$input.val();
     },
 
 
@@ -476,23 +511,36 @@
     _setBulkListener: function () {
       var self = this,
         $el = self.element,
-        $options = $el.find('option'),
-        opts = self.options,
-        bulk = opts.bulk;
+        bulk = self.options.bulk;
 
       bulk.$all.on('mousedown.ui-ms', function (e) {
         e.preventDefault();
+        self._bulkToggle(true); // enable
         self._reFocus();
-        $options.prop('selected', true);
         $el.trigger('change');
       });
 
       bulk.$none.on('mousedown.ui-ms', function (e) {
         e.preventDefault();
+        self._bulkToggle(false); // disable
         self._reFocus();
-        $options.prop('selected', false);
         $el.trigger('change');
       })
+    },
+
+
+    _bulkToggle: function (status) {
+      var self = this,
+        options = self._filterOptions(self.options.options.data);
+
+      if (self.options.bulkToggle) {
+        $.each(options, function (index, option) {
+          option.source.prop('selected', status);
+        });
+      }
+      else {
+        self.element.find('option').prop('selected', status);
+      }
     },
 
 
