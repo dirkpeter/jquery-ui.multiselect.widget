@@ -525,7 +525,7 @@
         self._bulkToggle(false); // disable
         self._reFocus();
         $el.trigger('change');
-      })
+      });
     },
 
 
