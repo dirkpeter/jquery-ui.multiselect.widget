@@ -1,12 +1,14 @@
-/* ----------------------------------------------------
- * Colors
- * ---------------------------------------------------- */
+/** */
+$jqms-namespace: 'ui-multiselect' !default;
 
-/** @group color */
-$color-border: #ccc;
+/** */
+$jqms-spacing: 10px !default;
 
-/** @group color */
-$color-list-hover: #ddd;
+/** */
+$jqms-color-border: #ccc !default;
 
-/** @group color */
-$color-list-selected: #efefef;
+/** */
+$color-list-hover: #ddd !default;
+
+/** */
+$color-list-selected: #efefef !default;
