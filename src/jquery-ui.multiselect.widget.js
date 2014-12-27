@@ -24,8 +24,9 @@
       // my precious... - don't touch that stuff
       namespace:           'ui-multiselect',
       tabIndex:            ' tabindex="-1"',
-      isMultiple:          undefined,
+      isMultiple:          false,
       isOpen:              false,
+      hasOptgroup:         false,
       event:               {
         last: undefined
       },
@@ -56,6 +57,11 @@
         data:   [],
         length: 0
       },
+      optgroupDataKey:     'jqms-group-id',
+      optgroups:           {
+        data:   [],
+        length: 0
+      },
       selected:            []
     },
 
@@ -73,10 +79,13 @@
       // check for multi- or single-select
       self.options.isMultiple = ($el.attr('multiple') !== undefined);
 
+      // check for optgroups
+      self.options.hasOptgroup = ($el.find('optgroup').length > 0);
+
       // add id-class
       $el.addClass(opts.namespace);
 
-      // create markup ~ hey! ho! let's go! ~
+      // create markup ~ hey ho, let's go! ~
       self._createMarkup();
     },
 
@@ -190,14 +199,16 @@
 
     _getOptions: function () {
       var self = this,
-        data = [];
+        data = [],
+        dataKey = self.options.optgroupDataKey;
 
       // getting optionsdata from select
       $.each(self.element.find('option'), function (index, option) {
         var $option = $(option);
 
         data.push({
-          source:   $(this),
+          groupID:  $option.data(dataKey), // apply group id - if set
+          source:   $option,
           disabled: $option.is(':disabled'),
           title:    $option.text(),
           value:    $option.val(),
@@ -212,6 +223,36 @@
 
       self.options.options.data = data;
       self.options.options.length = data.length;
+    },
+
+
+    _getOptgroups: function () {
+      var self = this,
+        dataKey = self.options.optgroupDataKey,
+        $groups = self.element.find('optgroup'),
+        data = [];
+
+      // fetch some data
+      $groups.each(function (index, group) {
+        var id = index + 1, // prevent zeros
+          $group = $(group).data(dataKey, id); // add relation-info to group - dunno if i'll need id...
+
+        data.push({
+          id:       id,
+          source:   $group,
+          $el:      undefined,
+          $list:    undefined,
+          disabled: $group.is(':disabled'),
+          label:    $group.attr('label'),
+          class:    $group.attr('class')
+        });
+
+        $group.find('option').data(dataKey, id); // apply relation-info to options - that one is needed
+      });
+
+      // set some data ;)
+      self.options.optgroups.data = data;
+      self.options.optgroups.length = $groups.length;
     },
 
 
@@ -261,33 +302,94 @@
       // create the list
       self._createListContent();
 
+      // add css helper classes
+      if (opts.isMultiple === true) {
+        $wrap.addClass(namespace + '--is-multiple');
+      }
+      if (opts.hasOptgroup === true) {
+        $wrap.addClass(namespace + '--has-optgroup');
+      }
+
       // append the whole thing
       $wrap.appendTo('body');
+    },
+
+
+    _getOptgroupByID: function (id) {
+      var self = this,
+        groups = self.options.optgroups;
+
+      for (var i = 0; i < groups.length; i++) {
+        if (groups.data[i].id === id) {
+          return groups.data[i];
+        }
+      }
+
+      return false;
+    },
+
+
+    _createOptgroupmarkup: function (groupID) {
+      var self = this,
+        opts = self.options,
+        namespace = opts.namespace,
+        groupData = self._getOptgroupByID(groupID),
+        $el;
+
+      // set helper & create el, label and ul (options)
+      $el = groupData.$el = $('<li class="' + namespace + '--optgroup-wrap"></li>');
+      $label = groupData.$label = $('<label>' + groupData.label + '</label>').appendTo($el);
+      groupData.$list = $('<ul class="' + namespace + '--outgroup-list"></ul>').appendTo($el);
+
+      if (opts.isMultiple && opts.showCheckbox) {
+        $('<input type="checkbox" value="" />').prependTo($label);
+      }
+
+      return groupData;
     },
 
 
     _createListContent: function () {
       var self = this,
         opts = self.options, // widget options
+        hasGroups = opts.hasOptgroup,
+        namespace = opts.namespace,
         list = opts.list,
         $list = list.$el,
+        group = {
+          id: 0 // prevent error on first iteration
+        },
         options;
 
+      // kill list content, no markup duplication!
       $list.empty();
+
+      // let's fetch all the required data
+      if (hasGroups === true) {
+        self._getOptgroups(); // has to be called before _getoptions
+      }
       self._getOptions();
-      options = self._filterOptions(opts.options.data); // prefilter options
+      options = self._filterOptions(opts.options.data); // pre-filter options
 
       // create the list
       $.each(options, function (index, option) {
         var oClass = option.class,
           $li;
 
-        $li = $('<li>' + option.title + '</li>')
+        // create a group-el if a new group of items is iterated
+        if (hasGroups === true && option.groupID !== group.id) {
+          group = self._createOptgroupmarkup(option.groupID);
+          group.$el.appendTo($list); // preferable added in one after children are attached
+        }
+
+        $li = $('<li class="' + namespace + '--option">' + option.title + '</li>')
           .data({
             value:    option.value,
             disabled: option.disabled
-          })
-          .appendTo($list);
+          });
+
+        // append item to list or group
+        $li.appendTo((hasGroups === true) ? group.$list : $list);
 
         if (oClass) {
           $li.addClass(oClass);
