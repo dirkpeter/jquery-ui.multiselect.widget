@@ -33,6 +33,14 @@ nav > ol {
     padding-left: 20px;
 }
 
+nav li + li {
+    margin-top: 3px;
+}
+
+nav > ol > li + li {
+    margin-top: 15px;
+}
+
 nav > ol ol {
     padding-top: .5em;
     padding-bottom: .5em;

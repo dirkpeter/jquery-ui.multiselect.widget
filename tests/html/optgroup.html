@@ -1,0 +1,38 @@
+<h1>Optgroup</h1>
+
+<section>
+  <label for="multi">Multi-Select</label>
+  <select id="multi" class="multiselect" multiple style="height:150px;">
+    <optgroup label="Group 1">
+      <option value="1">lorem 1</option>
+      <option value="2">ipsum 2</option>
+      <option value="3">dolor 3</option>
+    </optgroup>
+
+    <optgroup label="Group 2">
+      <option value="4">sit 4</option>
+      <option value="5">amet 5</option>
+      <option value="6">consetetur 6</option>
+    </optgroup>
+
+    <optgroup label="Group 3">
+      <option value="7">sadipscing 7</option>
+      <option value="8">dolor sit 8</option>
+      <option value="9">lorem ipsum 9</option>
+    </optgroup>
+
+    <optgroup label="Group 4">
+      <option value="10">amet consetetur 10</option>
+    </optgroup>
+  </select>
+</section>
+
+
+<script language="JavaScript">
+  $(function () {
+    // init multiselect
+    $('.multiselect').multiselect({
+      hideSelect: false
+    });
+  });
+</script>
