@@ -9,6 +9,7 @@
       <option value="3">lorem 3</option>
     </optgroup>
 
+    <!-- attr only -->
     <optgroup label="Group 2" disabled>
       <option value="4">foo 4</option>
       <option value="5">bar 5</option>
@@ -18,7 +19,8 @@
       <option value="6">foo 6</option>
     </optgroup>
 
-    <optgroup label="Group 2" disabled="disabled">
+    <!-- attr & value -->
+    <optgroup label="Group 4" disabled="disabled">
       <option value="7">lorem 7</option>
       <option value="8">bar 8</option>
     </optgroup>
@@ -29,8 +31,6 @@
 <script language="JavaScript">
   $(function () {
     // init multiselect
-    $('.multiselect').multiselect({
-      hideSelect: false
-    });
+    $('.multiselect').multiselect();
   });
 </script>
