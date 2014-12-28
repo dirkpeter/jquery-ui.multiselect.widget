@@ -498,6 +498,13 @@
       if (opts.hasOptgroup === true) {
         self._setOptgroupListener();
       }
+
+      // prevent checkbox-click (optgroup and option)
+      if (opts.isMultiple && opts.showCheckbox) {
+        opts.list.$el.one('click.ui-ms', 'input', function (e) {
+          e.preventDefault();
+        });
+      }
     },
 
 
@@ -546,31 +553,27 @@
 
         self._trigger('select', e, value);
       });
-
-      // prevent checkbox-click
-      // also prevents optgroup checkbox click
-      if (opts.isMultiple && opts.showCheckbox) {
-        opts.list.$el.one('click.ui-ms', 'input', function (e) {
-          e.preventDefault();
-        });
-      }
     },
 
 
     _setOptgroupListener: function () {
       var self = this,
-        opts = self.options;
+        opts = self.options,
+        selector = '.' + opts.namespace + '--optgroup-wrap';
       //  groups = opts.optgroups;
 
-      opts.list.$el.on('mousedown.ui-ms', '.' + opts.namespace + '--optgroup-wrap', function (e) {
-        console.log('optgroup mousedown', opts.event.last, this);
-        console.log('groupID', $(this).data(opts.optgroupDataKey));
-        // TOFIX refocus forces a double blur & focus
-        opts.event.last = 'noblur';
-        opts.display.$el.focus(); // reset focus
+      // TOFIX propper on usage...
+      opts.list.$el
+        .on('mousedown.ui-ms', selector, function (e) {
+          opts.event.last = 'refocus';
 
-        // self._trigger('select', e, value);
-      });
+          // self._trigger('select', e, value);
+        })
+        .on('focus', selector, function (e) {
+          e.preventDefault();
+          opts.event.last = 'noblur';
+          self._reFocus();
+        });
     },
 
 
@@ -588,12 +591,10 @@
           ev.last = 'click';
         },
         focus: function () {
-          console.log('display focus', ev.last);
           self.open();
           ev.last = 'focus';
         },
         blur:  function (e) {
-          console.log('disply blur', ev.last);
           if (ev.last === 'refocus') {
             self._reFocus();
           } else if (ev.last === 'noblur') {
