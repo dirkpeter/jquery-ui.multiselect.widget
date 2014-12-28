@@ -26,16 +26,12 @@
       tabIndex:            ' tabindex="-1"',
       isMultiple:          false,
       isOpen:              false,
-      hasOptgroup:         false,
       event:               {
         last: undefined
       },
       display:             {
         $el:    undefined,
         $title: undefined
-      },
-      wrap:                {
-        $el: undefined
       },
       list:                {
         $wrap:    undefined,
@@ -57,6 +53,7 @@
         data:   [],
         length: 0
       },
+      hasOptgroup:         false,
       optgroupDataKey:     'jqms-group-id',
       optgroups:           {
         data:   [],
@@ -334,15 +331,24 @@
         opts = self.options,
         namespace = opts.namespace,
         groupData = self._getOptgroupByID(groupID),
+        $label,
         $el;
 
       // set helper & create el, label and ul (options)
-      $el = groupData.$el = $('<li class="' + namespace + '--optgroup-wrap"></li>');
+      $el = groupData.$el = $('<li class="' + namespace + '--optgroup-wrap"></li>')
+        .data(opts.optgroupDataKey, groupID)// needs to be done this way, since i can't use a var as object-key - maybe not clever anyways
+        .data('disabled', groupData.disabled);
       $label = groupData.$label = $('<label>' + groupData.label + '</label>').appendTo($el);
       groupData.$list = $('<ul class="' + namespace + '--outgroup-list"></ul>').appendTo($el);
 
+      // multi- & checkbox-handing
       if (opts.isMultiple && opts.showCheckbox) {
         $('<input type="checkbox" value="" />').prependTo($label);
+      }
+
+      // disabled handling
+      if (groupData.disabled === true) {
+        self.setItemDisabledProp($el, true);
       }
 
       return groupData;
@@ -477,14 +483,20 @@
 
 
     _setListener: function () {
-      var self = this;
+      var self = this,
+        opts = self.options;
 
       self._setSelectListener();
       self._setDisplayListener();
       self._setListListener();
       self._setFilterListener();
-      if (self.options.bulkActions === true) {
+
+      if (opts.bulkActions === true) {
         self._setBulkListener();
+      }
+
+      if (opts.hasOptgroup === true) {
+        self._setOptgroupListener();
       }
     },
 
@@ -512,7 +524,9 @@
         ev = opts.event;
 
       // artificial list item click
-      opts.list.$el.on('mousedown.ui-ms', 'li', function (e) {
+      opts.list.$el.on('mousedown.ui-ms', '.' + opts.namespace + '--option', function (e) {
+        e.stopPropagation(); // in case optgroups are used
+
         var $el = $(this),
           value = $el.data('value'),
           disabled = $el.data('disabled');
@@ -534,11 +548,29 @@
       });
 
       // prevent checkbox-click
+      // also prevents optgroup checkbox click
       if (opts.isMultiple && opts.showCheckbox) {
         opts.list.$el.one('click.ui-ms', 'input', function (e) {
           e.preventDefault();
         });
       }
+    },
+
+
+    _setOptgroupListener: function () {
+      var self = this,
+        opts = self.options;
+      //  groups = opts.optgroups;
+
+      opts.list.$el.on('mousedown.ui-ms', '.' + opts.namespace + '--optgroup-wrap', function (e) {
+        console.log('optgroup mousedown', opts.event.last, this);
+        console.log('groupID', $(this).data(opts.optgroupDataKey));
+        // TOFIX refocus forces a double blur & focus
+        opts.event.last = 'noblur';
+        opts.display.$el.focus(); // reset focus
+
+        // self._trigger('select', e, value);
+      });
     },
 
 
@@ -556,10 +588,12 @@
           ev.last = 'click';
         },
         focus: function () {
+          console.log('display focus', ev.last);
           self.open();
           ev.last = 'focus';
         },
         blur:  function (e) {
+          console.log('disply blur', ev.last);
           if (ev.last === 'refocus') {
             self._reFocus();
           } else if (ev.last === 'noblur') {
