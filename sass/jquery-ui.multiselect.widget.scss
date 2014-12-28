@@ -94,6 +94,10 @@
     }
   }
 
+  &.#{$jqms-namespace}--disabled label {
+    cursor: not-allowed;
+  }
+
   ul {
     padding-left: 0;
   }
@@ -125,6 +129,10 @@
 
   &:hover {
     background-color: transparent;
+  }
+
+  .#{$jqms-namespace}--disabled {
+    opacity: 1;
   }
 }
 
