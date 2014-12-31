@@ -1,7 +1,6 @@
-<h1>Fiter</h1>
+<h1>Fiter: Basic behavior</h1>
 
 <section>
-  <label for="multi">Multi-Select</label>
   <select id="multi" class="multiselect" multiple style="height:150px;">
     <option value="1">lorem 1</option>
     <option value="2">ipsum 2</option>
@@ -21,7 +20,6 @@
   $(function () {
     // init multiselect
     $('.multiselect').multiselect({
-      hideSelect: false,
       maxItems: 3,
       minWidth: 100
     });
