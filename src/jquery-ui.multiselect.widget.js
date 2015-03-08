@@ -496,6 +496,14 @@
     },
 
 
+    _reFocus: function () {
+      var opts = this.options;
+
+      opts.event.last = 'refocus';
+      opts.display.$el.focus(); // reset focus
+    },
+
+
     _setListener: function () {
       var self = this,
         opts = self.options;
@@ -517,6 +525,8 @@
       if (opts.isMultiple && opts.showCheckbox) {
         self._setCheckboxListener();
       }
+
+      self._setKeyboardListener();
     },
 
 
@@ -632,14 +642,6 @@
     },
 
 
-    _reFocus: function () {
-      var opts = this.options;
-
-      opts.event.last = 'refocus';
-      opts.display.$el.focus(); // reset focus
-    },
-
-
     _setFilterListener: function () {
       var self = this,
         opts = self.options,
@@ -687,6 +689,18 @@
         self._reFocus();
         $el.trigger('change');
       });
+    },
+
+
+    _setKeyboardListener: function () {
+      /*
+      - esc (when open) » close widget
+      - tab (on open) » focus filter
+      - tab (on filter) » close widget
+      - up / down » focus option
+      - space (on option focus) » toggle option
+      - [key] » (de-) select all
+      */
     },
 
 
