@@ -239,6 +239,7 @@
           source:   $group,
           $el:      undefined,
           $list:    undefined,
+          selected: false,
           disabled: $group.is(':disabled'),
           label:    $group.attr('label'),
           class:    $group.attr('class')
@@ -313,8 +314,7 @@
 
 
     _getOptgroupByID: function (id) {
-      var self = this,
-        groups = self.options.optgroups;
+      var groups = this.options.optgroups;
 
       for (var i = 0; i < groups.length; i++) {
         if (groups.data[i].id === id) {
@@ -323,6 +323,20 @@
       }
 
       return false;
+    },
+
+
+    _getOptionsByGroupID: function (groupID) {
+      var options = this.options.options,
+        data = [];
+
+      for (var i = 0; i < options.length; i++) {
+        if (options.data[i].groupID === groupID) {
+          data.push(options.data[i]);
+        }
+      }
+
+      return data;
     },
 
 
@@ -501,10 +515,17 @@
 
       // prevent checkbox-click (optgroup and option)
       if (opts.isMultiple && opts.showCheckbox) {
-        opts.list.$el.one('click.ui-ms', 'input', function (e) {
-          e.preventDefault();
-        });
+        self._setCheckboxListener();
       }
+    },
+
+
+    _setCheckboxListener: function () {
+      this.options.list.$el.on('click', 'input', function (e) {
+        e.preventDefault();
+        console.log(e);
+        return false;
+      });
     },
 
 
@@ -558,22 +579,25 @@
 
     _setOptgroupListener: function () {
       var self = this,
-        opts = self.options,
-        selector = '.' + opts.namespace + '--optgroup-wrap';
+        opts = self.options;
       //  groups = opts.optgroups;
 
-      // TOFIX propper on usage...
-      opts.list.$el
-        .on('mousedown.ui-ms', selector, function (e) {
-          opts.event.last = 'refocus';
-
-          // self._trigger('select', e, value);
-        })
-        .on('focus', selector, function (e) {
-          e.preventDefault();
-          opts.event.last = 'noblur';
-          self._reFocus();
-        });
+      opts.list.$el.on({
+          'mousedown.ui-ms': function () {
+            var id = $(this).data(opts.optgroupDataKey);
+            opts.event.last = 'refocus';
+            self._toggleValue(self._getOptionsByGroupID(id));
+            self._toggleOptgroupDisplay(id);
+          },
+          // prevent label:focus / display:blur
+          'focus.ui-ms':     function (e) {
+            e.preventDefault();
+            opts.event.last = 'noblur';
+            self._reFocus();
+          }
+        },
+        '.' + opts.namespace + '--optgroup-wrap'
+      );
     },
 
 
@@ -681,10 +705,29 @@
     },
 
 
-    _toggleValue: function (val) {
+    _toggleOptgroupDisplay: function (groupID) {
+      var self = this,
+        group = self._getOptgroupByID(groupID),
+        sel = group.selected = !group.selected;
+
+      group.$el.toggleClass(self.options.namespace + '--selected', sel)
+        .find('input').prop('checked', sel);
+    },
+
+
+    _toggleValue: function (val, triggerChange) {
       var self = this,
         opts = self.options,
         $el = self.element;
+
+      triggerChange = triggerChange || true;
+
+      // if option-array, toggle all options
+      if (Array.isArray(val)) {
+        for (var i = 0, len = val.length; i < len; i++) {
+          self._toggleValue(val[i].value, false);
+        }
+      }
 
       if (opts.isMultiple) {
         $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), opts.selected) === -1));
@@ -692,7 +735,9 @@
         $el.find('[value="' + val + '"]').prop('selected', true);
       }
 
-      $el.trigger('change');
+      if (triggerChange === true) {
+        $el.trigger('change');
+      }
     },
 
 
