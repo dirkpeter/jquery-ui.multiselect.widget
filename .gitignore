@@ -8,3 +8,4 @@ sass-doc
 scss-lint-report.xml
 bower_components
 tests/img
+npm-debug.log
