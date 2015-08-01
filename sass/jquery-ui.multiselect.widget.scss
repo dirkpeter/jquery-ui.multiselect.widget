@@ -1,11 +1,24 @@
-@import 'compass'; // <3
-
+@import 'compass';
+// <3
 @import 'config';
 
-.ui-multiselect--display {
+/** */
+%jqms-list-section {
+  padding: 5px $jqms-spacing;
+  border-bottom: 1px solid $jqms-color-border;
+}
+
+/** */
+%jqms-list-item {
+  display: block;
+  padding: 3px $jqms-spacing;
+}
+
+
+.#{$jqms-namespace}--display {
   position: relative;
   padding-right: 1.3em;
-  border: 1px solid $color-border;
+  border: 1px solid $jqms-color-border;
   border-radius: 0;
   font-size: 1em;
   cursor: pointer;
@@ -21,7 +34,7 @@
   }
 }
 
-.ui-multiselect--icon {
+.#{$jqms-namespace}--icon {
   display: block;
   position: absolute;
   right: .25em;
@@ -36,16 +49,16 @@
   }
 }
 
-.ui-multiselect--list-wrap {
+.#{$jqms-namespace}--list-wrap {
   position: absolute;
   z-index: 100;
   display: none;
   margin-top: -1px;
-  border: 1px solid $color-border;
+  border: 1px solid $jqms-color-border;
   background-color: #fff;
 }
 
-.ui-multiselect--list {
+.#{$jqms-namespace}--list {
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -56,27 +69,57 @@
     margin: 0 5px 0 0;
     cursor: pointer;
   }
+}
 
-  li {
-    display: block;
-    padding: 3px 10px;
-    cursor: pointer;
+.#{$jqms-namespace}--option {
+  @extend %jqms-list-item;
+  cursor: pointer;
 
-    span {
-      white-space: nowrap;
-    }
+  span {
+    white-space: nowrap;
+  }
 
-    &:hover {
-      background-color: $color-list-hover;
-    }
+  &:hover {
+    background-color: $color-list-hover;
   }
 }
 
-.ui-multiselect--selected {
+.#{$jqms-namespace}--optgroup-wrap {
+  label {
+    @extend %jqms-list-item;
+    font-weight: bold;
+
+    .#{$jqms-namespace}--is-multiple & {
+      cursor: pointer;
+    }
+  }
+
+  &.#{$jqms-namespace}--disabled label {
+    cursor: not-allowed;
+  }
+
+  ul {
+    padding-left: 0;
+  }
+
+  li {
+    padding-left: $jqms-spacing * 2;
+  }
+
+  &:hover {
+    background-color: lighten($color-list-hover, 10);
+  }
+
+  + .#{$jqms-namespace}--optgroup-wrap {
+    border-top: 1px dotted $jqms-color-border;
+  }
+}
+
+.#{$jqms-namespace}--selected {
   background-color: $color-list-selected;
 }
 
-.ui-multiselect--disabled {
+.#{$jqms-namespace}--disabled {
   opacity: .5;
   cursor: not-allowed;
 
@@ -86,5 +129,66 @@
 
   &:hover {
     background-color: transparent;
+  }
+
+  .#{$jqms-namespace}--disabled {
+    opacity: 1;
+  }
+}
+
+.#{$jqms-namespace}--filter {
+  $button-size: 17px;
+
+  @extend %jqms-list-section;
+  white-space: nowrap;
+
+  label,
+  input,
+  button {
+    display: inline-block;
+  }
+
+  label:after {
+    content: ':';
+  }
+
+  input {
+    margin: 0 5px;
+    padding: 0;
+    width: 80px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    width: $button-size; // temp
+    height: $button-size; // temp
+    border-width: 0;
+    text-indent: -9999em;
+    white-space: nowrap;
+    border-radius: 0;
+    cursor: pointer;
+
+    &:before {
+      float: left;
+      text-indent: 0;
+      content: 'X';
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.#{$jqms-namespace}--bulk {
+  @extend %jqms-list-section;
+
+  button {
+    + button {
+      margin-left: 5px;
+    }
   }
 }

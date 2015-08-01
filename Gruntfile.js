@@ -205,7 +205,7 @@ module.exports = function (grunt) {
 
   // testing
   grunt.registerTask('test', [
-    'casper:basic'
+    //'casper:basic'
   ]);
 
   // build distribution
@@ -220,11 +220,5 @@ module.exports = function (grunt) {
     'gitmerge:dist',
     'clean:dist',
     'gitpush:dist'
-  ]);
-
-  grunt.registerTask('dev', [
-    'connect:livereload',
-    'open:dev',
-    'watch'
   ]);
 };
