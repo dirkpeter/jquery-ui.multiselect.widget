@@ -1,4 +1,4 @@
-(function ($) {
+(function ($, undefined) {
   $.widget('ui.multiselect', {
     // default options
     options: {
@@ -23,6 +23,7 @@
 
       // my precious... - don't touch that stuff
       namespace:           'ui-multiselect',
+      eventNamespace:      'ui-ms',
       tabIndex:            ' tabindex="-1"',
       isMultiple:          false,
       isOpen:              false,
@@ -39,9 +40,10 @@
         $options: undefined
       },
       filter:              {
-        $el:    undefined,
-        $input: undefined,
-        $reset: undefined
+        isVisible: false,
+        $el:       undefined,
+        $input:    undefined,
+        $reset:    undefined
       },
       bulk:                {
         $el:     undefined,
@@ -134,12 +136,13 @@
 
 
     _createMarkup: function () {
-      var self = this;
+      var self = this,
+        opts = self.options;
 
       self._createDisplay();
       self._createList();
       self._createFilterMarkup();
-      if (self.options.bulkActions === true) {
+      if (opts.isMultiple && opts.bulkActions === true) {
         self._createBulkMarkup();
       }
     },
@@ -232,7 +235,8 @@
       // fetch some data
       $groups.each(function (index, group) {
         var id = index + 1, // prevent zeros
-          $group = $(group).data(dataKey, id); // add relation-info to group - dunno if i'll need id...
+          $group = $(group).data(dataKey, id), // add relation-info to group - dunno if i'll need id...
+          $options = $group.find('option');
 
         data.push({
           id:       id,
@@ -242,10 +246,11 @@
           selected: false,
           disabled: $group.is(':disabled'),
           label:    $group.attr('label'),
-          class:    $group.attr('class')
+          class:    $group.attr('class'),
+          length:   $options.length
         });
 
-        $group.find('option').data(dataKey, id); // apply relation-info to options - that one is needed
+        $options.data(dataKey, id); // apply relation-info to options - that one is needed
       });
 
       // set some data ;)
@@ -269,13 +274,14 @@
         selected = opts.selected;
 
       if (selected) {
+        // is multi
         if (opts.isMultiple) {
-          // multi
           return opts.options.data.filter(function (obj) {
-            return ($.inArray(obj.value, selected) !== -1);
+            return $.inArray(obj.value, selected) !== -1;
           });
-        } else {
-          // single
+        }
+        // is single
+        else {
           return opts.options.data.filter(function (obj) {
             return (obj.value === String(selected));
           });
@@ -283,6 +289,47 @@
       }
 
       return null;
+    },
+
+
+    getSelected: function (inclOptgroupLabels) {
+      var self = this,
+        opts = self.options,
+        selected = self.getSelectedOptions();
+
+      inclOptgroupLabels = inclOptgroupLabels || false;
+
+      // only if optgroups are present and it's a multi-select
+      if (inclOptgroupLabels && opts.hasOptgroup && opts.isMultiple && selected) {
+        var groups = {};
+
+        // collect groups by selected options and count their length
+        for (var i = 0, len = selected.length; i < len; i += 1) {
+          var $option = selected[i],
+            groupID = $option.groupID,
+            optGroup = self._getOptgroupByID(groupID);
+
+          // increase counter
+          if (groups.hasOwnProperty(groupID)) {
+            groups[groupID] += 1;
+          }
+          // init counter
+          else {
+            groups[groupID] = 1;
+          }
+
+          // check if all selected
+          if (optGroup.length === groups[groupID]) {
+            optGroup.selected = true;
+            selected.push(optGroup);
+          }
+          else {
+            optGroup.selected = false;
+          }
+        }
+      }
+
+      return selected;
     },
 
 
@@ -513,17 +560,20 @@
       self._setListListener();
       self._setFilterListener();
 
-      if (opts.bulkActions === true) {
-        self._setBulkListener();
-      }
+      // for multi only
+      if (opts.isMultiple) {
+        if (opts.bulkActions === true) {
+          self._setBulkListener();
+        }
 
-      if (opts.hasOptgroup === true) {
-        self._setOptgroupListener();
-      }
+        if (opts.hasOptgroup === true) {
+          self._setOptgroupListener();
+        }
 
-      // prevent checkbox-click (optgroup and option)
-      if (opts.isMultiple && opts.showCheckbox) {
-        self._setCheckboxListener();
+        // prevent checkbox-click (optgroup and option)
+        if (opts.showCheckbox) {
+          self._setCheckboxListener();
+        }
       }
 
       self._setKeyboardListener();
@@ -533,7 +583,6 @@
     _setCheckboxListener: function () {
       this.options.list.$el.on('click', 'input', function (e) {
         e.preventDefault();
-        console.log(e);
         return false;
       });
     },
@@ -590,14 +639,12 @@
     _setOptgroupListener: function () {
       var self = this,
         opts = self.options;
-      //  groups = opts.optgroups;
 
       opts.list.$el.on({
           'mousedown.ui-ms': function () {
             var id = $(this).data(opts.optgroupDataKey);
             opts.event.last = 'refocus';
             self._toggleValue(self._getOptionsByGroupID(id));
-            self._toggleOptgroupDisplay(id);
           },
           // prevent label:focus / display:blur
           'focus.ui-ms':     function (e) {
@@ -693,14 +740,40 @@
 
 
     _setKeyboardListener: function () {
+      var self = this,
+        opts = self.options,
+        $el = opts.display.$el,
+        filter = opts.filter;
+
+      // when open
+      $el.keydown(function (e) {
+        switch (e.keyCode) {
+          // esc » close widget
+          case 27:
+            self.close();
+            break;
+
+          // tab » focus filter
+          case 9:
+            //console.log('tab', opts.filter.isVisible);
+
+            // only action if filter is visible
+            if (filter.isVisible) {
+              //console.log(filter.$input);
+              e.preventDefault();
+              opts.event = 'noblur';
+              filter.$input.focus();
+            }
+            break;
+        }
+      });
+
       /*
-      - esc (when open) » close widget
-      - tab (on open) » focus filter
-      - tab (on filter) » close widget
-      - up / down » focus option
-      - space (on option focus) » toggle option
-      - [key] » (de-) select all
-      */
+       - tab (on filter) » close widget
+       - up / down » focus option
+       - space (on option focus) » toggle option
+       - [key] » (de-) select all
+       */
     },
 
 
@@ -716,16 +789,6 @@
       else {
         self.element.find('option').prop('selected', status);
       }
-    },
-
-
-    _toggleOptgroupDisplay: function (groupID) {
-      var self = this,
-        group = self._getOptgroupByID(groupID),
-        sel = group.selected = !group.selected;
-
-      group.$el.toggleClass(self.options.namespace + '--selected', sel)
-        .find('input').prop('checked', sel);
     },
 
 
@@ -805,7 +868,7 @@
     showSelected: function () {
       var self = this,
         opts = self.options,
-        selected = self.getSelectedOptions(),
+        selected = self.getSelected(true),
         $sel = $(),
         selectedClass = opts.namespace + '--selected',
         $list = opts.list.$el.find('li');
@@ -833,12 +896,15 @@
     _updateFilterDisplay: function () {
       var self = this,
         opts = self.options,
-        $el = opts.filter.$el;
+        filter = opts.filter,
+        $el = filter.$el;
 
       if (opts.minItemFilter !== -1 && opts.minItemFilter <= opts.options.length) {
         $el.show();
+        filter.isVisible = true;
       } else {
         $el.hide();
+        filter.isVisible = false;
       }
     },
 
