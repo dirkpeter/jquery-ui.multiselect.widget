@@ -205,7 +205,7 @@ module.exports = function (grunt) {
 
   // testing
   grunt.registerTask('test', [
-    'casper:basic'
+    //'casper:basic'
   ]);
 
   // build distribution

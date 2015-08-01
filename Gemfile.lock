@@ -90,3 +90,6 @@ DEPENDENCIES
   sass (~> 3.4.5)
   sass-globbing
   yajl-ruby
+
+BUNDLED WITH
+   1.10.3
