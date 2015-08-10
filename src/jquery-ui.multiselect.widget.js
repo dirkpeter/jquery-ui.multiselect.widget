@@ -3,13 +3,13 @@
     // default options
     options: {
       // config
-      hideSelect:          true,
-      showCheckbox:        true,
-      bulkActions:         true,
-      bulkToggle:          true,
-      minItemFilter:       5,
-      maxItems:            3,
-      minWidth:            0, // auto
+      hideSelect:    true,
+      showCheckbox:  true,
+      bulkActions:   true,
+      bulkToggle:    true,
+      minItemFilter: 5,
+      maxItems:      3,
+      minWidth:      0, // auto
 
       // text
       defaultDisplayTitle: 'No value selected',
@@ -22,46 +22,46 @@
       bulkNoneText:        'De-Select all',
 
       // my precious... - don't touch that stuff
-      namespace:           'ui-multiselect',
-      eventNamespace:      'ui-ms',
-      tabIndex:            ' tabindex="-1"',
-      isMultiple:          false,
-      isOpen:              false,
-      event:               {
+      namespace:       'ui-multiselect',
+      eventNamespace:  'ui-ms',
+      tabIndex:        ' tabindex="-1"',
+      isMultiple:      false,
+      isOpen:          false,
+      event:           {
         last: undefined
       },
-      display:             {
+      display:         {
         $el:    undefined,
         $title: undefined
       },
-      list:                {
+      list:            {
         $wrap:    undefined,
         $el:      undefined,
         $options: undefined
       },
-      filter:              {
+      filter:          {
         isVisible: false,
         $el:       undefined,
         $input:    undefined,
         $reset:    undefined
       },
-      bulk:                {
+      bulk:            {
         $el:     undefined,
         $all:    undefined,
         $none:   undefined,
         enabled: false
       },
-      options:             {
+      options:         {
         data:   [],
         length: 0
       },
-      hasOptgroup:         false,
-      optgroupDataKey:     'jqms-group-id',
-      optgroups:           {
+      hasOptgroup:     false,
+      optgroupDataKey: 'jqms-group-id',
+      optgroups:       {
         data:   [],
         length: 0
       },
-      selected:            []
+      selected:        []
     },
 
 
@@ -292,6 +292,29 @@
     },
 
 
+    _updateOptgroupStatus: function () {
+      var self = this,
+        opts = self.options,
+        optgroups = opts.optgroups.data;
+
+      // only if optgroups are present and it's a multi-select
+      if (opts.hasOptgroup && opts.isMultiple) {
+
+        // collect groups by selected options and count their length
+        for (var i = 0, len = opts.optgroups.length; i < len; i += 1) {
+          var optGroup = optgroups[i],
+            options;
+
+          // .prop('selected')
+          options = self._getOptionsByGroupID(optGroup.id).filter(function (obj) {
+            return obj.source.prop('selected');
+          });
+          optGroup.selected = (optGroup.length === options.length);
+        }
+      }
+    },
+
+
     getSelected: function (inclOptgroupLabels) {
       var self = this,
         opts = self.options,
@@ -301,32 +324,10 @@
 
       // only if optgroups are present and it's a multi-select
       if (inclOptgroupLabels && opts.hasOptgroup && opts.isMultiple && selected) {
-        var groups = {};
-
-        // collect groups by selected options and count their length
-        for (var i = 0, len = selected.length; i < len; i += 1) {
-          var $option = selected[i],
-            groupID = $option.groupID,
-            optGroup = self._getOptgroupByID(groupID);
-
-          // increase counter
-          if (groups.hasOwnProperty(groupID)) {
-            groups[groupID] += 1;
-          }
-          // init counter
-          else {
-            groups[groupID] = 1;
-          }
-
-          // check if all selected
-          if (optGroup.length === groups[groupID]) {
-            optGroup.selected = true;
-            selected.push(optGroup);
-          }
-          else {
-            optGroup.selected = false;
-          }
-        }
+        var groups = opts.optgroups.data.filter(function (obj) {
+          return obj.selected;
+        });
+        selected = $.extend(selected, groups);
       }
 
       return selected;
@@ -642,9 +643,13 @@
 
       opts.list.$el.on({
           'mousedown.ui-ms': function () {
-            var id = $(this).data(opts.optgroupDataKey);
+            var id = $(this).data(opts.optgroupDataKey),
+              group = self._getOptgroupByID(id);
+
+            group.selected = (group.selected === false);
+
             opts.event.last = 'refocus';
-            self._toggleValue(self._getOptionsByGroupID(id));
+            self._toggleValue(self._getOptionsByGroupID(id), group.selected);
           },
           // prevent label:focus / display:blur
           'focus.ui-ms':     function (e) {
@@ -792,22 +797,25 @@
     },
 
 
-    _toggleValue: function (val, triggerChange) {
+    _toggleValue: function (val, setValue, triggerChange) {
       var self = this,
         opts = self.options,
-        $el = self.element;
+        $el = self.element,
+        value;
 
       triggerChange = triggerChange || true;
 
       // if option-array, toggle all options
       if (Array.isArray(val)) {
         for (var i = 0, len = val.length; i < len; i++) {
-          self._toggleValue(val[i].value, false);
+          self._toggleValue(val[i].value, setValue, false);
         }
       }
 
       if (opts.isMultiple) {
-        $el.find('[value="' + val + '"]').prop('selected', ($.inArray(String(val), opts.selected) === -1));
+        value = (setValue !== undefined) ? setValue : ($.inArray(String(val), opts.selected) === -1);
+        $el.find('[value="' + val + '"]').prop('selected', value);
+        self._updateOptgroupStatus();
       } else {
         $el.find('[value="' + val + '"]').prop('selected', true);
       }
