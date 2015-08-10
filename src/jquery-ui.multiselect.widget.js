@@ -292,6 +292,29 @@
     },
 
 
+    _updateOptgroupStatus: function () {
+      var self = this,
+        opts = self.options,
+        optgroups = opts.optgroups.data;
+
+      // only if optgroups are present and it's a multi-select
+      if (opts.hasOptgroup && opts.isMultiple) {
+
+        // collect groups by selected options and count their length
+        for (var i = 0, len = opts.optgroups.length; i < len; i += 1) {
+          var optGroup = optgroups[i],
+            options;
+
+          // .prop('selected')
+          options = self._getOptionsByGroupID(optGroup.id).filter(function (obj) {
+            return obj.source.prop('selected');
+          });
+          optGroup.selected = (optGroup.length === options.length);
+        }
+      }
+    },
+
+
     getSelected: function (inclOptgroupLabels) {
       var self = this,
         opts = self.options,
@@ -301,32 +324,10 @@
 
       // only if optgroups are present and it's a multi-select
       if (inclOptgroupLabels && opts.hasOptgroup && opts.isMultiple && selected) {
-        var groups = {};
-
-        // collect groups by selected options and count their length
-        for (var i = 0, len = selected.length; i < len; i += 1) {
-          var $option = selected[i],
-            groupID = $option.groupID,
-            optGroup = self._getOptgroupByID(groupID);
-
-          // increase counter
-          if (groups.hasOwnProperty(groupID)) {
-            groups[groupID] += 1;
-          }
-          // init counter
-          else {
-            groups[groupID] = 1;
-          }
-
-          // check if all selected
-          if (optGroup.length === groups[groupID]) {
-            optGroup.selected = true;
-            selected.push(optGroup);
-          }
-          else {
-            optGroup.selected = false;
-          }
-        }
+        var groups = opts.optgroups.data.filter(function (obj) {
+          return obj.selected;
+        });
+        selected = $.extend(selected, groups);
       }
 
       return selected;
@@ -645,8 +646,10 @@
             var id = $(this).data(opts.optgroupDataKey),
               group = self._getOptgroupByID(id);
 
+            group.selected = (group.selected === false);
+
             opts.event.last = 'refocus';
-            self._toggleValue(self._getOptionsByGroupID(id), !group.selected);
+            self._toggleValue(self._getOptionsByGroupID(id), group.selected);
           },
           // prevent label:focus / display:blur
           'focus.ui-ms':     function (e) {
@@ -812,6 +815,7 @@
       if (opts.isMultiple) {
         value = (setValue !== undefined) ? setValue : ($.inArray(String(val), opts.selected) === -1);
         $el.find('[value="' + val + '"]').prop('selected', value);
+        self._updateOptgroupStatus();
       } else {
         $el.find('[value="' + val + '"]').prop('selected', true);
       }
