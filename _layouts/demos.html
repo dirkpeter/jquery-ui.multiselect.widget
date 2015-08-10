@@ -5,6 +5,7 @@ layout: default
 
 <header class="demo-header">
   <h1 class="demo-title">{{ page.title }}</h1>
+
   <p class="demo-meta">Last update: {{ page.date | date: "%b %-d, %Y" }}</p>
 </header>
 
@@ -14,32 +15,37 @@ layout: default
   <h2>Overview</h2>
   <ol>
     <li><a href="#simple-setup">Simple setup</a></li>
+    <li><a href="#minimal-setup">Minimal setup</a></li>
     <li><a href="#hide-checkboxes">Hide checkbox</a></li>
     <li><a href="#max-items">Max Items</a></li>
     <li><a href="#custom-title">Custom title</a></li>
     <li><a href="#disabling-options">Disabling Options</a></li>
+    <li><a href="#filter">Filter</a></li>
+    <li><a href="#bulk-actions">Bulk-actions</a></li>
+    <li><a href="#optgroups">Optgroups</a></li>
   </ol>
 </section>
 
 
 <ul class="demos">
-<li>
-  <h2 id="simple-setup"><a rel="internal" href="#simple-setup">Simple setup</a></h2>
+  <li>
+    <h2 id="simple-setup"><a rel="internal" href="#simple-setup">Simple setup</a></h2>
 
-  <p>Simplest setup. Make sure jQuery and jQuery UI are loaded before initialising the multiselect widget.</p>
+    <p>Simplest setup. Make sure jQuery and jQuery UI are loaded before initialising the multiselect widget.</p>
 
-  <h3>Demo</h3>
-  <div class="demo">
-    <select id="ex_1" multiple>
-      <option value="1">Lorem (1)</option>
-      <option value="2">Ipsum (2)</option>
-      <option value="3">Dolor (3)</option>
-      <option value="4">Sit (4)</option>
-      <option value="5">Amet (5)</option>
-    </select>
-  </div>
+    <h3>Demo</h3>
 
-  <h3>Markup</h3>
+    <div class="demo">
+      <select id="ex_1" multiple>
+        <option value="1">Lorem (1)</option>
+        <option value="2">Ipsum (2)</option>
+        <option value="3">Dolor (3)</option>
+        <option value="4">Sit (4)</option>
+        <option value="5">Amet (5)</option>
+      </select>
+    </div>
+
+    <h3>Markup</h3>
 {% highlight html %}
 <select class="multiselect" multiple>
   <option value="1">Lorem (1)</option>
@@ -50,7 +56,7 @@ layout: default
 </select>
 {% endhighlight %}
 
-  <h3>JS</h3>
+    <h3>JS</h3>
 {% highlight javascript %}
 (function ($) {
   $(function () {
@@ -58,147 +64,172 @@ layout: default
   });
 })(jQuery);
 {% endhighlight %}
-</li>
+  </li>
 
 
-<li>
-  <h2 id="hide-checkboxes"><a rel="internal" href="#hide-checkboxes">Hide checkbox</a></h2>
+  <li>
+    <h2 id="minimal-setup"><a rel="internal" href="#minimal-setup">Minimal setup</a></h2>
 
-  <p>This option is only recommended if you are planning of an other way to show that your multi-select is not just
-     a regular dropdown-form, eg by using the given css-selectors.</p>
-  <p>FYI: Selected ui-options will be given the call <code>ui-multiselect--selected</code>.</p>
+    <p>And now for the minimal, in case you don't need the filter and stuff - just a single-line multi-select.</p>
 
-  <h3>Demo</h3>
-  <div class="demo">
-    <select class="multiselect" id="ex_2" multiple>
-      <option value="1">Lorem (1)</option>
-      <option value="2">Ipsum (2)</option>
-      <option value="3">Dolor (3)</option>
-      <option value="4">Sit (4)</option>
-      <option value="5">Amet (5)</option>
-    </select>
-  </div>
+    <h3>Demo</h3>
 
-  <h3>Markup</h3>
-{% highlight html %}
-<select class="multiselect" multiple>
-  <option value="1">Lorem (1)</option>
-  <option value="2">Ipsum (2)</option>
-  <option value="3">Dolor (3)</option>
-  <option value="4">Sit (4)</option>
-  <option value="5">Amet (5)</option>
-</select>
+    <div class="demo">
+      <select id="ex_1-2" multiple>
+        <option value="1">Lorem (1)</option>
+        <option value="2">Ipsum (2)</option>
+        <option value="3">Dolor (3)</option>
+        <option value="4">Sit (4)</option>
+        <option value="5">Amet (5)</option>
+      </select>
+    </div>
+
+    <h3>JS</h3>
+{% highlight javascript %}
+$('.multiselect').multiselect({
+  minItemFilter: -1,
+  bulkActions: false
+});
 {% endhighlight %}
+  </li>
 
-  <h3>JS</h3>
+
+  <li>
+    <h2 id="hide-checkboxes"><a rel="internal" href="#hide-checkboxes">Hide checkbox</a></h2>
+
+    <p>This option is only recommended if you are planning of an other way to show that your multi-select is not just
+       a regular dropdown-form, eg by using the given css-selectors.</p>
+
+    <p>FYI: Selected ui-options will be given the call <code>ui-multiselect--selected</code>.</p>
+
+    <h3>Demo</h3>
+
+    <div class="demo">
+      <select class="multiselect" id="ex_2" multiple>
+        <option value="1">Lorem (1)</option>
+        <option value="2">Ipsum (2)</option>
+        <option value="3">Dolor (3)</option>
+        <option value="4">Sit (4)</option>
+        <option value="5">Amet (5)</option>
+      </select>
+    </div>
+
+    <h3>JS</h3>
 {% highlight javascript %}
 $('.multiselect').multiselect({
   showCheckbox: false
 });
 {% endhighlight %}
-</li>
+  </li>
 
 
-<li>
-  <h2 id="max-items"><a rel="internal" href="#max-items">Max Items</a></h2>
+  <li>
+    <h2 id="max-items"><a rel="internal" href="#max-items">Max Items</a></h2>
 
-  <p>The <code>maxItems</code> option let you decide how many selected items should be shown in the ui-title,
-     before they are replaced by a general title. Set it to <code>-1</code> and no trivial-value will be shown (see
-     demo 2).</p>
-  <p>For customizing the titles see <a rel="internal" href="#custom-title">Custom title</a>.</p>
+    <p>The <code>maxItems</code> option let you decide how many selected items should be shown in the ui-title,
+       before they are replaced by a general title. Set it to <code>-1</code> and no trivial-value will be shown (see
+       demo 2).</p>
 
-  <h3>Demo 1</h3>
-  <div class="demo">
-    <label>Show only one trivial</label>
-    <select class="multiselect" id="ex_3_1" multiple>
-      <option value="1">Lorem (1)</option>
-      <option value="2">Ipsum (2)</option>
-      <option value="3">Dolor (3)</option>
-      <option value="4">Sit (4)</option>
-      <option value="5">Amet (5)</option>
-    </select>
-  </div>
+    <p>For customizing the titles see <a rel="internal" href="#custom-title">Custom title</a>.</p>
 
-  <h3>JS</h3>
+    <h3>Demo 1</h3>
+
+    <div class="demo">
+      <label>Show only one trivial</label>
+      <select class="multiselect" id="ex_3_1" multiple>
+        <option value="1">Lorem (1)</option>
+        <option value="2">Ipsum (2)</option>
+        <option value="3">Dolor (3)</option>
+        <option value="4">Sit (4)</option>
+        <option value="5">Amet (5)</option>
+      </select>
+    </div>
+
+    <h3>JS</h3>
 {% highlight javascript %}
 $('.multiselect').multiselect({
   maxItems: 1
 });
 {% endhighlight %}
 
-  <h3>Demo 2</h3>
-  <div class="demo">
-    <label>Show all trivials</label>
-    <select class="multiselect" id="ex_3_2" multiple>
-      <option value="1">Lorem (1)</option>
-      <option value="2">Ipsum (2)</option>
-      <option value="3">Dolor (3)</option>
-      <option value="4">Sit (4)</option>
-      <option value="5">Amet (5)</option>
-    </select>
-  </div>
+    <h3>Demo 2</h3>
 
-  <h3>JS</h3>
+    <div class="demo">
+      <label>Show all trivials</label>
+      <select class="multiselect" id="ex_3_2" multiple>
+        <option value="1">Lorem (1)</option>
+        <option value="2">Ipsum (2)</option>
+        <option value="3">Dolor (3)</option>
+        <option value="4">Sit (4)</option>
+        <option value="5">Amet (5)</option>
+      </select>
+    </div>
+
+    <h3>JS</h3>
 {% highlight javascript %}
 $('.multiselect').multiselect({
   maxItems: -1
 });
 {% endhighlight %}
-</li>
+  </li>
 
 
-<li>
-  <h2 id="custom-title"><a rel="internal" href="#custom-title">Custom title</a></h2>
+  <li>
+    <h2 id="custom-title"><a rel="internal" href="#custom-title">Custom title</a></h2>
 
-  <p><code>##</code> will be replaced by the total number of items for <code>displayTextSG</code> and <code>displayTextPL</code>.<br>
-    <code>@@</code> will be replaced by the currently selected number of items for <code>displayTextPL</code>.</p>
+    <p><code>##</code> will be replaced by the total number of items for <code>displayTextSG</code> and <code>displayTextPL</code>.<br>
+      <code>@@</code> will be replaced by the currently selected number of items for <code>displayTextPL</code>.</p>
 
-  <h3>Demo</h3>
-  <div class="demo">
-    <label>In german</label>
-    <select class="multiselect" id="ex_4" multiple>
-      <option value="1">Lorem (1)</option>
-      <option value="2">Ipsum (2)</option>
-      <option value="3">Dolor (3)</option>
-      <option value="4">Sit (4)</option>
-      <option value="5">Amet (5)</option>
-    </select>
-  </div>
+    <h3>Demo</h3>
 
-  <h3>JS</h3>
+    <div class="demo">
+      <label>In german</label>
+      <select class="multiselect" id="ex_4" multiple>
+        <option value="1">Lorem (1)</option>
+        <option value="2">Ipsum (2)</option>
+        <option value="3">Dolor (3)</option>
+        <option value="4">Sit (4)</option>
+        <option value="5">Amet (5)</option>
+      </select>
+    </div>
+
+    <h3>JS</h3>
 {% highlight javascript %}
 $('.multiselect').multiselect({
-  defaultDisplayTitle: 'Bitte wählen',           // 'No value selected'
-  displayTextSG:       'Ein Element ausgewählt', // '1 of ## value selected'
-  displayTextPL:       '@@ Elemente ausgewählt', // '@@ of ## values selected'
-  maxItems:            0                         // optional, for demo
+  defaultDisplayTitle: 'Bitte wählen', // 'No value selected'
+  displayTextSG: 'Ein Element ausgewählt', // '1 of ## value selected'
+  displayTextPL: '@@ Elemente ausgewählt', // '@@ of ## values selected'
+  bulkAllText: 'Alle',
+  bulkNoneText: 'Keine',
+  maxItems: 0 // optional, for demo
 });
 {% endhighlight %}
-</li>
+  </li>
 
 
-<li>
-  <h2 id="disabling-options"><a rel="internal" href="#disabling-options">Disabling Options</a></h2>
+  <li>
+    <h2 id="disabling-options"><a rel="internal" href="#disabling-options">Disabling Options</a></h2>
 
-  <p>Simply en/disable an option in the ui by en/disabling its origin (select &gt; option). the ui will listen
-     to changes in the dom and update itself.</p>
+    <p>Simply en/disable an option in the ui by en/disabling its origin (select &gt; option). the ui will listen
+       to changes in the dom and update itself.</p>
 
-  <h3>Demo</h3>
-  <div class="demo">
-    <label>Disbaled options</label>
-    <select class="multiselect" id="ex_5_1" multiple>
-      <option value="1">Lorem (1)</option>
-      <option disabled value="2">Ipsum (2)</option>
-      <option value="3">Dolor (3)</option>
-      <option value="4">Sit (4)</option>
-      <option value="5">Amet (5)</option>
-    </select>
-    <br>
-    <button id="ex_5_3">Enable Option 2</button>
-    <button id="ex_5_2">Disable Option 2</button>
-  </div>
+    <h3>Demo</h3>
 
-<h3>JS</h3>
+    <div class="demo">
+      <label>Disbaled options</label>
+      <select class="multiselect" id="ex_5_1" multiple>
+        <option value="1">Lorem (1)</option>
+        <option disabled value="2">Ipsum (2)</option>
+        <option value="3">Dolor (3)</option>
+        <option value="4">Sit (4)</option>
+        <option value="5">Amet (5)</option>
+      </select>
+      <br>
+      <button id="ex_5_3">Enable Option 2</button>
+      <button id="ex_5_2">Disable Option 2</button>
+    </div>
+
+    <h3>JS</h3>
 {% highlight javascript %}
 // ui init
 $('.multiselect').multiselect();
@@ -208,7 +239,204 @@ $('button.disable').on('click', function () {
   $('.multiselect [value="2"]').prop('disabled', true);
 });
 {% endhighlight %}
-</li>
+  </li>
+
+
+  <li>
+    <h2 id="filter"><a rel="internal" href="#filter">Filter</a></h2>
+
+    <p>The default option value for the minimal number of options in a select-field for the filter to appear is set to
+       5; this way you can easily assign a global setup for your multiselects and don't have to deal seperatly for
+       each multiselect if a filter should be shown.</p>
+
+    <h3>Demo (> min number of options)</h3>
+
+    <div class="demo">
+      <select class="multiselect" id="ex_7-1" multiple>
+        <option>jQuery</option>
+        <option>jQuery UI</option>
+        <option>Angular JS</option>
+        <option>Angular Tree UI</option>
+        <option>Ember JS</option>
+        <option>Underscope</option>
+        <option>Moment</option>
+      </select><br>
+
+      <p>try filtering for 'JS' or 'jQuery'.</p>
+    </div>
+
+    <h3>Demo 2 (< min number of options)</h3>
+    <div class="demo">
+      <select class="multiselect" id="ex_7-2">
+        <option>jQuery</option>
+        <option>jQuery UI</option>
+        <option>Angular JS</option>
+      </select>
+    </div>
+
+    <h3>Demo 3 (adjusted min number of options)</h3>
+    <div class="demo">
+      <select class="multiselect" id="ex_7-3">
+        <option>jQuery</option>
+        <option>jQuery UI</option>
+        <option>Angular JS</option>
+      </select>
+    </div>
+
+{% highlight javascript %}
+$('.multiselect').multiselect({
+  minItemFilter: 1
+});
+{% endhighlight %}
+  </li>
+
+
+  <li>
+    <h2 id="bulk-actions"><a rel="internal" href="#bulk-actions">Bulk-actions</a></h2>
+
+    <p>Bulk-operations are provided for multi-selects only (doesn't make sense for singles, eh?) and can be enabled
+       by using the `bulkActions` option.</p>
+
+    <h3>Demo 1 - default behavior</h3>
+
+    <div class="demo">
+      <label>Disbaled options</label>
+      <select class="multiselect" id="ex_8-1" multiple>
+        <option>Nulla vitae elit</option>
+        <option>Libero a pharetra augue</option>
+        <option>Nullam id dolor id</option>
+        <option>Nibh ultricies vehicula</option>
+        <option>Ut id elit</option>
+        <option>Curabitur blandit tempus</option>
+        <option>Porttitor Vestibulum</option>
+        <option>Id ligula porta</option>
+        <option>Felis euismod semper</option>
+        <option>Sed posuere consectetur</option>
+        <option>Est at lobortis</option>
+        <option>Praesent commodo</option>
+      </select>
+    </div>
+
+
+    <h3>Demo 2 - disabled</h3>
+
+    <div class="demo">
+      <label>Disbaled options</label>
+      <select class="multiselect" id="ex_8-2" multiple>
+        <option>Nulla vitae elit</option>
+        <option>Libero a pharetra augue</option>
+        <option>Nullam id dolor id</option>
+        <option>Nibh ultricies vehicula</option>
+        <option>Ut id elit</option>
+        <option>Curabitur blandit tempus</option>
+        <option>Porttitor Vestibulum</option>
+        <option>Id ligula porta</option>
+        <option>Felis euismod semper</option>
+        <option>Sed posuere consectetur</option>
+        <option>Est at lobortis</option>
+        <option>Praesent commodo</option>
+      </select>
+    </div>
+
+
+    <h3>JS</h3>
+{% highlight javascript %}
+$('.multiselect').multiselect({
+  bulkActions: false
+});
+{% endhighlight %}
+  </li>
+
+
+  <li>
+    <h2 id="optgroups"><a rel="internal" href="#optgroups">Optgroups</a></h2>
+
+    <p>Optgroups are available for single- and multi-selects. for multi-selects a bulk-operation feature is additionally enabled, giving the user an option to select an entire group with just one click - no additional config needed.</p>
+
+    <h3>Demo 1</h3>
+
+    <div class="demo">
+      <select class="multiselect" id="ex_9-1" multiple>
+        <optgroup label="Group 1">
+          <option>Nulla vitae elit</option>
+          <option>Libero a pharetra augue</option>
+          <option>Nullam id dolor id</option>
+        </optgroup>
+        <optgroup label="2nd Group">
+          <option>Nibh ultricies vehicula</option>
+          <option>Ut id elit</option>
+        </optgroup>
+        <optgroup label="No. 3">
+          <option>Curabitur blandit tempus</option>
+          <option>Porttitor Vestibulum</option>
+          <option>Id ligula porta</option>
+          <option>Felis euismod semper</option>
+        </optgroup>
+        <optgroup label="Last random label">
+          <option>Sed posuere consectetur</option>
+          <option>Est at lobortis</option>
+          <option>Praesent commodo</option>
+        </optgroup>
+      </select>
+    </div>
+
+
+    <h3>Markup</h3>
+{% highlight html %}
+<select class="multiselect" multiple>
+  <optgroup label="Group 1">
+    <option>Nulla vitae elit</option>
+    <option>Libero a pharetra augue</option>
+    <option>Nullam id dolor id</option>
+  </optgroup>
+
+  <optgroup label="2nd Group">
+    <option>Nibh ultricies vehicula</option>
+    <option>Ut id elit</option>
+  </optgroup>
+
+  <optgroup label="No. 3">
+    <option>Curabitur blandit tempus</option>
+    <option>Porttitor Vestibulum</option>
+    <option>Id ligula porta</option>
+    <option>Felis euismod semper</option>
+  </optgroup>
+
+  <optgroup label="Last random label">
+    <option>Sed posuere consectetur</option>
+    <option>Est at lobortis</option>
+    <option>Praesent commodo</option>
+  </optgroup>
+</select>
+{% endhighlight %}
+
+    <h3>Demo 2 Optgroups for single-selects</h3>
+
+    <div class="demo">
+      <select class="multiselect" id="ex_9-2">
+        <optgroup label="Group 1">
+          <option>Nulla vitae elit</option>
+          <option>Libero a pharetra augue</option>
+          <option>Nullam id dolor id</option>
+        </optgroup>
+        <optgroup label="2nd Group">
+          <option>Nibh ultricies vehicula</option>
+          <option>Ut id elit</option>
+        </optgroup>
+        <optgroup label="No. 3">
+          <option>Curabitur blandit tempus</option>
+          <option>Porttitor Vestibulum</option>
+          <option>Id ligula porta</option>
+          <option>Felis euismod semper</option>
+        </optgroup>
+        <optgroup label="Last random label">
+          <option>Sed posuere consectetur</option>
+          <option>Est at lobortis</option>
+          <option>Praesent commodo</option>
+        </optgroup>
+      </select>
+    </div>
+  </li>
 </ul>
 
 
@@ -216,19 +444,30 @@ $('button.disable').on('click', function () {
   (function ($) {
     // simple
     $('#ex_1').multiselect();
+
+    $('#ex_1-2').multiselect({
+      minItemFilter: -1,
+      bulkActions:   false
+    });
+
     // hide checkbox
     $('#ex_2').multiselect({showCheckbox: false});
+
     // max items
     $('#ex_3_1').multiselect({maxItems: 1});
     $('#ex_3_2').multiselect({maxItems: -1});
+
     // custom title
     $('#ex_4').multiselect({
-        defaultDisplayTitle: 'Bitte wählen',
-        displayTextSG:       'Ein Element ausgewählt',
-        displayTextPL:       '@@ Elemente ausgewählt',
-        maxItems:            0
+      defaultDisplayTitle: 'Bitte wählen',
+      displayTextSG:       'Ein Element ausgewählt',
+      displayTextPL:       '@@ Elemente ausgewählt',
+      bulkAllText:         'Alle',
+      bulkNoneText:        'Keine',
+      maxItems:            0
     });
-    // en/disable
+
+    // 5. en/disable
     $('#ex_5_1').multiselect();
     $opt_2 = $('#ex_5_1 [value="2"]');
     $('#ex_5_3').on('click', function () {
@@ -237,5 +476,18 @@ $('button.disable').on('click', function () {
     $('#ex_5_2').on('click', function () {
       $opt_2.prop('disabled', true);
     });
+
+    // 7. Filter
+    $('#ex_7-1').multiselect();
+    $('#ex_7-2').multiselect();
+    $('#ex_7-3').multiselect({minItemFilter: 1});
+
+    // 8. Bulk
+    $('#ex_8-1').multiselect();
+    $('#ex_8-2').multiselect({bulkActions: false});
+
+    // 9. optgroups
+    $('#ex_9-1').multiselect();
+    $('#ex_9-2').multiselect();
   })(jQuery);
 </script>

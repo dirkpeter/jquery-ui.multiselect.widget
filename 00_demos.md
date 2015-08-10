@@ -1,7 +1,7 @@
 ---
 layout: demos
 title: Demos
-date: 24.11.2014
+date: 15.07.2015
 permalink: /demos/
 ---
 Currently this document is a bit chaotic and unstructured, but i'm working on it. For now i'll just keep on piling up

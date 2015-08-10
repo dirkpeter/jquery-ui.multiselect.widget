@@ -23,13 +23,13 @@ If you're more interested in the why than the how, check the [about page](../abo
 - [demo](../demos#hide-checkboxes)
 
 
-#### <code><del>selectAll</del></code>
+#### <code>selectAll</code>
 
 - default: true
 - not yet implemented
 
 
-#### <code><del>minItemFilter</del></code>
+#### <code>minItemFilter</code>
 
 - default: 5
 - not yet implemented
