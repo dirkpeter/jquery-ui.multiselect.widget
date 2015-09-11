@@ -25,6 +25,7 @@
       namespace:       'ui-multiselect',
       eventNamespace:  'ui-ms',
       tabIndex:        ' tabindex="-1"',
+      isDisabled:      false,
       isMultiple:      false,
       isOpen:          false,
       event:           {
@@ -75,11 +76,7 @@
         $el.hide();
       }
 
-      // check for multi- or single-select
-      self.options.isMultiple = ($el.attr('multiple') !== undefined);
-
-      // check for optgroups
-      self.options.hasOptgroup = ($el.find('optgroup').length > 0);
+      self._propertyChecks();
 
       // add id-class
       $el.addClass(opts.namespace);
@@ -93,21 +90,37 @@
       var self = this;
 
       self._setListener();
-      self._refresh();
+      self.refresh();
 
       self._trigger('complete', null, {});
     },
 
 
-    _refresh: function () {
+    _propertyChecks: function () {
+      var self = this,
+        $el = self.element;
+
+      // check for multi- or single-select
+      self.options.isMultiple = ($el.attr('multiple') !== undefined);
+
+      // check if select is disabled
+      self.options.isDisabled = $el.prop('disabled');
+
+      // check for optgroups
+      self.options.hasOptgroup = ($el.find('optgroup').length > 0);
+    },
+
+
+    refresh: function () {
       var self = this;
 
+      self._propertyChecks();
       self._getValues();
       self.showSelected();
       self.setTitle();
       self._updateFilterDisplay();
 
-      self._trigger('refresh');
+      self._trigger('refresh', null, {});
     },
 
 
@@ -115,9 +128,9 @@
       var self = this;
 
       self._createListContent();
-      self._refresh();
+      self.refresh();
 
-      self._trigger('update');
+      self._trigger('update', null, {});
     },
 
 
@@ -497,6 +510,7 @@
       // check if there is a need to filter the options
       if (opts.filter.$input && opts.options.length >= opts.minItemFilter) {
         filterVal = self.getFilterValue();
+        filterVal = filterVal.toLowerCase();
       }
       filter = (filterVal !== '');
 
@@ -504,7 +518,9 @@
         // filter options
         // TODO better filtering... regex?!
         $.each(options, function (index, option) {
-          if (!filterVal || option.title.indexOf(filterVal) !== -1) {
+          var title = option.title.toLowerCase();
+
+          if (!filterVal || title.indexOf(filterVal) !== -1) {
             filtered.push(option);
           }
         });
@@ -515,6 +531,8 @@
 
       // add filter class
       $wrap.toggleClass(filterCLass, filter);
+
+      self._trigger('filter', null, {value: filterVal});
 
       return filtered;
     },
@@ -595,7 +613,7 @@
       // original select change
       self.element.on({
         change:             function (e) {
-          self._refresh();
+          self.refresh();
           self._trigger('change', e, {});
         },
         // dom manipulation
@@ -632,7 +650,7 @@
           ev.last = 'refocus';
         }
 
-        self._trigger('select', e, value);
+        self._trigger('toggleOption', e, {'value': value});
       });
     },
 

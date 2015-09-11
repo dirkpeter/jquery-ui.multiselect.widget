@@ -211,12 +211,13 @@ module.exports = function (grunt) {
   // build distribution
   grunt.registerTask('build', [
     'lint',
-    'test',
+    // 'test',
     'compass:dist',
     'uglify:dist'
   ]);
 
   grunt.registerTask('dist', [
+    'build',
     'gitmerge:dist',
     'clean:dist',
     'gitpush:dist'
