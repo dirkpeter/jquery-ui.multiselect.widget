@@ -1,26 +1,39 @@
-<h1>Fiter</h1>
+<h1>Dis/enabling</h1>
 
 <section>
   <select id="multi" class="multiselect" multiple style="height:150px;">
-    <option value="1">Lorem 1</option>
+    <option value="1">lorem 1</option>
     <option value="2">ipsum 2</option>
     <option value="3">dolor 3</option>
-    <option value="4">Sit 4</option>
+    <option value="4">sit 4</option>
     <option value="5">amet 5</option>
     <option value="6">consetetur 6</option>
     <option value="7">sadipscing 7</option>
-    <option value="8">Dolor sit 8</option>
+    <option value="8">dolor sit 8</option>
     <option value="9">lorem ipsum 9</option>
     <option value="10">amet consetetur 10</option>
   </select>
+
+  <div>
+    <button type="button" id="enable">enable</button>
+    <button type="button" id="disable">disable</button>
+  </div>
 </section>
 
 
 <script language="JavaScript">
   $(function () {
-    // init multiselect
-    $('.multiselect').multiselect({
+    var $select = $('.multiselect');
+    $select.multiselect({
       hideSelect: false
+    });
+
+    $('#disable').click(function () {
+      $select.prop('disabled', true);
+    });
+
+    $('#enable').click(function () {
+      $select.prop('disabled', false);
     });
   });
 </script>

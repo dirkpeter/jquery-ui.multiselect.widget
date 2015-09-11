@@ -1,0 +1,99 @@
+<h1>Basic: update widget &amp; events</h1>
+
+<section>
+  <select class="multiselect" multiple style="height: 200px;margin-right:10px;">
+    <option value="1" selected>lorem 1</option>
+    <option value="2">lorem 2</option>
+    <option value="3">lorem 3</option>
+    <option value="4">lorem 4</option>
+    <option value="5">lorem 5</option>
+  </select>
+  <input value="" id="multi-val"/>
+  <p style="font-style:italic">check the console</p>
+</section>
+
+<ul>
+  <li>
+    <button id="add" type="button">add option</button>
+    <button id="remove" type="button">remove option</button>
+  </li>
+
+  <li>
+    <button id="disable" type="button">disable first option</button>
+    <button id="enable" type="button">enable first option</button>
+  </li>
+
+  <li>
+    <button id="sel-1" type="button">select option 1</button>
+    <button id="sel-2" type="button">select option 2 to 4</button>
+    <button id="sel-3" type="button">select last option with .prop()</button>
+  </li>
+</ul>
+
+<script language="JavaScript">
+  $(function () {
+    var $ms = $('.multiselect'),
+        $val = $('#multi-val'),
+        timer = [];
+
+    // init
+    $ms.multiselect({
+      hideSelect: false,
+      maxItems:   0,
+      // adding trigger callbacks
+      open: function () { console.log('opened'); },
+      close: function () { console.log('closed'); },
+      toggleOption: function (e, o) { console.log('toggleOption', o.value); }
+    });
+
+    // additional trigger listening
+    $ms.on({
+      'multiselectupdate': function () {
+        clearTimeout(timer[0]);
+        timer[0] = setTimeout(function () {
+          $val.val($ms.val());
+          console.log('selected options', $ms.multiselect('getSelected'));
+        }, 50);
+      },
+      'multiselectfilter': function (e, o) {
+        clearTimeout(timer[1]);
+        timer[1] = setTimeout(function () {
+          console.log('filter value', o.value);
+        }, 50);
+      }
+    });
+
+    $ms.multiselect('update');
+
+
+    $('#add').click(function () {
+      var counter = $ms.find('option').length + 1;
+      $ms.append('<option value="' + counter + '">new ' + counter + '</option>');
+    });
+    $('#remove').click(function () {
+      $ms.find('option:last').remove();
+    });
+
+    $('#disable').click(function () {
+      $ms.find('option:first').prop('disabled', true);
+    });
+    $('#enable').click(function () {
+      $ms.find('option:first').prop('disabled', false);
+    });
+
+    $('#sel-1').click(function () {
+      // prop does not trigger the refresh
+      $ms.find('option').attr('selected', false)
+          .first().attr('selected', true);
+    });
+    $('#sel-2').click(function () {
+      $ms.find('option').attr('selected', false);
+      $ms.find('option:nth(1), option:nth(2), option:nth(3)').attr('selected', true);
+    });
+    $('#sel-3').click(function () {
+      $ms.find('option').prop('selected', false)
+          .last().prop('selected', true);
+      $ms.multiselect('update');
+    });
+  });
+</script>
