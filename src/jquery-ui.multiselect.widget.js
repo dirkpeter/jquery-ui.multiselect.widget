@@ -187,7 +187,7 @@
       // title
       btn.$title = $('<span class="' + namespace + '--title"></span>');
       // fake-dropdown
-      btn.$el = $('<button class="' + namespace + '--display"></button>')
+      btn.$el = $('<button type="button" class="' + namespace + '--display"></button>')
         .css('min-width', opts.minWidth)
         // icon
         .html('<span class="' + namespace + '--icon"></span>')
@@ -204,8 +204,8 @@
         $el;
 
       $el = bulk.$el = $('<div class="' + opts.namespace + '--bulk"></div>');
-      bulk.$all = $('<button title="' + opts.bulkAllText + '" class="' + opts.namespace + '--bulk-all"' + opts.tabIndex + '>' + opts.bulkAllText + '</button>').appendTo($el);
-      bulk.$none = $('<button title="' + opts.bulkNoneText + '" class="' + opts.namespace + '--bulk-none"' + opts.tabIndex + '>' + opts.bulkNoneText + '</button>').appendTo($el);
+      bulk.$all = $('<button type="button" title="' + opts.bulkAllText + '" class="' + opts.namespace + '--bulk-all"' + opts.tabIndex + '>' + opts.bulkAllText + '</button>').appendTo($el);
+      bulk.$none = $('<button type="button" title="' + opts.bulkNoneText + '" class="' + opts.namespace + '--bulk-none"' + opts.tabIndex + '>' + opts.bulkNoneText + '</button>').appendTo($el);
       $el.insertBefore(opts.list.$el);
     },
 
