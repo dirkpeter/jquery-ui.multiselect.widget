@@ -1,0 +1,28 @@
+<h1>Optgroups: Mixed Groups</h1>
+
+<section>
+  <select id="multi" class="multiselect" multiple style="height:150px;">
+    <option value="1">foo 1</option>
+    <option value="2">bar 2</option>
+
+    <optgroup label="Group 2">
+      <option value="4">foo 4</option>
+      <option value="5">bar 5</option>
+    </optgroup>
+
+    <option value="3">lorem 3</option>
+
+    <optgroup label="Group 3">
+      <option value="6">foo 6</option>
+    </optgroup>
+  </select>
+</section>
+
+
+<script language="JavaScript">
+  $(function () {
+    $('.multiselect').multiselect({
+      hideSelect: false
+    });
+  });
+</script>
