@@ -457,8 +457,10 @@
         var oClass = option.class,
           $li;
 
+        option.isGroup = (option.groupID !== undefined);
+
         // create a group-el if a new group of items is iterated
-        if (hasGroups === true && option.groupID !== group.id) {
+        if (hasGroups === true && option.groupID !== group.id && option.isGroup) {
           group = self._createOptgroupmarkup(option.groupID);
           group.$el.appendTo($list); // preferable added in one after children are attached
         }
@@ -470,7 +472,7 @@
           });
 
         // append item to list or group
-        $li.appendTo((hasGroups === true) ? group.$list : $list);
+        $li.appendTo((hasGroups === true && option.isGroup) ? group.$list : $list);
 
         if (oClass) {
           $li.addClass(oClass);
