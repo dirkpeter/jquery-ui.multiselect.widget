@@ -15,180 +15,183 @@
 }
 
 
-.#{$jqms-namespace}--display {
-  position: relative;
-  padding-right: 1.3em;
-  border: 1px solid $jqms-color-border;
-  border-radius: 0;
-  font-size: 1em;
-  cursor: pointer;
-  background-color: #fff;
-  text-align: left;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover {
-    background-color: $color-list-hover;
-  }
-}
-
-.#{$jqms-namespace}--icon {
-  display: block;
-  position: absolute;
-  right: .25em;
-  top: .625em;
-
-  &:after {
-    display: block;
-    border: .375em solid transparent;
-    border-top-color: #000;
-    border-bottom-width: 0;
-    content: '';
-  }
-}
-
-.#{$jqms-namespace}--list-wrap {
-  position: absolute;
-  z-index: 100;
-  display: none;
-  margin-top: -1px;
-  border: 1px solid $jqms-color-border;
-  background-color: #fff;
-}
-
-.#{$jqms-namespace}--list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-
-  [type="checkbox"] {
+.#{$jqms-namespace}{
+  &--display {
     position: relative;
-    top: -2px;
-    margin: 0 5px 0 0;
+    padding-right: 1.5em;
+    border: 1px solid $jqms-color-border;
+    border-radius: 0;
+    background-color: #fff;
+    text-align: left;
+    font-size: 1em;
     cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: $color-list-hover;
+    }
   }
-}
 
-.#{$jqms-namespace}--option {
-  @extend %jqms-list-item;
-  cursor: pointer;
+  &--icon {
+    position: absolute;
+    top: .625em;
+    right: .25em;
+    display: block;
 
-  span {
-    white-space: nowrap;
+    &:after {
+      display: block;
+      border: .375em solid transparent;
+      border-top-color: #000;
+      border-bottom-width: 0;
+      content: '';
+    }
   }
 
-  &:hover {
-    background-color: $color-list-hover;
+  &--list-wrap {
+    position: absolute;
+    z-index: 100;
+    display: none;
+    margin-top: -1px;
+    border: 1px solid $jqms-color-border;
+    background-color: #fff;
   }
-}
 
-.#{$jqms-namespace}--optgroup-wrap {
-  label {
-    @extend %jqms-list-item;
-    font-weight: bold;
+  &--list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 
-    .#{$jqms-namespace}--is-multiple & {
+    [type="checkbox"] {
+      position: relative;
+      top: -2px;
+      display: inline-block;
+      margin: 0 5px 0 0;
       cursor: pointer;
     }
   }
 
-  &.#{$jqms-namespace}--disabled label {
-    cursor: not-allowed;
-  }
-
-  ul {
-    padding-left: 0;
-  }
-
-  li {
-    padding-left: $jqms-spacing * 2;
-  }
-
-  &:hover {
-    background-color: lighten($color-list-hover, 10);
-  }
-
-  + .#{$jqms-namespace}--optgroup-wrap {
-    border-top: 1px dotted $jqms-color-border;
-  }
-}
-
-.#{$jqms-namespace}--selected {
-  background-color: $color-list-selected;
-}
-
-.#{$jqms-namespace}--disabled {
-  opacity: .5;
-  cursor: not-allowed;
-
-  [type="checkbox"] {
-    cursor: inherit;
-  }
-
-  &:hover {
-    background-color: transparent;
-  }
-
-  .#{$jqms-namespace}--disabled {
-    opacity: 1;
-  }
-}
-
-.#{$jqms-namespace}--filter {
-  $button-size: 17px;
-
-  @extend %jqms-list-section;
-  white-space: nowrap;
-
-  label,
-  input,
-  button {
-    display: inline-block;
-  }
-
-  label:after {
-    content: ':';
-  }
-
-  input {
-    margin: 0 5px;
-    padding: 0;
-    width: 80px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  button {
-    width: $button-size; // temp
-    height: $button-size; // temp
-    border-width: 0;
-    text-indent: -9999em;
-    white-space: nowrap;
-    border-radius: 0;
+  &--option {
+    @extend %jqms-list-item;
     cursor: pointer;
 
-    &:before {
-      float: left;
-      text-indent: 0;
-      content: 'X';
+    span {
+      white-space: nowrap;
     }
 
-    &:focus {
-      outline: none;
+    &:hover {
+      background-color: $color-list-hover;
     }
   }
-}
 
-.#{$jqms-namespace}--bulk {
-  @extend %jqms-list-section;
+  &--optgroup-wrap {
+    label {
+      @extend %jqms-list-item;
+      font-weight: bold;
 
-  button {
-    + button {
-      margin-left: 5px;
+      .#{$jqms-namespace}--is-multiple & {
+        cursor: pointer;
+      }
+    }
+
+    &.#{$jqms-namespace}--disabled label {
+      cursor: not-allowed;
+    }
+
+    ul {
+      padding-left: 0;
+    }
+
+    li {
+      padding-left: $jqms-spacing * 2;
+    }
+
+    &:hover {
+      background-color: lighten($color-list-hover, 10);
+    }
+
+    + .#{$jqms-namespace}--optgroup-wrap {
+      border-top: 1px dotted $jqms-color-border;
+    }
+  }
+
+  &--selected {
+    background-color: $color-list-selected;
+  }
+
+  &--disabled {
+    opacity: .5;
+    cursor: not-allowed;
+
+    [type="checkbox"] {
+      cursor: inherit;
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    .#{$jqms-namespace}--disabled {
+      opacity: 1;
+    }
+  }
+
+  &--filter {
+    $button-size: 17px;
+
+    @extend %jqms-list-section;
+    white-space: nowrap;
+
+    label,
+    input,
+    button {
+      display: inline-block;
+    }
+
+    label:after {
+      content: ':';
+    }
+
+    input {
+      margin: 0 5px;
+      padding: 0;
+      width: 80px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      width: $button-size; // temp
+      height: $button-size; // temp
+      border-width: 0;
+      border-radius: 0;
+      text-indent: -9999em;
+      white-space: nowrap;
+      cursor: pointer;
+
+      &:before {
+        float: left;
+        content: 'X';
+        text-indent: 0;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &--bulk {
+    @extend %jqms-list-section;
+
+    button {
+      + button {
+        margin-left: 5px;
+      }
     }
   }
 }
