@@ -10,6 +10,8 @@
       minItemFilter: 5,
       maxItems:      3,
       minWidth:      0, // auto
+      maxWidth:      'auto',
+      maxListWidth:  undefined,
 
       // text
       defaultDisplayTitle: 'No value selected',
@@ -188,7 +190,10 @@
       btn.$title = $('<span class="' + namespace + '--title"></span>');
       // fake-dropdown
       btn.$el = $('<button type="button" class="' + namespace + '--display"></button>')
-        .css('min-width', opts.minWidth)
+        .css({
+          minWidth: opts.minWidth,
+          maxWidth: opts.maxWidth
+        })
         // icon
         .html('<span class="' + namespace + '--icon"></span>')
         .prepend(btn.$title)
@@ -883,7 +888,8 @@
         .css({
           top:      offset.top + height,
           left:     offset.left,
-          minWidth: (width > opts.minWidth) ? width : opts.minWidth
+          minWidth: (width > opts.minWidth) ? width : opts.minWidth,
+          maxWidth: opts.maxWidth
         })
         .show()
         .addClass(opts.namespace + '--open');
@@ -988,4 +994,5 @@
       self.options.display.$title.text(self.getTrivialValue());
     }
   });
-})(jQuery);
+})
+(jQuery);

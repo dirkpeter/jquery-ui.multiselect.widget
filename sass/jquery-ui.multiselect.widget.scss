@@ -8,14 +8,20 @@
   border-bottom: 1px solid $jqms-color-border;
 }
 
+%jqms-text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /** */
 %jqms-list-item {
+  @extend %jqms-text-overflow;
   display: block;
   padding: 3px $jqms-spacing;
 }
 
-
-.#{$jqms-namespace}{
+.#{$jqms-namespace} {
   &--display {
     position: relative;
     padding-right: 1.5em;
@@ -33,6 +39,12 @@
     &:hover {
       background-color: $color-list-hover;
     }
+  }
+
+  &--title {
+    @extend %jqms-text-overflow;
+    display: inline-block;
+    max-width: 100%;
   }
 
   &--icon {
@@ -60,11 +72,11 @@
   }
 
   &--list {
+    overflow: scroll;
     margin: 0;
     padding: 0;
-    list-style-type: none;
     max-height: 200px;
-    overflow: scroll;
+    list-style-type: none;
 
     [type="checkbox"] {
       position: relative;
