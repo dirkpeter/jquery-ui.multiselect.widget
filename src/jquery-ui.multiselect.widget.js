@@ -846,6 +846,18 @@
     },
 
 
+    _scrollToFirstValue: function () {
+      var self = this,
+        opts = self.options,
+        $selected = self.getSelected(true),
+        $firstOption = opts.list.$el.children().first();
+
+      if ($firstOption.length && $selected && $selected.length) {
+        opts.list.$el.scrollTop($selected[0].$el.offset().top - $firstOption.offset().top);
+      }
+    },
+
+
     toggle: function () {
       var self = this,
         opts = self.options;
@@ -875,11 +887,13 @@
         })
         .show()
         .addClass(opts.namespace + '--open');
+
+      if (!opts.isOpen) {
+        self._scrollToFirstValue();
+        opts.display.$el.addClass(opts.namespace + '--open');
+        self._trigger('open', null, {});
+      }
       opts.isOpen = true;
-
-      opts.display.$el.addClass(opts.namespace + '--open');
-
-      self._trigger('open', null, {});
     },
 
 
