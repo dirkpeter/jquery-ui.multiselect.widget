@@ -877,6 +877,8 @@
         .addClass(opts.namespace + '--open');
       opts.isOpen = true;
 
+      opts.display.$el.addClass(opts.namespace + '--open');
+
       self._trigger('open', null, {});
     },
 
@@ -888,6 +890,8 @@
       opts.list.$wrap.hide()
         .removeClass(opts.namespace + '--open');
       opts.isOpen = false;
+
+      opts.display.$el.removeClass(opts.namespace + '--open');
 
       self._trigger('close', null, {});
     },
