@@ -9,6 +9,7 @@
       bulkToggle:    true,
       minItemFilter: 5,
       maxItems:      3,
+      maxSelectable: 0, // @todo better to use -1? 0 would be useless
       minWidth:      0, // auto
       maxWidth:      'auto',
       maxListWidth:  undefined,
@@ -110,6 +111,9 @@
 
       // check for optgroups
       self.options.hasOptgroup = ($el.find('optgroup').length > 0);
+
+      // max selectable items
+      self.options.maxSelectable = $el.attr('max') || 0;
     },
 
     _setProperties: function () {
