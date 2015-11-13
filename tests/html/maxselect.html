@@ -1,0 +1,36 @@
+<h1>Max. selectable items</h1>
+
+<section>
+  <select id="multi" class="multiselect" multiple max="3" style="height:150px;">
+    <option value="1">lorem 1</option>
+    <option value="2">ipsum 2</option>
+    <option value="3">dolor 3</option>
+    <option value="4">sit 4</option>
+    <option value="5">amet 5</option>
+    <option value="6">consetetur 6</option>
+    <option value="7">sadipscing 7</option>
+    <option value="8">dolor sit 8</option>
+    <option value="9">lorem ipsum 9</option>
+    <option value="10">amet consetetur 10</option>
+  </select>
+
+  <div>
+    <label for="max">Max. selectable items</label>
+    <input type="number" min="0" max="10" id="max" value="3" />
+  </div>
+</section>
+
+
+<script language="JavaScript">
+  $(function () {
+    var $select = $('.multiselect');
+
+    $select.multiselect({
+      hideSelect: false
+    });
+
+    $('#max').change(function () {
+      $select.attr('max', $(this).val());
+    });
+  });
+</script>

@@ -112,11 +112,20 @@
       self.options.hasOptgroup = ($el.find('optgroup').length > 0);
     },
 
+    _setProperties: function () {
+      var self = this,
+        opts = self.options;
+
+      // disabled class
+      opts.display.$el.toggleClass(opts.namespace + '--disabled', opts.isDisabled);
+    },
+
 
     refresh: function () {
       var self = this;
 
       self._propertyChecks();
+      self._setProperties();
       self._getValues();
       self.showSelected();
       self.setTitle();
@@ -624,7 +633,7 @@
           self._trigger('change', e, {});
         },
         // dom manipulation
-        DOMSubtreeModified: function () {
+        DOMSubtreeModified: function (e) {
           self.update();
         }
       });
@@ -882,6 +891,10 @@
         offset = $display.offset(),
         height = $display.outerHeight(),
         width = $display.outerWidth();
+
+      if (opts.isDisabled) {
+        return false;
+      }
 
       // set position & min-width
       opts.list.$wrap
