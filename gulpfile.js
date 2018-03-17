@@ -51,11 +51,11 @@ gulp.task('serve', ['dev:build'], () => {
     notify: false
   });
 
-  gulp.watch('src/sass/**/*.scss', ['css']);
+  gulp.watch('src/sass/**/*.scss', ['css', 'modernizr']);
   // gulp.watch('src/js/**/*.js', ['js']);
 
   gulp
-    .watch(['src/js/**/*.js'], ['js'])
+    .watch(['src/js/**/*.js'], ['js', 'modernizr'])
     .on('change', browserSync.reload);
 
   gulp
@@ -168,7 +168,7 @@ gulp.task('dev:clean', () => gulp
 
 //
 gulp.task('dev:build', (callback) => {
-  runSequence('dev:clean', ['js', 'css'], callback);
+  runSequence('dev:clean', ['js', 'css', 'modernizr'], callback);
 });
 
 
@@ -189,5 +189,6 @@ gulp.task('dist:clean', () => gulp
 
 // build and clean – removes all development-files!
 gulp.task('dist:build', (callback) => {
-  runSequence('build', 'dist:clean', callback);
+  runSequence('dev:build', 'dist:clean', callback);
+  // minify
 });
