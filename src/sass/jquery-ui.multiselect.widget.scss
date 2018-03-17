@@ -1,5 +1,3 @@
-@import 'compass';
-// <3
 @import 'config';
 
 /** */
@@ -27,7 +25,7 @@
     padding-right: 1.5em;
     border: 1px solid $jqms-color-border;
     border-radius: 0;
-    background-color: #fff;
+    background-color: $jqms-color-display;
     text-align: left;
     font-size: 1em;
     cursor: pointer;
@@ -53,22 +51,13 @@
     right: .25em;
     display: block;
 
-    &:after {
+    &::after {
       display: block;
       border: .375em solid transparent;
-      border-top-color: #000;
+      border-top-color: $jqms-color-border-active;
       border-bottom-width: 0;
       content: '';
     }
-  }
-
-  &--list-wrap {
-    position: absolute;
-    z-index: 100;
-    display: none;
-    margin-top: -1px;
-    border: 1px solid $jqms-color-border;
-    background-color: #fff;
   }
 
   &--list {
@@ -78,7 +67,16 @@
     max-height: 200px;
     list-style-type: none;
 
-    [type="checkbox"] {
+    &-wrap {
+      position: absolute;
+      z-index: 100;
+      display: none;
+      margin-top: -1px;
+      border: 1px solid $jqms-color-border;
+      background-color: $jqms-color-display;
+    }
+
+    [type='checkbox'] {
       position: relative;
       top: -2px;
       display: inline-block;
@@ -139,7 +137,7 @@
     opacity: .5;
     cursor: not-allowed;
 
-    [type="checkbox"] {
+    [type='checkbox'] {
       cursor: inherit;
     }
 
@@ -153,8 +151,6 @@
   }
 
   &--filter {
-    $button-size: 17px;
-
     @extend %jqms-list-section;
     white-space: nowrap;
 
@@ -164,7 +160,7 @@
       display: inline-block;
     }
 
-    label:after {
+    label::after {
       content: ':';
     }
 
@@ -179,6 +175,8 @@
     }
 
     button {
+      $button-size: 17px;
+
       width: $button-size; // temp
       height: $button-size; // temp
       border-width: 0;
@@ -187,7 +185,7 @@
       white-space: nowrap;
       cursor: pointer;
 
-      &:before {
+      &::before {
         float: left;
         content: 'X';
         text-indent: 0;
